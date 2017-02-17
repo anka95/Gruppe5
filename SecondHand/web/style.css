@@ -1,17 +1,43 @@
+html{
+    height:100%;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+}
+
 header {
+    top:0;
+    left:0;
     background-color: yellow;
     height: 6em;
     width: 100%;
+    float: left;
 }
 
 header h1{
     padding: 1em 1em 0.25em 1em;
+    float: left;
+}
+
+#content{
+    float: left;
+    height:100%;
+}
+
+nav{
+    margin: 0 auto;
+    width: 15em;
+    height: 100%;
+    background-color: white;
+    float: left;
+    overflow: auto;
 }
 
 .nav_point{
+    left: 0;
     background-color: #9FF781;
     float: left;
-    width: 24.25%;
+    width: 200px;
     height: 3em;
     border-width: 5px;
     border-radius: 10px;
@@ -40,16 +66,28 @@ header h1{
     margin-right: 0;
 }
 
+ /*Auswahlleiste*/
+section{
+    height: 100%;
+    width: auto;
+    background-color: yellow;
+    float: left;
+}
+
 body{
     background-color: green;
+    height: 100%;
+    width: 200%;
+    margin: 0;
+    padding: 0;
 }
 
 footer{
+    position:absolute;
     background-color: red;
-    height: 3em;
+    height: 2em;
     width: 100%;
-    position: absolute;
     bottom: 0;
     left: 0;
-    padding-left: 3em;
+    padding: 1em 0em 0em 3em;
 }

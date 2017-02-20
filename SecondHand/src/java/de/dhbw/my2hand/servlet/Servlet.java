@@ -22,8 +22,9 @@ public class Servlet extends HttpServlet {
     private DatabaseFacade database;
     private Customer customer;
     private Item item;
-    private String customerId, firstName, lastName, address, telephone, email,
-           itemId, category, brand, dressSize, price;
+    private String customerId, salutation, firstName, lastName, street, houseNumber,
+            plz, place, telephone, email, password,
+            itemId, category, brand, dressSize, price;
     private Gson gson = new GsonBuilder().create();
     
     @Override
@@ -43,14 +44,19 @@ public class Servlet extends HttpServlet {
         switch(action) {
             case "createnewcustomer":                              // index.js: createNewCustomer()
                 // Neuer Kunde anlegen
+                salutation = request.getParameter("salutation");
                 firstName = request.getParameter("firstname");
                 lastName = request.getParameter("lastname");
-                address = request.getParameter("address");
+                street = request.getParameter("street");
+                houseNumber = request.getParameter("housenumber");
+                plz = request.getParameter("plz");
+                place = request.getParameter("place");
                 telephone = request.getParameter("telephone");
                 email = request.getParameter("email");
+                password = request.getParameter("password");
                 
-                customer = database.createNewCustomer(firstName, lastName,
-                                                address, telephone, email);
+                customer = database.createNewCustomer(salutation, firstName, lastName, street,
+                        houseNumber, plz, place, telephone, email, password);
                     
                 gson.toJson(customer, toBrowser);
                 toBrowser.flush();
@@ -66,30 +72,9 @@ public class Servlet extends HttpServlet {
                 price = request.getParameter("price");
                
                 customer = database.findCustomer(new Long(customerId));
-                database.createNewItem(customer, category, brand, new Short(dressSize), new Double(price));
-                Customer customerOfItem = database.findCustomer(new Long(customerId));
-                JsonCustomer jsonCustomer = new JsonCustomer();
-                jsonCustomer.customerId = customerOfItem.getId();
-                jsonCustomer.firstName = customerOfItem.getFirstName();
-                jsonCustomer.lastName = customerOfItem.getLastName();
-                jsonCustomer.address = customerOfItem.getAddress();
-                jsonCustomer.telephone = customerOfItem.getTelephone();
-                jsonCustomer.email = customerOfItem.getEmail();
-                jsonCustomer.countItems = customerOfItem.getItems().size();
-                jsonCustomer.items = new ArrayList<JsonItem>();
-                
-                for (Item item : customerOfItem.getItems()) {
-                    JsonItem jsonItem = new JsonItem();
-                    jsonItem.id = item.getId();
-                    jsonItem.customerId = item.getCustomer().getId();
-                    jsonItem.category = item.getCategory();
-                    jsonItem.brand = item.getBrand();
-                    jsonItem.dressSize = item.getDressSize();
-                    jsonItem.price = item.getPrice();
-                    jsonCustomer.items.add(jsonItem);
-                }
-                
-                gson.toJson(jsonCustomer, toBrowser);
+                database.createNewItem(customer, category, brand, dressSize, new Double(price));
+
+                gson.toJson(convert(database.findCustomer(new Long(customerId))), toBrowser);
                 toBrowser.flush();
                 
                 break;  
@@ -111,7 +96,7 @@ public class Servlet extends HttpServlet {
         if (action == null) action = "";
         
         switch(action) {
-            case "deletecustomer":                           // index.js: deleteCustomer(id)
+            case "deletecustomer":       // index.js: deleteCustomer(id)
                 // Kunden löschen
                 customerId = request.getParameter("customerid");
                 
@@ -120,7 +105,7 @@ public class Servlet extends HttpServlet {
                 
                 break;
 
-            case "deleteitem":                              // content.js: deleteItem(customerId)
+            case "deleteitem":          // content.js: deleteItem(customerId)
                  // Kleidungsstück löschen
                 itemId = request.getParameter("itemid");
 
@@ -129,34 +114,13 @@ public class Servlet extends HttpServlet {
                 
                 break;
 
-            case "findallcustomers":                     // index.js: findAllCustomers()
+            case "findallcustomers":   // index.js: findAllCustomers()
                 // Alle Kunden anzeigen
                 List<Customer> customers = database.findAllCustomers();
                 List<JsonCustomer> jsonCustomers = new ArrayList<JsonCustomer>();
                 
                 for (Customer customer : customers) {
-                    JsonCustomer jsonCustomer = new JsonCustomer();
-                    jsonCustomer.customerId = customer.getId();
-                    jsonCustomer.firstName = customer.getFirstName();
-                    jsonCustomer.lastName = customer.getLastName();
-                    jsonCustomer.address = customer.getAddress();
-                    jsonCustomer.telephone = customer.getTelephone();
-                    jsonCustomer.email = customer.getEmail();
-                    jsonCustomer.countItems = customer.getItems().size();
-                    jsonCustomer.items = new ArrayList<JsonItem>();
-                    
-                    for (Item item : customer.getItems()) {
-                        JsonItem jsonItem = new JsonItem();
-                        jsonItem.id = item.getId();
-                        jsonItem.customerId = item.getCustomer().getId();
-                        jsonItem.category = item.getCategory();
-                        jsonItem.brand = item.getBrand();
-                        jsonItem.dressSize = item.getDressSize();
-                        jsonItem.price = item.getPrice();
-                        jsonCustomer.items.add(jsonItem);
-                    }
-                    
-                    jsonCustomers.add(jsonCustomer);
+                    jsonCustomers.add(convert(customer));
                 }
                 
                 gson.toJson(jsonCustomers, toBrowser);
@@ -164,55 +128,54 @@ public class Servlet extends HttpServlet {
                 
                 break;
 
-            case "showallitems":                        // content.js: showAllItems(customerId)
+            case "findallitems":     // content.js: findAllItems(customerId)
                 // Alle Kleidungstücke anzeigen
-                customerId = request.getParameter("customerid");
-                customer = database.findCustomer(new Long(customerId));
-                JsonCustomer jsonCustomer = new JsonCustomer();
-                jsonCustomer.customerId = customer.getId();
-                jsonCustomer.firstName = customer.getFirstName();
-                jsonCustomer.lastName = customer.getLastName();
-                jsonCustomer.address = customer.getAddress();
-                jsonCustomer.telephone = customer.getTelephone();
-                jsonCustomer.email = customer.getEmail();
-                jsonCustomer.countItems = customer.getItems().size();
-                jsonCustomer.items = new ArrayList<JsonItem>();
-                
-                for (Item item : customer.getItems()) {
-                    JsonItem jsonItem = new JsonItem();
-                    jsonItem.id = item.getId();
-                    jsonItem.customerId = item.getCustomer().getId();
-                    jsonItem.category = item.getCategory();
-                    jsonItem.brand = item.getBrand();
-                    jsonItem.dressSize = item.getDressSize();
-                    jsonItem.price = item.getPrice();
-                    jsonCustomer.items.add(jsonItem);
-                }
-                
-                gson.toJson(jsonCustomer, toBrowser);
+                customer = database.findCustomer(new Long(request.getParameter("customerid")));
+                gson.toJson(convert(customer), toBrowser);
                 toBrowser.flush();
                 
                 break;
         }
     }
+    
+    private JsonCustomer convert(Customer customer) {
+        JsonCustomer jsonCustomer = new JsonCustomer();
+        jsonCustomer.customerId = customer.getId();
+        jsonCustomer.salutation = customer.getSalutation();
+        jsonCustomer.firstName = customer.getFirstName();
+        jsonCustomer.lastName = customer.getLastName();
+        jsonCustomer.street = customer.getStreet();
+        jsonCustomer.houseNumber = customer.getHouseNumber();
+        jsonCustomer.plz = customer.getPLZ();
+        jsonCustomer.place = customer.getPlace();
+        jsonCustomer.telephone = customer.getTelephone();
+        jsonCustomer.email = customer.getEmail();
+        jsonCustomer.password = customer.getPassword();
+        jsonCustomer.items = new ArrayList<JsonItem>();
+                
+        for (Item item : customer.getItems()) {
+            JsonItem jsonItem = new JsonItem();
+            jsonItem.id = item.getId();
+            jsonItem.customerId = item.getCustomer().getId();
+            jsonItem.category = item.getCategory();
+            jsonItem.brand = item.getBrand();
+            jsonItem.dressSize = item.getDressSize();
+            jsonItem.price = item.getPrice();
+            jsonCustomer.items.add(jsonItem);
+        }
+        return jsonCustomer;
+    }
 }
 
 class JsonCustomer {
     public Long customerId;
-    public String firstName;
-    public String lastName;
-    public String address;
-    public String telephone;
-    public String email;
-    public int countItems;
+    public String salutation, firstName, lastName, street, houseNumber, plz,
+                  place, telephone, email, password;
     public List<JsonItem> items;
 }
 
 class JsonItem {
-    public Long id;
-    public Long customerId;
-    public String category;
-    public String brand;
-    public Short dressSize;
+    public Long id, customerId;
+    public String category, brand, dressSize;
     public Double price;
 }

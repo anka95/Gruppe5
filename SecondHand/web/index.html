@@ -61,22 +61,39 @@
         </div>-->
         
         <div id="formCustomers">
-            <h1>Kunde anlegen</h1>
-            <p>Vorname:<br>
-                <input type="text" id="firstName" value="">
-            </p>
-            <p>Nachname:<br>
-                <input type="text" id="lastName" value="">
-            </p>
-            <p>Adresse:<br>
-                <input type="text" id="address" value="">
-            </p>
-            <p>Telefonnummer:<br>
-                <input type="text" id="telephone" value="">
-            </p>
-            <p>E-Mail-Adresse:<br>
-                <input type="text" id="email" value="">
-            </p>
+            <h1>Neu registrieren</h1>
+            <label>Anrede*:</label>
+                <input type="radio" name="salutation" value="Frau" checked> Frau
+                <input type="radio" name="salutation" value="Herr"> Herr
+            <br>
+            
+            <label>Vorname*:</label>
+                <input type="text" name="firstName" placeholder="Vorname">
+            <label>Nachname*:</label>
+                <input type="text" name="lastName" placeholder="Nachname">
+            <br>
+            
+            <label>Straße*/Hausnummer*:</label>
+                <input type="text" name="street" placeholder="Straße">
+                <input type="text" name="houseNumber" placeholder="Hausnr.">
+            <br>
+            <label>PLZ*/Ort*:</label>
+                <input type="text" name="plz" placeholder="PLZ">
+                <input type="text" name="place" placeholder="Ort">
+            <br>
+            
+            <label>Telefonnummer:</label>
+                <input type="text" name="telephone" placeholder="Telefonnummer">
+            <br>
+            <label>E-Mail-Adresse*:</label>
+                <input type="text" name="email" placeholder="E-Mail-Adresse">
+            <br>
+            <label>Passwort*:</label>
+                <input type="password" name="password" placeholder="Passwort">
+            <br>
+            <label>Passwort wiederholen*:</label>
+                <input type="password" name="password" placeholder="Passwort wiederholen">
+            <br>
             <input type="button" name="submit" value="Speichern" onClick="createNewCustomer()"/>
         </div>
         
@@ -85,24 +102,36 @@
         
         <div id="formItems">
             <h1>Kleidungsstück verkaufen</h1>
-            <p>Kundennummer:<br>
-                <input type="text" id="customerId" value="">
-            </p>
-            <p>Kategorie:<br>
-                <input type="text" id="category" value="">
-            </p>
-            <p>Marke:<br>
-                <input type="text" id="brand" value="">
-            </p>
-            <p>Größe:<br>
-                <input type="text" id="dressSize" value="">
-            </p>
-            <p>Verkaufspreis:<br>
-                <input type="text" id="price" value="">
-            </p>
+            <label>Kundennr.*:</label>
+                <input type="text" name="customerId" placeholder="Kundennr.">
+            <br>
+            <label>Kategorie*:</label>
+                <select name="category">
+                    <option>-Bitte auswählen-</option>
+                    <option>Pullover</option>
+                    <option>T-Shirt</option>
+                    <option>Bluse</option>
+                    <option>Hose</option>
+                    <option>Jacke</option>
+                    <option>Kleid</option>
+                    <option>Schuhe</option>
+                    <option>Unterwäsche</option>
+                </select>
+            <br>
+            <label>Marke*:</label>
+                <input type="text" name="brand" placeholder="Marke">
+            <label>Größe*:</label>
+                <input type="text" name="dressSize" placeholder="Größe">
+            <br>
+            <label>Verkaufspreis*:</label>
+                <input type="text" name="price" placeholder="Verkaufspreis">
+            <br>
             <input type="button" name="submit" value="Anbieten" onClick="createNewItem()"/>
         </div>
         
+        <label>Kundennr.*:</label>
+            <input type="text" name="customerId" placeholder="Kundennr.">
+        <br>
         <input type="button" name="submit" value="Alle Artikel anzeigen" onClick="findAllItems()"/>     
         <div class="items"></div>
         

@@ -20,16 +20,23 @@ public class DatabaseFacade {
      * Anlegen eines neuen Kunden. Das neue Objekt wird automatisch in der
      * Datenbank gespeichert. Nachträgliche Änderungen daran müssen jedoch mit
      * der save()-Methode manuell gespeichert werden.
+     * @param salutation Anrede des Kunden
      * @param firstName Vorname des Kunden
      * @param lastName Nachname des Kunden
-     * @param address Anschrift des Kunden
+     * @param street Straße des Kunden
+     * @param houseNumber Hausnummer des Kunden
+     * @param plz Postleitzahl des Kunden
+     * @param place Ort des Kunden
      * @param telephone Telefonnummer des Kunden
      * @param email E-Mail-Adresse des Kunden
+     * @param password Passwort des Kunden
      * @return Der neue Kunde
      */
-    public Customer createNewCustomer(String firstName, String lastName, String address,
-                                      String telephone, String email) {
-        Customer customer = new Customer(firstName, lastName, address, telephone, email);
+    public Customer createNewCustomer(String salutation, String firstName, String lastName,
+                                    String street, String houseNumber, String plz, String place,
+                                    String telephone, String email, String password) {
+        Customer customer = new Customer(salutation, firstName, lastName, street,
+                                    houseNumber, plz, place, telephone, email, password);
         return this.em.merge(customer);
     }
     
@@ -49,7 +56,7 @@ public class DatabaseFacade {
      * @return Das neue Kleidungsstück
      */
     public Item createNewItem(Customer customer, String category, String brand,
-                              Short dressSize, Double price) {
+                              String dressSize, Double price) {
         Item item = new Item(customer, category, brand, dressSize, price);
         customer.getItems().add(item);
         
@@ -64,7 +71,7 @@ public class DatabaseFacade {
      * @return Eine Liste aller gefundenen Kunden
      */
     public List<Customer> findAllCustomers() {
-        return this.em.createQuery("SELECT n FROM Kunde n ORDER BY n.id").getResultList();
+        return this.em.createQuery("SELECT n FROM Customer n ORDER BY n.id").getResultList();
     }
     
     /**

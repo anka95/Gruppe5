@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 /**
  * Persistenzklasse für einen Kunden. Ein Kunde hat einen Vornamen, einen Nachnamen,
- * eine Anschrift, eine Telefonnummer, eine E-Mail-Adresse und
+ * eine Anschrift, eine Telefonnummer, eine E-Mail-Adresse, ein Passwort und
  * beliebig viele zum Verkauf angebotene Artikel.
  */
 @Entity
@@ -25,11 +25,16 @@ public class Customer implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id = 0L;
 
+    private String salutation = "";
     private String firstName = "";
     private String lastName = "";
-    private String address = "";
+    private String street = "";
+    private String houseNumber = "";
+    private String plz = "";
+    private String place = "";
     private String telephone = "";
     private String email = "";
+    private String password = "";
 
     @OneToMany(mappedBy="customer")
     private List<Item> items = new ArrayList<>();
@@ -44,19 +49,30 @@ public class Customer implements Serializable {
     /**
      * Konstruktor für einen neuen Kunden mit Vorname, Nachname, Anschrift,
      * Telefonnummer und E-Mail-Adresse.
+     * @param salutation Anrede des Kunden
      * @param firstName Vorname des Kunden
      * @param lastName Nachname des Kunden
-     * @param address Anschrift des Kunden
+     * @param street Straße des Kunden
+     * @param houseNumber Hausnummer des Kunden
+     * @param plz Postleitzahl des Kunden
+     * @param place Ort des Kunden
      * @param telephone Telefonnummer des Kunden
      * @param email E-Mail-Adresse des Kunden
+     * @param password Passwort des Kunden
      */
-    public Customer(String firstName, String lastName, String address,
-                    String telephone, String email) {
+    public Customer(String salutation, String firstName, String lastName,
+                    String street, String houseNumber, String plz, String place,
+                    String telephone, String email, String password) {
+        this.salutation = salutation;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.plz = plz;
+        this.place = place;
         this.telephone = telephone;
         this.email = email;
+        this.password = password;
     }
     // </editor-fold>
     
@@ -83,9 +99,12 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return "de.dhbw.my2hand.database.Customer[id=" + this.id + ", firstName=" +
-                this.firstName + ", lastName=" + this.lastName + ", address=" +
-                this.address + ", telephone=" + this.telephone + ", email=" + this.email + "]";
+        return "de.dhbw.my2hand.database.Customer[id=" + this.id + ", salutation="
+                + this.salutation + ", firstName=" + this.firstName + ", lastName="
+                + this.lastName + ", street=" + this.street + ", houseNumber="
+                + this.houseNumber + ", plz=" + this.plz + ", place="
+                + this.place + ", telephone=" + this.telephone + ", email="
+                + this.email + ", password=" + this.password + "]";
     }
     // </editor-fold>
 
@@ -98,6 +117,14 @@ public class Customer implements Serializable {
         this.id = id;
     }
 
+    public String getSalutation() {
+        return salutation;
+    }
+
+    public void setSalutation(String salutation) {
+        this.salutation = salutation;
+    }
+    
     public String getFirstName() {
         return firstName;
     }
@@ -114,14 +141,38 @@ public class Customer implements Serializable {
         this.lastName = lastName;
     }
     
-    public String getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
+    }
+    
+    public String getHouseNumber() {
+        return houseNumber;
     }
 
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public String getPLZ() {
+        return plz;
+    }
+
+    public void setPLZ(String plz) {
+        this.plz = plz;
+    }
+    
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+    
     public String getTelephone() {
         return telephone;
     }
@@ -136,6 +187,14 @@ public class Customer implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
     
     public List<Item> getItems() {

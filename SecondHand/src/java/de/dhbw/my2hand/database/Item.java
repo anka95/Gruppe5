@@ -24,7 +24,7 @@ public class Item implements Serializable {
     
     private String category = "";
     private String brand = "";
-    private Short dressSize = 0;
+    private String dressSize = "";
     private Double price = 0.0;
     
     @ManyToOne
@@ -45,7 +45,7 @@ public class Item implements Serializable {
      * @param dressSize Größe des Kleidungsstücks
      * @param price Verkaufspreis des Kleidungsstücks
      */
-    public Item(Customer customer, String category, String brand, Short dressSize, Double price) {
+    public Item(Customer customer, String category, String brand, String dressSize, Double price) {
         this.customer = customer;
         this.category = category;
         this.brand = brand;
@@ -106,11 +106,11 @@ public class Item implements Serializable {
         this.brand = brand;
     }
 
-    public Short getDressSize() {
+    public String getDressSize() {
         return dressSize;
     }
 
-    public void setDressSize(short dressSize) {
+    public void setDressSize(String dressSize) {
         this.dressSize = dressSize;
     }
     

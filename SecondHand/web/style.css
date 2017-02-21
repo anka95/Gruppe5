@@ -26,6 +26,25 @@ body{
 #header td{
     width: 15%;
 }
+
+/*Artikel-Presentation*/
+.Artikel{
+    background-color: white;
+    height: 30%;
+    width: 10%;
+    float: left;
+    border-width: 5px;
+    border-radius: 3px;
+}
+
+.Artikel img{
+    text-align: center;
+}
+
+.Artikel a{
+    float: bottom;
+   
+}
 /*Header-Buttons*/
 .nav_point{
     left: 0;

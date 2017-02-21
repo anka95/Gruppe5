@@ -142,4 +142,15 @@ body{
     margin-right: 0;
 }
 
+#footer{
+    margin: 2em;
+    padding: 2em;
+    float: right;
+}
+
+#footer a{
+    float: right;
+    margin: 1em;
+}
+
 

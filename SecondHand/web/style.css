@@ -17,6 +17,7 @@ body{
     padding:0;
     height: 9.5em;
     width: 100%;
+    background-color: white;
 }
 
 #header h1{
@@ -29,12 +30,24 @@ body{
 #navigation{
     float: left;
     padding-left: 2em;
-
 }
- 
+
 #navigation a{
     color: white;
-    background: black;
+    text-decoration: none;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+#feld {
+    background-color: black;
+}
+
+
+ /*RESTLICHER INHALT*/
+#content{
+    padding: 10px;
+    background-color: blue;
 }
 
 /*Artikel-Presentation*/
@@ -102,9 +115,4 @@ body{
     width: 13em;
     background-image: linear-gradient(to top, white 0%, greenyellow 50%);
 /*    overflow: scroll; */
-}
- /*RESTLICHER INHALT*/
-#content{
-    padding: 10px;
-    background-color: blue;
 }

@@ -15,17 +15,26 @@ body{
 #header {    
     margin: 0;
     padding:0;
-    background-color: yellow;
     height: 9.5em;
     width: 100%;
 }
 
 #header h1{
-    float:left;
 }
 
-#header td{
-    width: 15%;
+#logo{
+    float: left;
+}
+
+#navigation{
+    float: left;
+    padding-left: 2em;
+
+}
+ 
+#navigation a{
+    color: white;
+    background: black;
 }
 
 /*Artikel-Presentation*/
@@ -96,7 +105,6 @@ body{
 }
  /*RESTLICHER INHALT*/
 #content{
-    float: left;
     padding: 10px;
     background-color: blue;
 }

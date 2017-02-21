@@ -21,6 +21,7 @@ body{
 }
 
 #header h1{
+    font-family: cursive;
 }
 
 #logo{
@@ -33,45 +34,79 @@ body{
 }
 
 #navigation a{
+    float: right;
+    margin-right: 2em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
     color: white;
     text-decoration: none;
-    font-family: sans-serif;
+    font-family: cursive;
     font-weight: bold;
+}
+
+#navigation a:hover{
+    color: greenyellow;
 }
 
 #feld {
     background-color: black;
+    width: 65em;
+    height: 2em;
 }
 
+/*AUSWAHLLEISTE*/
+#selection{
+    margin: 10px;
+    padding: 1em;
+    border-radius: 5px;
+    float: left;
+    width: 9em;
+    background-image: linear-gradient(to top, white 0%, greenyellow 50%);
+    box-shadow: 10px 10px 5px 0px #999;
+    font-size: 12pt;
+}
 
- /*RESTLICHER INHALT*/
+/*RESTLICHER INHALT*/
 #content{
+    margin-left: 15em;
+    margin-right: 1em;
     padding: 10px;
-    background-color: blue;
+    width: 65em;
+    background-color: white;
 }
 
 /*Artikel-Presentation*/
 .Artikel{
+    padding: 0.5em;
     background-image: linear-gradient(to top, white 0%, gray 50%);
     border-width: 0.25px;
     border-color: black;
     border-style: solid;
-    height: 30%;
-    width: 10%;
+    height: 15em;
+    width: 10em;
     float: left;
     border-width: 5px;
     border-radius: 5px;
     margin: 5px;
+    box-shadow: 5px 5px 5px 0px #999;
 }
 
 .Artikel img{
-    margin: 5px;
+    width: 10em;
+    height: 10em;
 }
 
 .Artikel a{
-    float: bottom;
-   
+    font-family: sans-serif;
 }
+.Artikel.size{
+    float: left;
+}
+
+.Artikel.preis{
+    float: right;
+}
+
 /*Header-Buttons*/
 .nav_point{
     left: 0;
@@ -107,12 +142,4 @@ body{
     margin-right: 0;
 }
 
-/*AUSWAHLLEISTE*/
-#selection{
-    margin: 10px;
-    border-radius: 5px;
-    float: left;
-    width: 13em;
-    background-image: linear-gradient(to top, white 0%, greenyellow 50%);
-/*    overflow: scroll; */
-}
+

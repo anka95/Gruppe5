@@ -14,13 +14,15 @@
             
             <div id="navigation"> 
                 <h1>Herzlich Willkommen</h1>
-                <div id="feld">
-                    <a onclick="artikel()">Home</a>                     
-                    <a onclick="xxx()">My2Hand</a>
-                    <a onclick="impressum()">Impressum</a>
-                    <a onclick="kontakt()">Kontakt</a>
-                    <a onclick="login()">Login</a>
+                
+                <div id="feld">              
                     <a onclick="xxx()">Profil</a>
+                    <a onclick="login()">Login</a>
+                    <a onclick="kontakt()">Kontakt</a>
+                    <a onclick="impressum()">Impressum</a>
+                    <a onclick="xxx()">My2Hand</a>
+                    <a onclick="artikel()">Home</a>
+                    
                 </div>
             </div>
         </div>
@@ -28,14 +30,16 @@
        
         <div id = "selection">
             <form>
-                    <b><u>Standort:</u></b><br>
+                    <b>Standort</b>
+                    <hr>
                     <input type="checkbox" name="standort" value="ka">Karlsruhe<br>
                     <input type="checkbox" name="standort" value="b">Berlin<br>
                     <input type="checkbox" name="standort" value="m">München<br>
                     <input type="checkbox" name="standort" value="hh">Hamburg<br>
                     <input type="checkbox" name="standort" value="k">Köln<br>
-                    <hr/>
-                    <b><u>Kategorie:</u></b><br>
+                    <br>
+                    <b>Kategorie</b>
+                    <hr>
                     <input type="checkbox" name="kategorie" value="hosen">Hosen<br>
                     <input type="checkbox" name="kategorie" value="Accessoires">Accessoires<br>
                     <input type="checkbox" name="kategorie" value="Röcke">Röcke<br>
@@ -46,15 +50,17 @@
                     <input type="checkbox" name="kategorie" value="unterwaesche">Unterwäsche<br>
                     <input type="checkbox" name="kategorie" value="schuhe">Schuhe<br>
                     <input type="checkbox" name="kategorie" value="sonstiges">Sonstiges<br>
+                    <br>
+                    <b>Abteilung</b>
                     <hr/>
-                    <b><u>Abteilung:</u></b><br>
                     <input type="checkbox" name="abteilung" value="maenner">Männer<br>
                     <input type="checkbox" name="abteilung" value="frauen">Frauen<br>
                     <input type="checkbox" name="abteilung" value="maedchen">Mädchen<br>
                     <input type="checkbox" name="abteilung" value="jungen">Jungen<br>
                     <input type="checkbox" name="abteilung" value="babys">Babys<br>
+                    <br>
+                    <b>Größen</b>
                     <hr/>
-                    <b><u>Größen:</u></b><br>
                     <input type="checkbox" name="groessen" value="xs">XS<br>
                     <input type="checkbox" name="groessen" value="s">S<br>
                     <input type="checkbox" name="groessen" value="m">M<br>
@@ -65,7 +71,7 @@
         </div>
         
         <div id = "content">
-       <!--
+       
             <div id="formCustomers">
                 <h1>Kunde anlegen</h1>
                 <p>Vorname:<br>
@@ -108,32 +114,37 @@
                 <input type="text" id="price" value="">
             </p>
             <input type="button" name="submit" value="Anbieten" onClick="createNewItem()"/>
-            --> 
             
-            <input type="button" name="submit" value="Alle Artikel anzeigen" onClick="findAllItems()"/>    
-         
+            
+            <!--Artikel--
+            <input type="button" name="submit" value="Alle Filter anwenden" onClick="findAllItems()" />   
+            <br>
+            
             <div class="Artikel">
-                <img src="Artikel_img/A1B1.jpg" alt="Dirndel" width="95%"/>
-                
-                <a>heißes Dirndel</a>
-                <h1>S/36</h1>
-                <h2><u>350€</u></h2>
-               
+                <img src="Artikel_img/A1B1.jpg" alt="Dirndel"/>
+                <p>heißes Dirndel</p>
+                <div class="size"> <a>S/36</a> </div>
+                <div class="preis"> <a><u>350€</u></a></div>
             </div>
-        
+            
             <div class="Artikel">
-                <img src="Artikel_img/A1B1.jpg" alt="Dirndel"width="95%"/>
-                <a>heißes Dirndel</a>
-                <h1>S/36</h1>
-                <h2><u>350€</u></h2>
+                <img src="Artikel_img/A1B1.jpg" alt="Dirndel"/>
+                <p>heißes Dirndel</p>
+                <div class="size"> <a>S/36</a> </div>
+                <div class="preis"> <a><u>350€</u></a></div>
             </div>
+            
+            <div class="Artikel">
+                <img src="Artikel_img/A1B1.jpg" alt="Dirndel"/>
+                <br><br>
+                <a>heißes Dirndel</a> 
+                <br><br>
+                <div class="size"> S/36</div>
+                <div class="preis"><u>350€</u></div>
+            </div>
+             -->
             
        </div>
-        
-        
- 
-        
-      
 
 </body>
 </html>

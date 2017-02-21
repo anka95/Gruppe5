@@ -1,13 +1,20 @@
+/*ALLGEMEIN*/
 html{
     margin:0;
     padding:0;
 }
 
+body{
+    background-color: green;
+    margin: 0;
+    padding: 0;
+}
+
+/*HEADER*/
 #header {    
     margin: 0;
     padding:0;
     background-color: yellow;
-/*    height: 10em; */
     height: 9.5em;
     width: 100%;
 }
@@ -16,30 +23,10 @@ html{
     float:left;
 }
 
-td{
+#header td{
     width: 15%;
 }
-
-#selection{
-/*    height: 100%; */
-    float: left;
-    width: 13em;
-    background-color: white;
-    overflow: scroll;
-}
-
-#content{
-    float: left;
-    background-color: blue;
-    overflow: scroll;
-    margin-left: 1em;
-}
-
-header h1{
-    padding: 1em 1em 0.25em 1em;
-    float: left;
-}
-
+/*Header-Buttons*/
 .nav_point{
     left: 0;
     background-color: #9FF781;
@@ -74,12 +61,17 @@ header h1{
     margin-right: 0;
 }
 
-body{
-    background-color: green;
-    margin: 0;
-    padding: 0;
+/*AUSWAHLLEISTE*/
+#selection{
+    float: left;
+    width: 13em;
+    background-color: white;
+    overflow: scroll;
 }
-head{
-    margin: 0;
-    padding: 0;
+ /*RESTLICHER INHALT*/
+#content{
+    float: left;
+    background-color: blue;
+    overflow: scroll;
+    margin-left: 1em;
 }

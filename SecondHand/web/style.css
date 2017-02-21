@@ -1,38 +1,43 @@
 html{
-    height:100%;
     margin:0;
     padding:0;
-    overflow:hidden;
 }
 
-header {
-    top:0;
-    left:0;
+#header {    
+    margin: 0;
+    padding:0;
     background-color: yellow;
-    height: 6em;
+/*    height: 10em; */
+    height: 9.5em;
     width: 100%;
+}
+
+#header h1{
+    float:left;
+}
+
+td{
+    width: 15%;
+}
+
+#selection{
+/*    height: 100%; */
     float: left;
+    width: 13em;
+    background-color: white;
+    overflow: scroll;
+}
+
+#content{
+    float: left;
+    background-color: blue;
+    overflow: scroll;
+    margin-left: 1em;
 }
 
 header h1{
     padding: 1em 1em 0.25em 1em;
     float: left;
-}
-
-#content{
-    float: left;
-    height:100%;
-    overflow: scroll;
-}
-
-nav{
-    margin: 0 auto;
-    width: 10em;
-    height: 100%;
-    background-color: white;
-    float: left;
-    overflow: scroll;
-    padding-left: 2em;
 }
 
 .nav_point{
@@ -47,7 +52,6 @@ nav{
     border-color: #5FB404;
     margin-right: 1%;
     box-sizing: border-box;
-    overflow: scroll;
 }
 
 .nav_point a {
@@ -70,28 +74,12 @@ nav{
     margin-right: 0;
 }
 
- /*Auswahlleiste*/
-section{
-    height: 100%;
-    width: auto;
-    background-color: yellow;
-    float: left;
-}
-
 body{
     background-color: green;
-    height: 100%;
-    width: 200%;
     margin: 0;
     padding: 0;
 }
-
-footer{
-    position:absolute;
-    background-color: red;
-    height: 2em;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    padding: 1em 0em 0em 3em;
+head{
+    margin: 0;
+    padding: 0;
 }

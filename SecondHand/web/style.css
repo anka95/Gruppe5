@@ -5,7 +5,7 @@ html{
 }
 
 body{
-    background-color: green;
+    background-color: white;
     margin: 0;
     padding: 0;
 }
@@ -29,17 +29,20 @@ body{
 
 /*Artikel-Presentation*/
 .Artikel{
-    background-color: white;
+    background-image: linear-gradient(to top, white 0%, gray 50%);
+    border-width: 0.25px;
+    border-color: black;
+    border-style: solid;
     height: 30%;
     width: 10%;
     float: left;
     border-width: 5px;
-    border-radius: 3px;
+    border-radius: 5px;
     margin: 5px;
 }
 
 .Artikel img{
-    text-align: center;
+    margin: 5px;
 }
 
 .Artikel a{
@@ -53,7 +56,7 @@ body{
     float: left;
     width: 200px;
     height: 3em;
-    border-width: 5px;
+    border-width: 1px;
     border-radius: 10px;
     border-style: solid;
     border-color: #5FB404;
@@ -83,9 +86,11 @@ body{
 
 /*AUSWAHLLEISTE*/
 #selection{
+    margin: 10px;
+    border-radius: 5px;
     float: left;
     width: 13em;
-    background-color: white;
+    background-image: linear-gradient(to top, white 0%, greenyellow 50%);
     overflow: scroll;
 }
  /*RESTLICHER INHALT*/

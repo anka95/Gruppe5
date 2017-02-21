@@ -8,6 +8,7 @@ body{
     background-color: white;
     margin: 0;
     padding: 0;
+    overflow: scroll;
 }
 
 /*HEADER*/
@@ -91,12 +92,11 @@ body{
     float: left;
     width: 13em;
     background-image: linear-gradient(to top, white 0%, greenyellow 50%);
-    overflow: scroll;
+/*    overflow: scroll; */
 }
  /*RESTLICHER INHALT*/
 #content{
     float: left;
+    padding: 10px;
     background-color: blue;
-    overflow: scroll;
-    margin-left: 1em;
 }

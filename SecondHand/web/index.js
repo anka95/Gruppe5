@@ -154,6 +154,12 @@ function login(){
 }
 
 function login_check(){
+    var mail = document.getElementById("email").value;
+    var pw =  document.getElementById("pw").value;
+    
+    if(mail === "" || pw === ""){
+        alert("Bitte füllen Sie alle Felder aus!");
+    }
     
 }
 

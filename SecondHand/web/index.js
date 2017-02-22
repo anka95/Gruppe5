@@ -82,6 +82,12 @@ function createNewItem() {
         sold = false;
     }
     
+    if (document.publishedButtons.published[0].checked = true) {
+        published = true;
+    } else {
+        published = false;
+    }
+    
     ajax.responseType = "json";
     ajax.open("POST", "servlet?action=createnewitem&customerid=" + encodeURI(customerId)
             + "&locationid=" + encodeURI(locationId) + "&title=" + encodeURI(title)

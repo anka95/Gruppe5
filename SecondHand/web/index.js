@@ -137,9 +137,24 @@ function login(){
             "<a onclick='logout()'>Logout</a>" +
             "<a onclick='xxx()'>My2Hand</a>"+
             "<a onclick='artikel()'>Home</a>";
-    
+    var content = document.getElementById("content");
+    content.innerHTML="<div id='Login'>"+
+                "<h1>Login</h1>"+
+                "<p>E-Mail-Adresse:<br>"+
+                "<input type='text' id='email' value=''>"+
+                "</p>"+
+                "<p>Passwort:<br>"+
+                "<input type='password' id='pw' value=''>"+
+                "</p>"+
+                "<input type='button' name='submit' value='Login' onClick='login_check()'/>"+
+                "<input type='button' name='submit' value='Jetzt registrieren' onClick='registrieren()'/>"+
+                "</div>";    
     var welcome = document.getElementById("willkommen");
     welcome.innerHTML += ", " + loggingCustomer; 
+}
+
+function login_check(){
+    
 }
 
 //Methode von Ann-Katrin
@@ -156,4 +171,33 @@ function logout(){
         var welcome = document.getElementById("willkommen");
         welcome.innerHTML = "Herzlich Willkommen";
     }
+}
+
+function registrieren(){
+     var content = document.getElementById("content");
+    content.innerHTML="<div id='formCustomers'>"+
+                "<h1>Kunde anlegen</h1>"+
+                "<p>Vorname:<br>"+
+                "<input type='text' id='firstName' value=''>"+
+                "</p>"+
+                "<p>Nachname:<br>"+
+                "<input type='text' id='lastName' value=''>"+
+                "</p>"+
+                "<p>Adresse:<br>"+
+                "<input type='text' id='address' value=''>"+
+                "</p>"+
+                "<p>Telefonnummer:<br>"+
+                "<input type='text' id='telephone' value=''>"+
+                "</p>"+
+                "<p>E-Mail-Adresse:<br>"+
+                "<input type='text' id='email' value=''>"+
+                "</p>"+
+                "<p>Passwort:<br>"+
+                "<input type='password' id='pw1' value=''>"+
+                "</p>"+
+                "<p>Passwort wiederholen:<br>"+
+                "<input type='password' id='pw2' value=''>"+
+                "</p>"+
+                "<input type='button' name='submit' value='Speichern' onClick='createNewCustomer()'/>"+
+                "</div>";
 }

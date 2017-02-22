@@ -89,7 +89,19 @@
                 </p>
                 <input type="button" name="submit" value="Speichern" onClick="createNewCustomer()"/>
             </div>
-         
+            
+            <!--Login-->
+            <div id="Login">
+                <h1>Login</h1>
+                <p>E-Mail-Adresse:<br>
+                    <input type="text" id="email" value="">
+                </p>
+                <p>Passwort:<br>
+                    <input type="password" id="pw" value="">
+                </p>
+                <input type="button" name="submit" value="Login" onClick="login()"/>
+                <input type="button" name="submit" value="Jetzt registrieren" onClick="registrieren()"/>
+            </div>
             
         <input type="button" name="submit" value="Alle Kunden anzeigen" onClick="findAllCustomers()"/> 
         <div class="customers"></div>
@@ -144,10 +156,6 @@
              -->
             
        </div>
-        <footer>
-            <hr>
-            <a onclick="kontakt()">Kontakt</a>
-            <a onclick="impressum()">Impressum</a>
-        </footer>
+
 </body>
 </html>

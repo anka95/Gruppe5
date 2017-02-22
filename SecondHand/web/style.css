@@ -101,6 +101,7 @@ body{
 }
 .Artikel.size{
     float: left;
+    margin-right: 0em;
 }
 
 .Artikel.preis{

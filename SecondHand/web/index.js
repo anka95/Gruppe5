@@ -130,13 +130,6 @@ function findAllItems() {
 
 //Methode von Ann-Katrin
 function login(){
-    loggingCustomer = Math.random();
-    
-    var navigation = document.getElementById("feld");
-    navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
-            "<a onclick='logout()'>Logout</a>" +
-            "<a onclick='xxx()'>My2Hand</a>"+
-            "<a onclick='artikel()'>Home</a>";
     var content = document.getElementById("content");
     content.innerHTML="<div id='Login'>"+
                 "<h1>Login</h1>"+
@@ -149,8 +142,6 @@ function login(){
                 "<input type='button' name='submit' value='Login' onClick='login_check()'/>"+
                 "<input type='button' name='submit' value='Jetzt registrieren' onClick='registrieren()'/>"+
                 "</div>";    
-    var welcome = document.getElementById("willkommen");
-    welcome.innerHTML += ", " + loggingCustomer; 
 }
 
 function login_check(){
@@ -160,7 +151,30 @@ function login_check(){
     if(mail === "" || pw === ""){
         alert("Bitte füllen Sie alle Felder aus!");
     }
+    else{
+    var ajax = new XMLHttpRequest();
+    ajax.open("POST", "CheckPassword");
+    ajax.responseType = "json";
+    ajax.addEventListener("load", function(){
+        console.log(ajax.response);
+    });
     
+    var navigation = document.getElementById("feld");
+    navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
+            "<a onclick='logout()'>Logout</a>" +
+            "<a onclick='xxx()'>My2Hand</a>"+
+            "<a onclick='artikel()'>Home</a>";
+    
+    var welcome = document.getElementById("willkommen");
+    welcome.innerHTML += ", " + loggingCustomer;
+    }
+    ajax.send(JSON.stringify(
+        {
+            mail: mail,
+            pw: pw
+        }
+    
+    ));
 }
 
 //Methode von Ann-Katrin
@@ -183,6 +197,8 @@ function registrieren(){
      var content = document.getElementById("content");
     content.innerHTML="<div id='formCustomers'>"+
                 "<h1>Kunde anlegen</h1>"+
+                "<input type='radio' name='geschlecht' id='m'>Herr" +
+                "<input type='radio' name='geschlecht' id='w'>Frau" +
                 "<p>Vorname:<br>"+
                 "<input type='text' id='firstName' value=''>"+
                 "</p>"+
@@ -195,8 +211,11 @@ function registrieren(){
                 "<p>Telefonnummer:<br>"+
                 "<input type='text' id='telephone' value=''>"+
                 "</p>"+
-                "<p>E-Mail-Adresse:<br>"+
-                "<input type='text' id='email' value=''>"+
+                "<p>E-Mail:<br>"+
+                "<input type='text' id='email1' value=''>"+
+                "</p>"+
+                "<p>E-Mail wiederholen:<br>"+
+                "<input type='text' id='email2' value=''>"+
                 "</p>"+
                 "<p>Passwort:<br>"+
                 "<input type='password' id='pw1' value=''>"+

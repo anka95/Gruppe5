@@ -128,21 +128,32 @@ function findAllItems() {
     };
 }
 
+//Methode von Ann-Katrin
 function login(){
-    logingCustomer = 123;
-    if(loggingCustomer === null)
-        {
-            var navigation = document.getElementById("feld");
-            navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
+    loggingCustomer = Math.random();
+    
+    var navigation = document.getElementById("feld");
+    navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
+            "<a onclick='logout()'>Logout</a>" +
+            "<a onclick='xxx()'>My2Hand</a>"+
+            "<a onclick='artikel()'>Home</a>";
+    
+    var welcome = document.getElementById("willkommen");
+    welcome.innerHTML += ", " + loggingCustomer; 
+}
+
+//Methode von Ann-Katrin
+function logout(){
+    var r = confirm("Wollen Sie sich wirklich ausloggen?");
+    if(r === true){
+        var navigation = document.getElementById("feld");
+        navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
                     "<a onclick='login()'>Login</a>" +
                     "<a onclick='xxx()'>My2Hand</a>"+
                     "<a onclick='artikel()'>Home</a>";
-        }
-        else{
-            var navigation = document.getElementById("feld");
-            navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
-                    "<a onclick='logout()'>Logout</a>" +
-                    "<a onclick='xxx()'>My2Hand</a>"+
-                    "<a onclick='artikel()'>Home</a>";
-        }
+        loggingCustomer = null;
+        
+        var welcome = document.getElementById("willkommen");
+        welcome.innerHTML = "Herzlich Willkommen";
+    }
 }

@@ -8,6 +8,9 @@ function createNewCustomer() {
     var houseNumber = document.getElementsByName("houseNumber")[0].value;
     var plz = document.getElementsByName("plz")[0].value;
     var place = document.getElementsByName("place")[0].value;
+    var iban = document.getElementsByName("iban")[0].value;
+    var bic = document.getElementsByName("bic")[0].value;
+    var bank = document.getElementsByName("bank")[0].value;
     var telephone = document.getElementsByName("telephone")[0].value;
     var email = document.getElementsByName("email")[0].value;
     var password = document.getElementsByName("password")[0].value;
@@ -24,6 +27,7 @@ function createNewCustomer() {
             + "&firstname=" + encodeURI(firstName) + "&lastname=" + encodeURI(lastName)
             + "&street=" + encodeURI(street) + "&housenumber=" + encodeURI(houseNumber)
             + "&plz=" + encodeURI(plz) + "&place=" + encodeURI(place)
+            + "&iban=" + encodeURI(iban) + "&bic=" + encodeURI(bic) + "&bank=" + encodeURI(bank)
             + "&telephone=" + encodeURI(telephone) + "&email=" + encodeURI(email)
             + "&password=" + encodeURI(password), true);
     ajax.send();
@@ -39,6 +43,9 @@ function createNewCustomer() {
     document.getElementsByName("houseNumber")[0].value="";
     document.getElementsByName("plz")[0].value="";
     document.getElementsByName("place")[0].value="";
+    document.getElementsByName("iban")[0].value="";
+    document.getElementsByName("bic")[0].value="";
+    document.getElementsByName("bank")[0].value="";
     document.getElementsByName("telephone")[0].value="";
     document.getElementsByName("email")[0].value="";
     document.getElementsByName("password")[0].value="";
@@ -47,10 +54,14 @@ function createNewCustomer() {
 
 function createNewItem() {
     var customerId = document.getElementsByName("customerId")[0].value;
+    var locationId = document.getElementsByName("locationId")[0].value;
+    var title = document.getElementsByName("title")[0].value;
     var category;
-    var brand = document.getElementsByName("brand")[0].value;
     var dressSize = document.getElementsByName("dressSize")[0].value;
     var price = document.getElementsByName("price")[0].value;
+    var personType;
+    var sold;
+    var published;
     var ajax = new XMLHttpRequest();
     
     for (i=0; i<document.getElementsByName("category")[0].length; i++) {
@@ -59,10 +70,24 @@ function createNewItem() {
         }
     }
     
+    for (i=0; i<document.getElementsByName("personType")[0].length; i++) {
+        if(document.getElementsByName("personType")[0].options[i].selected == true) {
+            personType = document.getElementsByName("personType")[0].options[i].value;
+        }
+    }
+    
+    if (document.soldButtons.sold[0].checked = true) {
+        sold = true;
+    } else {
+        sold = false;
+    }
+    
     ajax.responseType = "json";
     ajax.open("POST", "servlet?action=createnewitem&customerid=" + encodeURI(customerId)
-            + "&category=" + encodeURI(category) + "&brand=" + encodeURI(brand)
-            + "&dresssize=" + encodeURI(dressSize) + "&price=" + encodeURI(price), true);
+            + "&locationid=" + encodeURI(locationId) + "&title=" + encodeURI(title)
+            + "&category=" + encodeURI(category) + "&dresssize=" + encodeURI(dressSize)
+            + "&price=" + encodeURI(price) + "&persontype=" + encodeURI(personType)
+            + "&sold=" + encodeURI(sold) + "&published=" + encodeURI(published), true);
     ajax.send();
     ajax.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -71,8 +96,8 @@ function createNewItem() {
     };
     
     document.getElementsByName("customerId")[0].value="";
-    document.getElementsByName("category")[0].value="";
-    document.getElementsByName("brand")[0].value="";
+    document.getElementsByName("locationId")[0].value="";
+    document.getElementsByName("title")[0].value="";
     document.getElementsByName("dressSize")[0].value="";
     document.getElementsByName("price")[0].value="";
 }
@@ -94,9 +119,14 @@ function findAllCustomers() {
                                 + this.response[i].houseNumber
                                 + this.response[i].plz
                                 + this.response[i].place
+                                + this.response[i].iban
+                                + this.response[i].bic
+                                + this.response[i].bank
                                 + this.response[i].telephone
                                 + this.response[i].email
                                 + this.response[i].password
+                                + "<p class='delete' id='" + this.response[i].customerId
+                                    + "' onClick='deleteCustomer(" + this.response[i].customerId + ")'>löschen</p>"
                             + "</div>";
                 document.getElementsByClassName("customers")[0].innerHTML += newHTML;
             }
@@ -109,7 +139,7 @@ function findAllItems() {
     var ajax = new XMLHttpRequest();
     
     ajax.responseType = "json";
-    ajax.open("GET", "Servlet?action=findallitems&customerid=" + customerId, true);
+    ajax.open("GET", "servlet?action=findallitems&customerid=" + customerId, true);
     ajax.send();
     ajax.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -117,13 +147,55 @@ function findAllItems() {
                 var newHTML = "<div class='item' id='" + this.response.items[i].id + "'>"
                                 + this.response.items[i].id
                                 + this.response.items[i].customerId
+                                + this.response.items[i].locationId
+                                + this.response.items[i].title
                                 + this.response.items[i].category
-                                + this.response.items[i].brand
                                 + this.response.items[i].dressSize
                                 + this.response.items[i].price
+                                + this.response.items[i].personType
+                                + this.response.items[i].sold
+                                + this.response.items[i].published
+                                + "<p class='delete' id='" + this.response.items[i].id
+                                    + "' onClick='deleteItem(" + this.response.items[i].id + ")'>löschen</p>"
                             + "</div>";
                 document.getElementsByClassName("items")[0].innerHTML += newHTML;
             }
+        }
+    };
+}
+
+function deleteCustomer(id) {
+    var result = confirm("Wollen Sie den Kunden wirklich löschen?");
+    if (!result) return;
+    
+    var ajax = new XMLHttpRequest();
+    
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=deletecustomer&customerid=" + id, true);
+    ajax.send();
+    ajax.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var parent = document.getElementsByClassName("customers")[0];
+            var child = document.getElementById(id);
+            parent.removeChild(child);
+        }
+    };
+}
+
+function deleteItem(id) {
+    var result = confirm("Wollen Sie das Kleidungsstück wirklich löschen?");
+    if (!result) return;
+    
+    var ajax = new XMLHttpRequest();
+    
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=deleteitem&itemid=" + id, true);
+    ajax.send();
+    ajax.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var parent = document.getElementsByClassName("items")[0];
+            var child = document.getElementById(id);
+            parent.removeChild(child);
         }
     };
 }

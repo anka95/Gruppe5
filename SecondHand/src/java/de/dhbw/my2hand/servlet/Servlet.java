@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import de.dhbw.my2hand.database.DatabaseFacade;
 import de.dhbw.my2hand.database.Item;
 import de.dhbw.my2hand.database.Customer;
+import de.dhbw.my2hand.database.Location;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -21,10 +22,11 @@ public class Servlet extends HttpServlet {
     @EJB 
     private DatabaseFacade database;
     private Customer customer;
+    private Location location;
     private Item item;
     private String customerId, salutation, firstName, lastName, street, houseNumber,
-            plz, place, telephone, email, password,
-            itemId, category, brand, dressSize, price;
+            plz, place, iban, bic, bank, telephone, email, password,
+            itemId, locationId, title, category, dressSize, price, personType, sold, published;
     private Gson gson = new GsonBuilder().create();
     
     @Override
@@ -51,12 +53,15 @@ public class Servlet extends HttpServlet {
                 houseNumber = request.getParameter("housenumber");
                 plz = request.getParameter("plz");
                 place = request.getParameter("place");
+                iban = request.getParameter("iban");
+                bic = request.getParameter("bic");
+                bank = request.getParameter("bank");
                 telephone = request.getParameter("telephone");
                 email = request.getParameter("email");
                 password = request.getParameter("password");
                 
                 customer = database.createNewCustomer(salutation, firstName, lastName, street,
-                        houseNumber, plz, place, telephone, email, password);
+                        houseNumber, plz, place, iban, bic, bank, telephone, email, password);
                     
                 gson.toJson(customer, toBrowser);
                 toBrowser.flush();
@@ -66,13 +71,19 @@ public class Servlet extends HttpServlet {
             case "createnewitem":                                 // index.js: createNewItem(customerId)
                 // Neues Kleidungsstück anlegen
                 customerId = request.getParameter("customerid");
+                locationId = request.getParameter("locationid");
+                title = request.getParameter("title");
                 category = request.getParameter("category");
-                brand = request.getParameter("brand");
                 dressSize = request.getParameter("dresssize");
                 price = request.getParameter("price");
+                personType = request.getParameter("persontype");
+                sold = request.getParameter("sold");
+                published = request.getParameter("published");
                
                 customer = database.findCustomer(new Long(customerId));
-                database.createNewItem(customer, category, brand, dressSize, new Double(price));
+                location = database.findLocation(new Long(locationId));
+                database.createNewItem(customer, location, title, category, dressSize, new Double(price),
+                            personType, Boolean.parseBoolean(sold), Boolean.parseBoolean(published));
 
                 gson.toJson(convert(database.findCustomer(new Long(customerId))), toBrowser);
                 toBrowser.flush();
@@ -98,18 +109,14 @@ public class Servlet extends HttpServlet {
         switch(action) {
             case "deletecustomer":       // index.js: deleteCustomer(id)
                 // Kunden löschen
-                customerId = request.getParameter("customerid");
-                
-                customer = database.findCustomer(new Long(customerId));
+                customer = database.findCustomer(new Long(request.getParameter("customerid")));
                 database.delete(customer);    
                 
                 break;
 
             case "deleteitem":          // content.js: deleteItem(customerId)
                  // Kleidungsstück löschen
-                itemId = request.getParameter("itemid");
-
-                item = database.findItem(new Long(itemId));
+                item = database.findItem(new Long(request.getParameter("itemid")));
                 database.delete(item);
                 
                 break;
@@ -148,6 +155,9 @@ public class Servlet extends HttpServlet {
         jsonCustomer.houseNumber = customer.getHouseNumber();
         jsonCustomer.plz = customer.getPLZ();
         jsonCustomer.place = customer.getPlace();
+        jsonCustomer.iban = customer.getIban();
+        jsonCustomer.bic = customer.getBic();
+        jsonCustomer.bank = customer.getBank();
         jsonCustomer.telephone = customer.getTelephone();
         jsonCustomer.email = customer.getEmail();
         jsonCustomer.password = customer.getPassword();
@@ -157,10 +167,14 @@ public class Servlet extends HttpServlet {
             JsonItem jsonItem = new JsonItem();
             jsonItem.id = item.getId();
             jsonItem.customerId = item.getCustomer().getId();
+            jsonItem.locationId = item.getLocation().getId();
+            jsonItem.title = item.getTitle();
             jsonItem.category = item.getCategory();
-            jsonItem.brand = item.getBrand();
             jsonItem.dressSize = item.getDressSize();
             jsonItem.price = item.getPrice();
+            jsonItem.personType = item.getPersonType();
+            jsonItem.sold = item.getSold();
+            jsonItem.published = item.getPublished();
             jsonCustomer.items.add(jsonItem);
         }
         return jsonCustomer;
@@ -170,12 +184,13 @@ public class Servlet extends HttpServlet {
 class JsonCustomer {
     public Long customerId;
     public String salutation, firstName, lastName, street, houseNumber, plz,
-                  place, telephone, email, password;
+                  place, iban, bic, bank, telephone, email, password;
     public List<JsonItem> items;
 }
 
 class JsonItem {
-    public Long id, customerId;
-    public String category, brand, dressSize;
+    public Long id, customerId, locationId;
+    public String title, category, dressSize, personType;
     public Double price;
+    public Boolean sold, published;
 }

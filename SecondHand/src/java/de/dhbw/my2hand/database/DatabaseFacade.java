@@ -27,6 +27,9 @@ public class DatabaseFacade {
      * @param houseNumber Hausnummer des Kunden
      * @param plz Postleitzahl des Kunden
      * @param place Ort des Kunden
+     * @param iban IBAN des Kunden
+     * @param bic BIC des Kunden
+     * @param bank Bankname des Kunden
      * @param telephone Telefonnummer des Kunden
      * @param email E-Mail-Adresse des Kunden
      * @param password Passwort des Kunden
@@ -34,9 +37,10 @@ public class DatabaseFacade {
      */
     public Customer createNewCustomer(String salutation, String firstName, String lastName,
                                     String street, String houseNumber, String plz, String place,
-                                    String telephone, String email, String password) {
-        Customer customer = new Customer(salutation, firstName, lastName, street,
-                                    houseNumber, plz, place, telephone, email, password);
+                                    String iban, String bic, String bank, String telephone,
+                                    String email, String password) {
+        Customer customer = new Customer(salutation, firstName, lastName, street, houseNumber,
+                                        plz, place, iban, bic, bank, telephone, email, password);
         return this.em.merge(customer);
     }
     
@@ -49,15 +53,21 @@ public class DatabaseFacade {
      * damit die Fremdschlüsselintegrität gewahrt bleibt!
      * 
      * @param customer Kunden zu dem die Artikel gehören
+     * @param title Titel des Kleidungsstücks
+     * @param location Standort des Kleidungsstücks
      * @param category Kategorie des Kleidungsstücks z.B. Hose
-     * @param brand Marke des Kleidungsstücks
      * @param dressSize Größe des Kleidungsstücks
      * @param price Verkaufspreis des Kleidungsstücks
+     * @param personType Personentyp des Kleidungstücks
+     * @param sold Kleidungsstück ist verkauft oder nicht
+     * @param published Kleidungsstück wird auf Webseite angezeigt oder nicht
      * @return Das neue Kleidungsstück
      */
-    public Item createNewItem(Customer customer, String category, String brand,
-                              String dressSize, Double price) {
-        Item item = new Item(customer, category, brand, dressSize, price);
+    public Item createNewItem(Customer customer, Location location, String title,
+                            String category, String dressSize, Double price,
+                            String personType, boolean sold, boolean published) {
+        Item item = new Item(customer, location, title, category, dressSize, price,
+                            personType, sold, published);
         customer.getItems().add(item);
         
         item = this.em.merge(item);
@@ -81,6 +91,15 @@ public class DatabaseFacade {
      */
     public Customer findCustomer(long id) {
         return this.em.find(Customer.class, id);
+    }
+    
+    /**
+     * Auslesen eines Standorts mit all seinen Artikeln anhand seiner ID.
+     * @param id Die ID des gesuchten Standorts
+     * @return Das gesuchte Location-Objekt oder null, wenn es nicht gefunden wurde
+     */
+    public Location findLocation(long id) {
+        return this.em.find(Location.class, id);
     }
     
     /**

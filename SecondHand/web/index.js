@@ -1,3 +1,5 @@
+loggingCustomer = null;
+
 function createNewCustomer() {
     var salutation;
     var firstName = document.getElementsByName("firstName")[0].value;
@@ -124,4 +126,23 @@ function findAllItems() {
             }
         }
     };
+}
+
+function login(){
+    logingCustomer = 123;
+    if(loggingCustomer === null)
+        {
+            var navigation = document.getElementById("feld");
+            navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
+                    "<a onclick='login()'>Login</a>" +
+                    "<a onclick='xxx()'>My2Hand</a>"+
+                    "<a onclick='artikel()'>Home</a>";
+        }
+        else{
+            var navigation = document.getElementById("feld");
+            navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
+                    "<a onclick='logout()'>Logout</a>" +
+                    "<a onclick='xxx()'>My2Hand</a>"+
+                    "<a onclick='artikel()'>Home</a>";
+        }
 }

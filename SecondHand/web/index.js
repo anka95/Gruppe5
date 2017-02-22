@@ -205,12 +205,37 @@ function registrieren(){
                 "<p>Nachname:<br>"+
                 "<input type='text' id='lastName' value=''>"+
                 "</p>"+
-                "<p>Adresse:<br>"+
-                "<input type='text' id='address' value=''>"+
+                "<p>Straße:<br>"+
+                "<input type='text' id='strasse' value=''>"+
+                "</p>"+
+                "<p>Hausnummer:<br>"+
+                "<input type='text' id='hausnummer' value=''>"+
+                "</p>"+
+                "<p>PLZ:<br>"+
+                "<input type='text' id='plz' value=''>"+
+                "</p>"+
+                "<p>Ort:<br>"+
+                "<input type='text' id='ort' value=''>"+
                 "</p>"+
                 "<p>Telefonnummer:<br>"+
                 "<input type='text' id='telephone' value=''>"+
                 "</p>"+
+                "<p>Telefonnummer:<br>"+
+                "<input type='text' id='telephone' value=''>"+
+                "</p>"+
+                
+                "<u>Konto-Daten</u>"+
+                "<p>IBAN:<br>"+
+                "<input type='text' id='iban' value=''>"+
+                "</p>"+
+                "<p>BIC:<br>"+
+                "<input type='text' id='bic' value=''>"+
+                "</p>"+
+                "<p>Bankname:<br>"+
+                "<input type='text' id='bankname' value=''>"+
+                "</p>"+
+                
+                "<u>Login-Daten</u>"+
                 "<p>E-Mail:<br>"+
                 "<input type='text' id='email1' value=''>"+
                 "</p>"+

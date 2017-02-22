@@ -245,6 +245,7 @@ function login_check(){
 
             var welcome = document.getElementById("willkommen");
             welcome.innerHTML += ", " + ajax.response.vorname + " " + ajax.response.name + " KuNr: " + ajax.response.id;
+            loggingCustomer = ajax.response.id;
         }
         else{
             alert("Ihre E-Mail-Adresse oder Ihr Passwort ist falsch!");

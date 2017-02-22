@@ -230,22 +230,26 @@ function login_check(){
         alert("Bitte füllen Sie alle Felder aus!");
     }
     else{
-    var ajax = new XMLHttpRequest();
-    ajax.open("POST", "CheckPassword");
-    ajax.responseType = "json";
-    ajax.addEventListener("load", function(){
-        console.log(ajax.response);
+        var ajax = new XMLHttpRequest();
+        ajax.open("POST", "CheckLogin");
+        ajax.responseType = "json";
+        ajax.addEventListener("load", function(){
+            console.log(ajax.response);
+
+        if(ajax.response.find){
+            var navigation = document.getElementById("feld");
+            navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
+                "<a onclick='logout()'>Logout</a>" +
+                "<a onclick='xxx()'>My2Hand</a>"+
+                "<a onclick='artikel()'>Home</a>";
+
+            var welcome = document.getElementById("willkommen");
+            welcome.innerHTML += ", " + ajax.response.vorname + " " + ajax.response.name + " KuNr: " + ajax.response.id;
+        }
+        else{
+            alert("Ihre E-Mail-Adresse oder Ihr Passwort ist falsch!");
+        }
     });
-    
-    var navigation = document.getElementById("feld");
-    navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
-            "<a onclick='logout()'>Logout</a>" +
-            "<a onclick='xxx()'>My2Hand</a>"+
-            "<a onclick='artikel()'>Home</a>";
-    
-    var welcome = document.getElementById("willkommen");
-    welcome.innerHTML += ", " + loggingCustomer;
-    }
     ajax.send(JSON.stringify(
         {
             mail: mail,
@@ -253,6 +257,7 @@ function login_check(){
         }
     
     ));
+    }
 }
 
 //Methode von Ann-Katrin

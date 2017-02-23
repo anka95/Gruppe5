@@ -39,8 +39,8 @@ public class CheckEmail extends HttpServlet{
         
         antwort.vorhanden = false;
         
-        for(int i = 0; i < database.findAllCustomers().size(); i++ ){
-            if(database.findAllCustomers().get(i).getEmail().equals(anfrage.mail)){
+        for(int i = 0; i < database.findAllCustomers().size(); i++){
+            if(database.findAllCustomers().get(i).getEmail().equals(anfrage.email)){
                 antwort.vorhanden = true;
             }
         }
@@ -53,7 +53,7 @@ public class CheckEmail extends HttpServlet{
 }
     
 class jsonEmail{
-    public String mail;
+    public String email;
 }
 
 class jsonEmailAntwort{

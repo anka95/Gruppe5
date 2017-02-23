@@ -15,55 +15,47 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(
-            name = "CheckLogin", 
-            urlPatterns = "/CheckLogin"
+            name = "CheckEmail", 
+            urlPatterns = "/CheckEmail"
 )
 
-public class CheckLogin extends HttpServlet {
+public class CheckEmail extends HttpServlet{
     @EJB 
     private DatabaseFacade database;
-
-    @Override
+    
+     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         // Sonderzeichen richtig erkennen!
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
-
+        
         BufferedReader fromBrowser = new BufferedReader(new InputStreamReader(request.getInputStream()));
 
         Gson gson = new GsonBuilder().create();
-
-        jsonLogin anfrage = gson.fromJson(fromBrowser, jsonLogin.class);  
-        jsonLogin_ant antwort = new jsonLogin_ant();
-
-        antwort.find = false;
-
+        
+        jsonEmail anfrage = gson.fromJson(fromBrowser, jsonEmail.class);
+        jsonEmailAntwort antwort = new jsonEmailAntwort();
+        
+        antwort.vorhanden = false;
+        
         for(int i = 0; i < database.findAllCustomers().size(); i++ ){
-            if(database.findAllCustomers().get(i).getPassword().equals(anfrage.pw) 
-                    && database.findAllCustomers().get(i).getEmail().equals(anfrage.mail))
-            {
-                antwort.kunr = database.findAllCustomers().get(i).getId();
-                antwort.name = database.findAllCustomers().get(i).getLastName();
-                antwort.vorname = database.findAllCustomers().get(i).getFirstName();
-                
-                antwort.find = true;
+            if(database.findAllCustomers().get(i).getEmail().equals(anfrage.mail)){
+                antwort.vorhanden = true;
             }
         }
-
+        
         response.setContentType("application/json");
         PrintWriter toBrowser = response.getWriter();
         gson.toJson(antwort, toBrowser);
         toBrowser.flush();
     }
 }
-
-
-class jsonLogin{
-    public String pw, mail;
+    
+class jsonEmail{
+    public String mail;
 }
-class jsonLogin_ant{
-    public long kunr;
-    public String name, vorname;
-    public Boolean find;
+
+class jsonEmailAntwort{
+    public Boolean vorhanden;
 }

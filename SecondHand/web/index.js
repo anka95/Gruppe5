@@ -84,16 +84,27 @@ function createNewCustomer() {
         return;
     }
     
-    if(passworda === passwordb){
+    if(passworda !== passwordb){
         alert("Ihre Passwörter stimmen nicht überein!");
         return;
     }
     
+     var ajax = new XMLHttpRequest();
+        ajax.open("POST", "CheckEmail");
+        ajax.responseType = "json";
+        ajax.addEventListener("load", function(){
+            console.log(ajax.response);
+            if(ajax.response.vorhanden){
+                alert("Unter diese E-Mailadress ist bereits ein Nutzer registriert!");
+            }
+        });
+        ajax.send(JSON.stringify(
+        {
+            mail: email
+        }
+        ));
+        
     
-    if(emai === mail){
-        alert("Unter diese E-Mailadress ist bereits ein Nutzer registriert!");
-        return;
-    }
        
     if (document.getElementsByName("salutation")[0].checked) {
         salutation = document.getElementsByName("salutation")[0].value;
@@ -108,11 +119,11 @@ function createNewCustomer() {
             + "&plz=" + encodeURI(plz) + "&place=" + encodeURI(place)
             + "&iban=" + encodeURI(iban) + "&bic=" + encodeURI(bic) + "&bank=" + encodeURI(bank)
             + "&telephone=" + encodeURI(telephone) + "&email=" + encodeURI(email)
-            + "&password=" + encodeURI(password), true);
+            + "&password=" + encodeURI(passworda), true);
     ajax.send();
    
     ajax.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
             document.getElementsByClassName("customers")[0].innerHTML = "Kunde erfolgreich angelegt.";
         }
     };

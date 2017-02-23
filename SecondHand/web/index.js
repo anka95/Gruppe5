@@ -8,57 +8,54 @@ function createNewCustomer() {
                 
                 "<div id='bezeichner'"+
                     "<label>*Anrede</label>"+
+                    "<br>"+
+                    "<input type='radio' name='salutation' value='Frau' > Frau"+
+                    "<input type='radio' name='salutation' value='Herr' > Herr"+
                     "<br><br>"+
                     "<label>*Name</label>"+
+                    "<br>"+
+                    "<input type='text' name='firstName' placeholder='Vorname'>"+
+                    "<input type='text' name='lastName' placeholder='Nachname'>"+
                     "<br><br>"+
                     "<label>*Adresse</label>"+
-                    "<br><br><br><br>"+
+                    "<br>"+
+                    "<input type='text' name='street' placeholder='Straße'>"+
+                    "<input type='text' name='houseNumber' placeholder='Hausnr.'>"+
+                    "<br>"+
+                    "<input type='text' name='plz' placeholder='PLZ'>"+
+                    "<input type='text'name='place' placeholder='Ort'>"+
+                    "<br><br>"+
                     "<label>*IBAN</label>"+
+                    "<br>"+
+                    "<input type='text' name='iban' placeholder='IBAN'>"+
                     "<br><br>"+
                     "<label>*BIC</label>"+
+                    "<br>"+
+                    "<input type='text' name='bic' placeholder='BIC'>"+
                     "<br><br>"+
                     "<label>*Bank</label>"+
+                    "<br>"+
+                    "<input type='text' name='bank' placeholder='Bank'>"+
                     "<br><br>"+
                     "<label>Telefonnummer</label>"+
+                    "<br>"+
+                     "<input type='text' name='telephone' placeholder='Telefonnummer'>"+
                     "<br><br>"+
                     "<label>*E-Mail-Adresse</label>"+
+                    "<br>"+
+                    "<input type='text' name='email' placeholder='E-Mail-Adresse'>"+
                     "<br><br>"+
                     "<label>*Passwort</label>"+
+                    "<br>"+
+                    "<input type='password' name='passworda' placeholder='Passwort'>"+
                     "<br><br>"+
                     "<label>*Passwort wiederholen</label>"+
+                    "<br>"+
+                    "<input type='password' name='passwordb' placeholder='Passwort wiederholen'>"+
                     "<br><br>"+
                     "<input type='button' name='submit' value='Speichern' onClick='saveNewCustomer()'/>"+
                 "</div>"+
 
-                "<div id='felder'>"+
-                    "<input type='radio' name='salutation' value='Frau' > Frau"+
-                    "<input type='radio' name='salutation' value='Herr' > Herr"+
-                    "<br><br>"+
-                    "<input type='text' name='firstName' placeholder='Vorname'>"+
-                    "<input type='text' name='lastName' placeholder='Nachname'>"+
-                    "<br><br>"+
-                    "<input type='text' name='street' placeholder='Straße'>"+
-                    "<input type='text' name='houseNumber' placeholder='Hausnr.'>"+
-                    "<br><br>"+
-                    "<input type='text' name='plz' placeholder='PLZ'>"+
-                    "<input type='text'name='place' placeholder='Ort'>"+
-                    "<br><br>"+
-                    "<input type='text' name='iban' placeholder='IBAN'>"+
-                    "<br><br>"+
-                    "<input type='text' name='bic' placeholder='BIC'>"+
-                    "<br><br>"+
-                    "<input type='text' name='bank' placeholder='Bank'>"+
-                    "<br><br>"+
-                    "<input type='text' name='telephone' placeholder='Telefonnummer'>"+
-                    "<br><br>"+
-                    "<input type='text' name='email' placeholder='E-Mail-Adresse'>"+
-                    "<br><br>"+
-                    "<input type='password' name='passworda' placeholder='Passwort'>"+
-                    "<br><br>"+
-                    "<input type='password' name='passwordb' placeholder='Passwort wiederholen'>"+
-                    "<br><br>"+
-                "</div>"+
-                
             "</div>";
     }
     
@@ -143,6 +140,75 @@ function createNewCustomer() {
 }
 
 function createNewItem() {
+    var content = document.getElementById("content");
+        content.innerHTML="<div id=''>"+
+                "<h1>Kleidungsstück verkaufen</h1>"+
+            "<div id='formItems'>"+
+                "<label>*Kundennummer.:</label>"+
+                "<br>"+
+                "<input <type='text' name='customerId' placeholder='Kundennr.'>"+
+                "<br><br>"+
+                "<label>Standortnr.*:</label>"+
+                "<br>"+
+                "<input type='text' name='locationId' placeholder='Standortnr.'>"+
+                "<br><br>"+
+                "<label>Titel*</label>"+
+                "<br>"+
+                "<input type='text' name='title' placeholder='Titel'>"+
+                "<br><br>"+
+                "<label>Kategorie*:</label>"+
+                "<br>"+
+                "<select name='category'>"+
+                        "<option>-Bitte auswählen-</option>"+
+                        "<option>Hosen</option>"+
+                        "<option>Accessoires</option>"+
+                        "<option>Röcke</option>"+
+                        "<option>Kleider</option>"+
+                        "<option>Oberteile</option>"+
+                        "<option>Bademode</option>"+
+                        "<option>Jacken</option>"+
+                        "<option>Unterwäsche</option>"+
+                        "<option>Schuhe</option>"+
+                        "<option>Sonstiges</option>"+
+                "</select>"+
+                "<br><br>"+
+                "<label>Abteilung*:</label>"+
+                "<br>"+
+                "<select name='personType'>"+
+                        "<option>-Bitte auswählen-</option>"+
+                        "<option>Frauen</option>"+
+                        "<option>Männer</option>"+
+                        "<option>Mädchen</option>"+
+                        "<option>Jungen</option>"+
+                        "<option>Babys</option>"+
+                    "</select>"+
+                "<br><br>"+
+                "<label>Größe*:</label>"+
+                "<input type='text' name='dressSize' placeholder='Größe'>"+
+                "<br>"+
+                "<label>Verkaufspreis*:</label>"+
+                "<br>"+
+                "<input type='text' name='price' placeholder='Verkaufspreis'>"+
+                "<br><br>"+
+                "<form name='soldButtons'>"+
+                "<br>"+
+                "<label>*verkauft*</label>"+
+                "<br>"+
+                "<input type='radio' name='sold' value='Ja' checked> Ja"+
+                "<input type='radio' name='sold' value='Nein'> Nein"+
+                "</form>"+
+                "<br>"+
+                "<form name='publishedButtons'>"+
+                "<label>veröffentlicht*:</label>"+
+                "<input type='radio' name='published' value='Ja' checked> Ja"+
+                "<input type='radio' name='published' value='Nein'> Nein"+
+                "</form>"+
+                "<br>"+
+                "<input type='button' name='submit' value='Anbieten' onClick='saveNewItem()'/>"+
+            "</div>";
+}
+
+function saveNewItem(){    
     var customerId = document.getElementsByName("customerId")[0].value;
     var locationId = document.getElementsByName("locationId")[0].value;
     var title = document.getElementsByName("title")[0].value;

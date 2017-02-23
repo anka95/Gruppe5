@@ -108,17 +108,14 @@ body{
     float: right;
 }
 
-#Profildaten1{
+#bezeichner{
+font-size: 13pt;
 float: left;
 margin-right: 2em;
 }
 
-#Profildaten2{
+#felder{
 float: left;
 margin-right: 2em;
 }
 
-#Profildaten3{
-float: left;
-margin-right: 2em;
-}

@@ -1,6 +1,68 @@
 loggingCustomer = null;
 
 function createNewCustomer() {
+    
+    var content = document.getElementById("content");
+    content.innerHTML="<div id='formCustomers'>"+
+                "<h1>Neu registrieren</h1>"+
+                
+                "<div id='bezeichner'"+
+                    "<label>*Anrede</label>"+
+                    "<br><br>"+
+                    "<label>*Name</label>"+
+                    "<br><br>"+
+                    "<label>*Adresse</label>"+
+                    "<br><br><br><br>"+
+                    "<label>*IBAN</label>"+
+                    "<br><br>"+
+                    "<label>*BIC</label>"+
+                    "<br><br>"+
+                    "<label>*Bank</label>"+
+                    "<br><br>"+
+                    "<label>Telefonnummer</label>"+
+                    "<br><br>"+
+                    "<label>*E-Mail-Adresse</label>"+
+                    "<br><br>"+
+                    "<label>*Passwort</label>"+
+                    "<br><br>"+
+                    "<label>*Passwort wiederholen</label>"+
+                    "<br><br>"+
+                    "<input type='button' name='submit' value='Speichern' onClick='saveNewCustomer()'/>"+
+                "</div>"+
+
+                "<div id='felder'>"+
+                    "<input type='radio' name='salutation' value='Frau' > Frau"+
+                    "<input type='radio' name='salutation' value='Herr' > Herr"+
+                    "<br><br>"+
+                    "<input type='text' name='firstName' placeholder='Vorname'>"+
+                    "<input type='text' name='lastName' placeholder='Nachname'>"+
+                    "<br><br>"+
+                    "<input type='text' name='street' placeholder='Straße'>"+
+                    "<input type='text' name='houseNumber' placeholder='Hausnr.'>"+
+                    "<br><br>"+
+                    "<input type='text' name='plz' placeholder='PLZ'>"+
+                    "<input type='text'name='place' placeholder='Ort'>"+
+                    "<br><br>"+
+                    "<input type='text' name='iban' placeholder='IBAN'>"+
+                    "<br><br>"+
+                    "<input type='text' name='bic' placeholder='BIC'>"+
+                    "<br><br>"+
+                    "<input type='text' name='bank' placeholder='Bank'>"+
+                    "<br><br>"+
+                    "<input type='text' name='telephone' placeholder='Telefonnummer'>"+
+                    "<br><br>"+
+                    "<input type='text' name='email' placeholder='E-Mail-Adresse'>"+
+                    "<br><br>"+
+                    "<input type='password' name='passworda' placeholder='Passwort'>"+
+                    "<br><br>"+
+                    "<input type='password' name='passwordb' placeholder='Passwort wiederholen'>"+
+                    "<br><br>"+
+                "</div>"+
+                
+            "</div>"
+    }
+    
+    function saveNewCustomer(){
     var salutation;
     var firstName = document.getElementsByName("firstName")[0].value;
     var lastName = document.getElementsByName("lastName")[0].value;
@@ -13,9 +75,26 @@ function createNewCustomer() {
     var bank = document.getElementsByName("bank")[0].value;
     var telephone = document.getElementsByName("telephone")[0].value;
     var email = document.getElementsByName("email")[0].value;
-    var password = document.getElementsByName("password")[0].value;
+    var passworda = document.getElementsByName("passworda")[0].value;
+    var passwordb = document.getElementsByName("passwordb")[0].value;
     var ajax = new XMLHttpRequest();
     
+    if(firstName === "" || lastName === ""|| street === ""|| houseNumber === ""|| plz === ""|| place === ""|| iban === ""|| bic === ""|| bank === ""|| email === ""|| passworda === ""|| passwordb === ""){
+        alert("Bitte füllen Sie alle Pflichtfelder aus!");
+        return;
+    }
+    
+    if(passworda === passwordb){
+        alert("Ihre Passwörter stimmen nicht überein!");
+        return;
+    }
+    
+    
+    if(emai === mail){
+        alert("Unter diese E-Mailadress ist bereits ein Nutzer registriert!");
+        return;
+    }
+       
     if (document.getElementsByName("salutation")[0].checked) {
         salutation = document.getElementsByName("salutation")[0].value;
     } else {
@@ -31,6 +110,7 @@ function createNewCustomer() {
             + "&telephone=" + encodeURI(telephone) + "&email=" + encodeURI(email)
             + "&password=" + encodeURI(password), true);
     ajax.send();
+   
     ajax.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementsByClassName("customers")[0].innerHTML = "Kunde erfolgreich angelegt.";
@@ -218,7 +298,7 @@ function login(){
                 "<input type='password' id='pw' value=''>"+
                 "</p>"+
                 "<input type='button' name='submit' value='Login' onClick='login_check()'/>"+
-                "<input type='button' name='submit' value='Jetzt registrieren' onClick='registrieren()'/>"+
+                "<input type='button' name='submit' value='Jetzt registrieren' onClick='createNewCustomer()'/>"+
                 "</div>";    
 }
 
@@ -244,8 +324,8 @@ function login_check(){
                 "<a onclick='artikel()'>Home</a>";
 
             var welcome = document.getElementById("willkommen");
-            welcome.innerHTML += ", " + ajax.response.vorname + " " + ajax.response.name + " KuNr: " + ajax.response.id;
-            loggingCustomer = ajax.response.id;
+            welcome.innerHTML += ", " + ajax.response.vorname + " " + ajax.response.name + " KuNr: " + ajax.response.kunr;
+            loggingCustomer = ajax.response.kunr;
         }
         else{
             alert("Ihre E-Mail-Adresse oder Ihr Passwort ist falsch!");
@@ -275,63 +355,4 @@ function logout(){
         var welcome = document.getElementById("willkommen");
         welcome.innerHTML = "Herzlich Willkommen";
     }
-}
-
-function registrieren(){
-     var content = document.getElementById("content");
-    content.innerHTML="<div id='formCustomers'>"+
-                "<h1>Kunde anlegen</h1>"+
-                "<input type='radio' name='geschlecht' id='m'>Herr" +
-                "<input type='radio' name='geschlecht' id='w'>Frau" +
-                "<p>Vorname:<br>"+
-                "<input type='text' id='firstName' value=''>"+
-                "</p>"+
-                "<p>Nachname:<br>"+
-                "<input type='text' id='lastName' value=''>"+
-                "</p>"+
-                "<p>Straße:<br>"+
-                "<input type='text' id='strasse' value=''>"+
-                "</p>"+
-                "<p>Hausnummer:<br>"+
-                "<input type='text' id='hausnummer' value=''>"+
-                "</p>"+
-                "<p>PLZ:<br>"+
-                "<input type='text' id='plz' value=''>"+
-                "</p>"+
-                "<p>Ort:<br>"+
-                "<input type='text' id='ort' value=''>"+
-                "</p>"+
-                "<p>Telefonnummer:<br>"+
-                "<input type='text' id='telephone' value=''>"+
-                "</p>"+
-                "<p>Telefonnummer:<br>"+
-                "<input type='text' id='telephone' value=''>"+
-                "</p>"+
-                
-                "<u>Konto-Daten</u>"+
-                "<p>IBAN:<br>"+
-                "<input type='text' id='iban' value=''>"+
-                "</p>"+
-                "<p>BIC:<br>"+
-                "<input type='text' id='bic' value=''>"+
-                "</p>"+
-                "<p>Bankname:<br>"+
-                "<input type='text' id='bankname' value=''>"+
-                "</p>"+
-                
-                "<u>Login-Daten</u>"+
-                "<p>E-Mail:<br>"+
-                "<input type='text' id='email1' value=''>"+
-                "</p>"+
-                "<p>E-Mail wiederholen:<br>"+
-                "<input type='text' id='email2' value=''>"+
-                "</p>"+
-                "<p>Passwort:<br>"+
-                "<input type='password' id='pw1' value=''>"+
-                "</p>"+
-                "<p>Passwort wiederholen:<br>"+
-                "<input type='password' id='pw2' value=''>"+
-                "</p>"+
-                "<input type='button' name='submit' value='Speichern' onClick='createNewCustomer()'/>"+
-                "</div>";
 }

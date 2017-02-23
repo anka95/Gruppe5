@@ -2,6 +2,7 @@ package de.dhbw.my2hand.servlet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import de.dhbw.my2hand.database.Customer;
 import de.dhbw.my2hand.database.DatabaseFacade;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,6 +46,13 @@ public class CheckEmail extends HttpServlet{
             }
         }
         
+        if(antwort.vorhanden == false){
+            antwort.c = database.createNewCustomer(anfrage.salutation, anfrage.firstName, anfrage.lastName, 
+                anfrage.street, anfrage.houseNumber, anfrage.plz, 
+                anfrage.place, anfrage.iban, anfrage.bic, anfrage.bank, 
+                anfrage.telephone, anfrage.email, anfrage.password);
+        }
+        
         response.setContentType("application/json");
         PrintWriter toBrowser = response.getWriter();
         gson.toJson(antwort, toBrowser);
@@ -53,9 +61,11 @@ public class CheckEmail extends HttpServlet{
 }
     
 class jsonEmail{
-    public String email;
+    public String email, salutation, firstName, lastName, street, houseNumber,
+                plz, place, iban, bic, bank, telephone, password;
 }
 
 class jsonEmailAntwort{
     public Boolean vorhanden;
+    public Customer c;
 }

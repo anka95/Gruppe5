@@ -75,6 +75,12 @@ function createNewCustomer() {
     var passworda = document.getElementsByName("passworda")[0].value;
     var passwordb = document.getElementsByName("passwordb")[0].value;
     
+    if (document.getElementsByName("salutation")[0].checked) {
+        salutation = document.getElementsByName("salutation")[0].value;
+    } else {
+        salutation = document.getElementsByName("salutation")[1].value;
+    }
+    
     if(firstName === "" || lastName === ""|| street === ""|| houseNumber === ""|| plz === ""|| place === ""|| iban === ""|| bic === ""|| bank === ""|| email === ""|| passworda === ""|| passwordb === ""){
         alert("Bitte füllen Sie alle Pflichtfelder aus!");
         return;
@@ -92,37 +98,52 @@ function createNewCustomer() {
         console.log(ajax2.response);
         if(ajax2.response.vorhanden){
             alert("Unter dieser E-Mailadress ist bereits ein Nutzer registriert!");
-        }   return;
+        } 
+        else{
+            alert("Ihr Kundenkonto wurde erfolgreich angelegt!");
+        }
+        
     });
+    
+    
     ajax2.send(JSON.stringify(
     {
-        email: email
+        salutation: salutation, 
+        firstName: firstName,
+        lastName: lastName,
+        street: street,
+        houseNumber: houseNumber,
+        plz: plz,
+        place: place,
+        iban: iban,
+        bic: bic,
+        bank: bank,
+        telephone: telephone,
+        email: email,
+        password: passworda
     }
     ));
            
-    if (document.getElementsByName("salutation")[0].checked) {
-        salutation = document.getElementsByName("salutation")[0].value;
-    } else {
-        salutation = document.getElementsByName("salutation")[1].value;
-    }
     
-    var ajax = new XMLHttpRequest();
-    ajax.responseType = "json";
-    ajax.open("POST", "servlet?action=createnewcustomer&salutation=" + encodeURI(salutation)
-            + "&firstname=" + encodeURI(firstName) + "&lastname=" + encodeURI(lastName)
-            + "&street=" + encodeURI(street) + "&housenumber=" + encodeURI(houseNumber)
-            + "&plz=" + encodeURI(plz) + "&place=" + encodeURI(place)
-            + "&iban=" + encodeURI(iban) + "&bic=" + encodeURI(bic) + "&bank=" + encodeURI(bank)
-            + "&telephone=" + encodeURI(telephone) + "&email=" + encodeURI(email)
-            + "&password=" + encodeURI(passworda), true);
-    ajax.send();
+    
+    
+ //   var ajax = new XMLHttpRequest();
+ //   ajax.responseType = "json";
+ //   ajax.open("POST", "servlet?action=createnewcustomer&salutation=" + encodeURI(salutation)
+ //           + "&firstname=" + encodeURI(firstName) + "&lastname=" + encodeURI(lastName)
+ //           + "&street=" + encodeURI(street) + "&housenumber=" + encodeURI(houseNumber)
+ //           + "&plz=" + encodeURI(plz) + "&place=" + encodeURI(place)
+ //           + "&iban=" + encodeURI(iban) + "&bic=" + encodeURI(bic) + "&bank=" + encodeURI(bank)
+ //           + "&telephone=" + encodeURI(telephone) + "&email=" + encodeURI(email)
+ //           + "&password=" + encodeURI(passworda), true);
+ //   ajax.send();
    
-    ajax.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            //document.getElementsByClassName("customers")[0].innerHTML = "Kunde erfolgreich angelegt.";
-            alert("Kunde erfolgreich angelegt!");
-        }
-    };
+ //   ajax.onreadystatechange = function() {
+ //       if (this.readyState === 4 && this.status === 200) {
+ //           //document.getElementsByClassName("customers")[0].innerHTML = "Kunde erfolgreich angelegt.";
+ //           alert("Kunde erfolgreich angelegt!");
+ //       }
+ //  };
     
     document.getElementsByName("firstName")[0].value="";
     document.getElementsByName("lastName")[0].value="";

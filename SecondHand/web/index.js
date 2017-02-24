@@ -20,7 +20,7 @@ function createNewCustomer() {
                     "<label>*Adresse</label>"+
                     "<br>"+
                     "<input type='text' name='street' placeholder='Straße'>"+
-                    "<input type='text' name='houseNumber' placeholder='Hausnr.'>"+
+                    "<input type='text' name='houseNumber' placeholder='Hausnummer'>"+
                     "<br>"+
                     "<input type='text' name='plz' placeholder='PLZ'>"+
                     "<input type='text'name='place' placeholder='Ort'>"+
@@ -139,18 +139,21 @@ function saveNewCustomer(){
     document.getElementsByName("passwordb")[0].value="";
 }
 
-function createNewItem() {
+function createNewItem(customerId) {
     var content = document.getElementById("content");
         content.innerHTML="<div id=''>"+
                 "<h1>Kleidungsstück verkaufen</h1>"+
             "<div id='formItems'>"+
-                "<label>*Kundennummer.:</label>"+
+                "<label>Standort*:</label>"+
                 "<br>"+
-                "<input <type='text' name='customerId' placeholder='Kundennr.'>"+
-                "<br><br>"+
-                "<label>Standortnr.*:</label>"+
-                "<br>"+
-                "<input type='text' name='locationId' placeholder='Standortnr.'>"+
+                "<select name='locationPlace'>"+
+                        "<option>-Bitte auswählen-</option>"+
+                        "<option>Karlsruhe</option>"+
+                        "<option>Berlin</option>"+
+                        "<option>München</option>"+
+                        "<option>Hamburg</option>"+
+                        "<option>Köln</option>"+
+                "</select>"+
                 "<br><br>"+
                 "<label>Titel*</label>"+
                 "<br>"+
@@ -181,44 +184,36 @@ function createNewItem() {
                         "<option>Mädchen</option>"+
                         "<option>Jungen</option>"+
                         "<option>Babys</option>"+
-                    "</select>"+
+                "</select>"+
                 "<br><br>"+
                 "<label>Größe*:</label>"+
-                "<input type='text' name='dressSize' placeholder='Größe'>"+
                 "<br>"+
+                "<input type='text' name='dressSize' placeholder='Größe'>"+
+                "<br><br>"+
                 "<label>Verkaufspreis*:</label>"+
                 "<br>"+
                 "<input type='text' name='price' placeholder='Verkaufspreis'>"+
                 "<br><br>"+
-                "<form name='soldButtons'>"+
-                "<br>"+
-                "<label>*verkauft*</label>"+
-                "<br>"+
-                "<input type='radio' name='sold' value='Ja' checked> Ja"+
-                "<input type='radio' name='sold' value='Nein'> Nein"+
-                "</form>"+
-                "<br>"+
-                "<form name='publishedButtons'>"+
-                "<label>veröffentlicht*:</label>"+
-                "<input type='radio' name='published' value='Ja' checked> Ja"+
-                "<input type='radio' name='published' value='Nein'> Nein"+
-                "</form>"+
-                "<br>"+
-                "<input type='button' name='submit' value='Anbieten' onClick='saveNewItem()'/>"+
+                "<input type='button' name='submit' value='Anbieten' onClick='saveNewItem(" + customerId + ")'/>"+
             "</div>";
 }
 
-function saveNewItem(){    
-    var customerId = document.getElementsByName("customerId")[0].value;
-    var locationId = document.getElementsByName("locationId")[0].value;
+function saveNewItem(customerId){
+    var locationPlace;
     var title = document.getElementsByName("title")[0].value;
     var category;
     var dressSize = document.getElementsByName("dressSize")[0].value;
     var price = document.getElementsByName("price")[0].value;
     var personType;
-    var sold;
-    var published;
+//    var sold;
+//    var published;
     var ajax = new XMLHttpRequest();
+    
+    for (i=0; i<document.getElementsByName("locationPlace")[0].length; i++) {
+        if(document.getElementsByName("locationPlace")[0].options[i].selected === true) {
+            locationPlace = document.getElementsByName("locationPlace")[0].options[i].value;
+        }
+    }
     
     for (i=0; i<document.getElementsByName("category")[0].length; i++) {
         if(document.getElementsByName("category")[0].options[i].selected === true) {
@@ -232,24 +227,23 @@ function saveNewItem(){
         }
     }
     
-    if (document.soldButtons.sold[0].checked === true) {
-        sold = true;
-    } else {
-        sold = false;
-    }
-    
-    if (document.publishedButtons.published[0].checked === true) {
-        published = true;
-    } else {
-        published = false;
-    }
+//    if (document.soldButtons.sold[0].checked === true) {
+//        sold = true;
+//    } else {
+//        sold = false;
+//    }
+//    
+//    if (document.publishedButtons.published[0].checked === true) {
+//        published = true;
+//    } else {
+//        published = false;
+//    }
     
     ajax.responseType = "json";
     ajax.open("POST", "servlet?action=createnewitem&customerid=" + encodeURI(customerId)
-            + "&locationid=" + encodeURI(locationId) + "&title=" + encodeURI(title)
+            + "&locationplace=" + encodeURI(locationPlace) + "&title=" + encodeURI(title)
             + "&category=" + encodeURI(category) + "&dresssize=" + encodeURI(dressSize)
-            + "&price=" + encodeURI(price) + "&persontype=" + encodeURI(personType)
-            + "&sold=" + encodeURI(sold) + "&published=" + encodeURI(published), true);
+            + "&price=" + encodeURI(price) + "&persontype=" + encodeURI(personType), true);
     ajax.send();
     ajax.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
@@ -257,8 +251,6 @@ function saveNewItem(){
         }
     };
     
-    document.getElementsByName("customerId")[0].value="";
-    document.getElementsByName("locationId")[0].value="";
     document.getElementsByName("title")[0].value="";
     document.getElementsByName("dressSize")[0].value="";
     document.getElementsByName("price")[0].value="";
@@ -310,6 +302,7 @@ function findAllItems(customerId) {
                                         + "<p>" + this.response.items[i].customerId + "</p>"
                                         + "<p>" + this.response.items[i].category  + "</p>"
                                         + "<p>" + this.response.items[i].personType  + "</p>"
+                                        + "<p>" + this.response.items[i].locationPlace  + "</p>"
                                         + "<div class='size'>Größe: " + this.response.items[i].dressSize + "</div>"
                                         + "<div class='preis'>" + this.response.items[i].price + " €"
                                         + "<p> Artikel verkauft:" + this.response.items[i].sold  + "</p>"
@@ -336,6 +329,7 @@ function findItemsOfAllCustomers() {
                                     + "<p>" + this.response[j].items[i].title + "</p>"
                                     + "<p>" + this.response[j].items[i].category  + "</p>"
                                     + "<p>" + this.response[j].items[i].personType  + "</p>"
+                                    + "<p>" + this.response[j].items[i].locationPlace  + "</p>"
                                     + "<div class='size'>Größe: " + this.response[j].items[i].dressSize + "</div>"
                                     + "<div class='preis'>" + this.response[j].items[i].price + " €"
                                 + "</div>";
@@ -460,7 +454,7 @@ function myItems(){
     
     if(loggingCustomer){  
         content.innerHTML = "<h1>Meine Artikel</h1>" +
-                "<input type='button' name='submit' value='Jetzt registrieren' onClick='createNewItem()'/><br>";
+                "<input type='button' name='submit' value='Artikel verkaufen' onClick='createNewItem(" + loggingCustomer + ")'/><br>";
         findAllItems(loggingCustomer);
     }
     else{

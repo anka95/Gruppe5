@@ -22,12 +22,12 @@ public class Location implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private String place = "";
+    
     private Long id = 0L;
-
     private String street = "";
     private String houseNumber = "";
     private String plz = "";
-    private String place = "";
 
     @OneToMany(mappedBy="location")
     private List<Item> items = new ArrayList<>();

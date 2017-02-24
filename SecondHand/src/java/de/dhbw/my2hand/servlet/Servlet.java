@@ -26,7 +26,7 @@ public class Servlet extends HttpServlet {
     private Item item;
     private String customerId, salutation, firstName, lastName, street, houseNumber,
             plz, place, iban, bic, bank, telephone, email, password,
-            itemId, locationId, title, category, dressSize, price, personType, sold, published;
+            locationPlace, title, category, dressSize, price, personType;
     private Gson gson = new GsonBuilder().create();
     
     @Override
@@ -71,19 +71,17 @@ public class Servlet extends HttpServlet {
             case "createnewitem":                                 // index.js: createNewItem(customerId)
                 // Neues Kleidungsstück anlegen
                 customerId = request.getParameter("customerid");
-                locationId = request.getParameter("locationid");
+                locationPlace = request.getParameter("locationplace");
                 title = request.getParameter("title");
                 category = request.getParameter("category");
                 dressSize = request.getParameter("dresssize");
                 price = request.getParameter("price");
                 personType = request.getParameter("persontype");
-                sold = request.getParameter("sold");
-                published = request.getParameter("published");
                
                 customer = database.findCustomer(new Long(customerId));
-                location = database.findLocation(new Long(locationId));
+                location = database.findLocation(locationPlace);
                 database.createNewItem(customer, location, title, category, dressSize, new Double(price),
-                            personType, Boolean.parseBoolean(sold), Boolean.parseBoolean(published));
+                            personType);
 
                 gson.toJson(convert(database.findCustomer(new Long(customerId))), toBrowser);
                 toBrowser.flush();
@@ -167,7 +165,7 @@ public class Servlet extends HttpServlet {
             JsonItem jsonItem = new JsonItem();
             jsonItem.id = item.getId();
             jsonItem.customerId = item.getCustomer().getId();
-            jsonItem.locationId = item.getLocation().getId();
+            jsonItem.locationPlace = item.getLocation().getPlace();
             jsonItem.title = item.getTitle();
             jsonItem.category = item.getCategory();
             jsonItem.dressSize = item.getDressSize();
@@ -189,8 +187,8 @@ class JsonCustomer {
 }
 
 class JsonItem {
-    public Long id, customerId, locationId;
-    public String title, category, dressSize, personType;
+    public Long id, customerId;
+    public String locationPlace, title, category, dressSize, personType;
     public Double price;
     public Boolean sold, published;
 }

@@ -59,15 +59,13 @@ public class DatabaseFacade {
      * @param dressSize Größe des Kleidungsstücks
      * @param price Verkaufspreis des Kleidungsstücks
      * @param personType Personentyp des Kleidungstücks
-     * @param sold Kleidungsstück ist verkauft oder nicht
-     * @param published Kleidungsstück wird auf Webseite angezeigt oder nicht
      * @return Das neue Kleidungsstück
      */
     public Item createNewItem(Customer customer, Location location, String title,
                             String category, String dressSize, Double price,
-                            String personType, boolean sold, boolean published) {
+                            String personType) {
         Item item = new Item(customer, location, title, category, dressSize, price,
-                            personType, sold, published);
+                            personType);
         customer.getItems().add(item);
         
         item = this.em.merge(item);
@@ -102,12 +100,12 @@ public class DatabaseFacade {
     }
     
     /**
-     * Auslesen eines Standorts mit all seinen Artikeln anhand seiner ID.
-     * @param id Die ID des gesuchten Standorts
+     * Auslesen eines Standorts mit all seinen Artikeln anhand seines Orts.
+     * @param place Ort des gesuchten Standorts
      * @return Das gesuchte Location-Objekt oder null, wenn es nicht gefunden wurde
      */
-    public Location findLocation(long id) {
-        return this.em.find(Location.class, id);
+    public Location findLocation(String place) {
+        return this.em.find(Location.class, place);
     }
     
     /**

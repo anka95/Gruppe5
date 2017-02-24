@@ -57,7 +57,7 @@ public class Item implements Serializable {
      * @param published Kleidungsstück wird auf Webseite angezeigt oder nicht
      */
     public Item(Customer customer, Location location, String title, String category, String dressSize,
-                Double price, String personType, boolean sold, boolean published) {
+                Double price, String personType) {
         this.customer = customer;
         this.location = location;
         this.title = title;
@@ -65,8 +65,6 @@ public class Item implements Serializable {
         this.dressSize = dressSize;
         this.price = price;
         this.personType = personType;
-        this.sold = sold;
-        this.published = published;
     }
     // </editor-fold>
     

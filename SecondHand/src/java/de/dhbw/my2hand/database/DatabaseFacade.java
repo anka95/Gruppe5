@@ -84,6 +84,14 @@ public class DatabaseFacade {
         return this.em.createQuery("SELECT n FROM Customer n ORDER BY n.id").getResultList();
     }
     
+    /** 
+     * Gibt eine Liste aller Artikel zurück.
+     * @return Eine Liste aller gefundenen Artikel
+     */
+    public List<Item> findAllItems() {
+        return this.em.createQuery("SELECT n FROM Item n ORDER BY n.id").getResultList();
+    }
+    
     /**
      * Auslesen eines Kunden mit all seinen Artikeln anhand seiner ID.
      * @param id Die ID des gesuchten Kunden

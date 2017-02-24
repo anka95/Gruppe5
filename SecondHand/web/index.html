@@ -6,164 +6,157 @@
         <link rel="stylesheet" href="style.css" />
         <script src="index.js"></script>
     </head>
-    <body>
+    <body onload="findItemsOfAllCustomers()">
         <div id="header">
             <div id="logo">
                 <img src="img/Logo.png" alt="Logo" width="200"/>
             </div>
-            
             <div id="navigation"> 
                 <h1 id="willkommen">Herzlich Willkommen</h1>
-                
+
                 <div id="feld">              
                     <a onclick="xxx()">Profil</a>
                     <a onclick="login()">Login</a>
                     <a onclick="myItems()">My2Hand</a>
-                    <a onclick="artikel()">Home</a>
-                   
+                    <a href="/Gruppe5/SecondHand/">Home</a>
                 </div>
             </div>
         </div>
- 
-       
+
         <div id = "selection">
             <form>
-                    <b>Standort</b>
-                    <hr>
-                    <input type="checkbox" name="standort" value="ka">Karlsruhe<br>
-                    <input type="checkbox" name="standort" value="b">Berlin<br>
-                    <input type="checkbox" name="standort" value="m">München<br>
-                    <input type="checkbox" name="standort" value="hh">Hamburg<br>
-                    <input type="checkbox" name="standort" value="k">Köln<br>
-                    <br>
-                    <b>Kategorie</b>
-                    <hr>
-                    <input type="checkbox" name="kategorie" value="hosen">Hosen<br>
-                    <input type="checkbox" name="kategorie" value="Accessoires">Accessoires<br>
-                    <input type="checkbox" name="kategorie" value="Röcke">Röcke<br>
-                    <input type="checkbox" name="kategorie" value="kleider">Kleider<br>
-                    <input type="checkbox" name="kategorie" value="oberteile">Oberteile<br>
-                    <input type="checkbox" name="kategorie" value="bademoden">Bademode<br>
-                    <input type="checkbox" name="kategorie" value="jacken">Jacken<br>
-                    <input type="checkbox" name="kategorie" value="unterwaesche">Unterwäsche<br>
-                    <input type="checkbox" name="kategorie" value="schuhe">Schuhe<br>
-                    <input type="checkbox" name="kategorie" value="sonstiges">Sonstiges<br>
-                    <br>
-                    <b>Abteilung</b>
-                    <hr/>
-                    <input type="checkbox" name="abteilung" value="maenner">Männer<br>
-                    <input type="checkbox" name="abteilung" value="frauen">Frauen<br>
-                    <input type="checkbox" name="abteilung" value="maedchen">Mädchen<br>
-                    <input type="checkbox" name="abteilung" value="jungen">Jungen<br>
-                    <input type="checkbox" name="abteilung" value="babys">Babys<br>
-                    <br>
-                    <b>Größen</b>
-                    <hr/>
-                    <input type="checkbox" name="groessen" value="xs">XS<br>
-                    <input type="checkbox" name="groessen" value="s">S<br>
-                    <input type="checkbox" name="groessen" value="m">M<br>
-                    <input type="checkbox" name="groessen" value="l">L<br>
-                    <input type="checkbox" name="groessen" value="xl">XL<br>
-                    <input type="checkbox" name="groessen" value="xl">Sonstiges<br>
-                </form>
-        </div>
-        
-        <div id = "content">
-                
-        <input type="button" name="submit" value="Alle Kunden anzeigen" onClick="findAllCustomers()"/> 
-        <div class="customers"></div>
-        
-        <div id="formItems">
-            <h1>Kleidungsstück verkaufen</h1>
-            <label>Kundennr.*:</label>
-                <input type="text" name="customerId" placeholder="Kundennr.">
-            <br>
-            <label>Standortnr.*:</label>
-                <input type="text" name="locationId" placeholder="Standortnr.">
-            <br>
-            <label>Titel*</label>
-                <input type="text" name="title" placeholder="Titel">
-            <br>
-            <label>Kategorie*:</label>
-                <select name="category">
-                    <option>-Bitte auswählen-</option>
-                    <option>Hosen</option>
-                    <option>Accessoires</option>
-                    <option>Röcke</option>
-                    <option>Kleider</option>
-                    <option>Oberteile</option>
-                    <option>Bademode</option>
-                    <option>Jacken</option>
-                    <option>Unterwäsche</option>
-                    <option>Schuhe</option>
-                    <option>Sonstiges</option>
-                </select>
-            <br>
-            <label>Abteilung*:</label>
-                <select name="personType">
-                    <option>-Bitte auswählen-</option>
-                    <option>Frauen</option>
-                    <option>Männer</option>
-                    <option>Mädchen</option>
-                    <option>Jungen</option>
-                    <option>Babys</option>
-                </select>
-            <br>
-            <label>Größe*:</label>
-                <input type="text" name="dressSize" placeholder="Größe">
-            <br>
-            <label>Verkaufspreis*:</label>
-                <input type="text" name="price" placeholder="Verkaufspreis">
-            <br>
-            <form name="soldButtons">
-            <label>verkauft*:</label>
-                <input type="radio" name="sold" value="Ja" checked> Ja
-                <input type="radio" name="sold" value="Nein"> Nein
+                <b>Standort</b>
+                <hr>
+                <input type="checkbox" name="standort" value="ka">Karlsruhe<br>
+                <input type="checkbox" name="standort" value="b">Berlin<br>
+                <input type="checkbox" name="standort" value="m">München<br>
+                <input type="checkbox" name="standort" value="hh">Hamburg<br>
+                <input type="checkbox" name="standort" value="k">Köln<br>
+                <br>
+                <b>Kategorie</b>
+                <hr>
+                <input type="checkbox" name="kategorie" value="hosen">Hosen<br>
+                <input type="checkbox" name="kategorie" value="Accessoires">Accessoires<br>
+                <input type="checkbox" name="kategorie" value="Röcke">Röcke<br>
+                <input type="checkbox" name="kategorie" value="kleider">Kleider<br>
+                <input type="checkbox" name="kategorie" value="oberteile">Oberteile<br>
+                <input type="checkbox" name="kategorie" value="bademoden">Bademode<br>
+                <input type="checkbox" name="kategorie" value="jacken">Jacken<br>
+                <input type="checkbox" name="kategorie" value="unterwaesche">Unterwäsche<br>
+                <input type="checkbox" name="kategorie" value="schuhe">Schuhe<br>
+                <input type="checkbox" name="kategorie" value="sonstiges">Sonstiges<br>
+                <br>
+                <b>Abteilung</b>
+                <hr/>
+                <input type="checkbox" name="abteilung" value="maenner">Männer<br>
+                <input type="checkbox" name="abteilung" value="frauen">Frauen<br>
+                <input type="checkbox" name="abteilung" value="maedchen">Mädchen<br>
+                <input type="checkbox" name="abteilung" value="jungen">Jungen<br>
+                <input type="checkbox" name="abteilung" value="babys">Babys<br>
+                <br>
+                <b>Größen</b>
+                <hr/>
+                <input type="checkbox" name="groessen" value="xs">XS<br>
+                <input type="checkbox" name="groessen" value="s">S<br>
+                <input type="checkbox" name="groessen" value="m">M<br>
+                <input type="checkbox" name="groessen" value="l">L<br>
+                <input type="checkbox" name="groessen" value="xl">XL<br>
+                <input type="checkbox" name="groessen" value="xl">Sonstiges<br>
             </form>
-            <br>
-            <form name="publishedButtons">
-            <label>veröffentlicht*:</label>
-                <input type="radio" name="published" value="Ja" checked> Ja
-                <input type="radio" name="published" value="Nein"> Nein
-            </form>
-            <br>
-            <input type="button" name="submit" value="Anbieten" onClick="createNewItem()"/>
         </div>
-        
-        <label>Kundennr.*:</label>
-            <input type="text" name="customerId" placeholder="Kundennr.">
-        <br>
-        <input type="button" name="submit" value="Alle Artikel anzeigen" onClick="findAllItems()"/>     
-        <div class="items"></div>
-                    <!--Artikel-->
-            <input type="button" name="submit" value="Alle Filter anwenden" onClick="findAllItems()" />   
-            <br>
-            
-            <div class="Artikel">
-                <img src="Artikel_img/A1B1.jpg" alt="Dirndel"/>
-                <p>heißes Dirndel</p>
-                <div class="size"> <a>S/36</a> </div>
-                <div class="preis"> <a><u>350€</u></a></div>
-            </div>
-            
-            <div class="Artikel">
-                <img src="Artikel_img/A1B1.jpg" alt="Dirndel"/>
-                <p>heißes Dirndel</p>
-                <div class="size"> <a>S/36</a> </div>
-                <div class="preis"> <a><u>350€</u></a></div>
-            </div>
-            
-            <div class="Artikel">
-                <img src="Artikel_img/A1B1.jpg" alt="Dirndel"/>
-                <br><br>
-                <a>heißes Dirndel</a> 
-                <br><br>
-                <div class="size"> S/36</div>
-                <div class="preis"><u>350€</u></div>
-            </div>
-            
-            
-       </div>
 
-</body>
+        <div id = "content">       
+            <!--            <input type="button" name="submit" value="Alle Kunden anzeigen" onClick="findAllCustomers()"/> 
+                        <div class="customers"></div>
+            
+                        <div id="formItems">
+                            <h1>Kleidungsstück verkaufen</h1>
+                            <label>Kundennr.*:</label>
+                            <input type="text" name="customerId" placeholder="Kundennr.">
+                            <br>
+                            <label>Standortnr.*:</label>
+                            <input type="text" name="locationId" placeholder="Standortnr.">
+                            <br>
+                            <label>Titel*</label>
+                            <input type="text" name="title" placeholder="Titel">
+                            <br>
+                            <label>Kategorie*:</label>
+                            <select name="category">
+                                <option>-Bitte auswählen-</option>
+                                <option>Hosen</option>
+                                <option>Accessoires</option>
+                                <option>Röcke</option>
+                                <option>Kleider</option>
+                                <option>Oberteile</option>
+                                <option>Bademode</option>
+                                <option>Jacken</option>
+                                <option>Unterwäsche</option>
+                                <option>Schuhe</option>
+                                <option>Sonstiges</option>
+                            </select>
+                            <br>
+                            <label>Abteilung*:</label>
+                            <select name="personType">
+                                <option>-Bitte auswählen-</option>
+                                <option>Frauen</option>
+                                <option>Männer</option>
+                                <option>Mädchen</option>
+                                <option>Jungen</option>
+                                <option>Babys</option>
+                            </select>
+                            <br>
+                            <label>Größe*:</label>
+                            <input type="text" name="dressSize" placeholder="Größe">
+                            <br>
+                            <label>Verkaufspreis*:</label>
+                            <input type="text" name="price" placeholder="Verkaufspreis">
+                            <br>
+                            <form name="soldButtons">
+                                <label>verkauft*:</label>
+                                <input type="radio" name="sold" value="Ja" checked> Ja
+                                <input type="radio" name="sold" value="Nein"> Nein
+                            </form>
+                            <br>
+                            <form name="publishedButtons">
+                                <label>veröffentlicht*:</label>
+                                <input type="radio" name="published" value="Ja" checked> Ja
+                                <input type="radio" name="published" value="Nein"> Nein
+                            </form>
+                            <br>
+                            <input type="button" name="submit" value="Anbieten" onClick="createNewItem()"/>
+                        </div>
+            
+                        <label>Kundennr.*:</label>
+                        <input type="text" name="customerId" placeholder="Kundennr.">
+                        <br>
+                        <input type="button" name="submit" value="Alle Artikel anzeigen" onClick="findAllItems()"/>
+                        <input type="button" name="submit" value="Alle Artikel von allen Kunden anzeigen" onClick="findItemsOfAllCustomers()"/>-->
+            <div class="items">
+                <!--Artikel-->
+                <!--            <input type="button" name="submit" value="Alle Filter anwenden" onClick="findAllItems()" />   -->
+                <div class="Artikel">
+                    <img src="Artikel_img/A1B1.jpg" alt="Dirndel"/>
+                    <p>heißes Dirndel</p>
+                    <div class="size"> <a>S/36</a> </div>
+                    <div class="preis"> <a><u>350€</u></a></div>
+                </div>
+
+                <div class="Artikel">
+                    <img src="Artikel_img/A1B1.jpg" alt="Dirndel"/>
+                    <p>heißes Dirndel</p>
+                    <div class="size"> <a>S/36</a> </div>
+                    <div class="preis"> <a><u>350€</u></a></div>
+                </div>
+
+                <div class="Artikel">
+                    <img src="Artikel_img/A1B1.jpg" alt="Dirndel"/>
+                    <br><br>
+                    <a>heißes Dirndel</a> 
+                    <br><br>
+                    <div class="size"> S/36</div>
+                    <div class="preis"><u>350€</u></div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

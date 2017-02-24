@@ -97,7 +97,7 @@ function saveNewCustomer(){
     ajax.addEventListener("load", function(){
         console.log(ajax.response);
         if(ajax.response.vorhanden){
-            alert("Unter dieser E-Mailadress ist bereits ein Nutzer registriert!");
+            alert("Unter dieser E-Mail-Adresse ist bereits ein Nutzer registriert!");
         } 
         else{
             alert("Ihr Kundenkonto wurde erfolgreich angelegt!");
@@ -253,7 +253,7 @@ function saveNewItem(){
     ajax.send();
     ajax.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-            document.getElementsByClassName("items")[0].innerHTML = "Kleidungsstück erfolgreich angelegt.";
+            alert("Kleidungsstück erfolgreich angelegt! Bitte warten Sie die Freischaltung durch unsere Mitarbeiter ab!");
         }
     };
     
@@ -296,8 +296,7 @@ function findAllCustomers() {
     };
 }
 
-function findAllItems() {
-    var customerId = document.getElementsByName("customerId")[1].value;
+function findAllItems(customerId) {
     var ajax = new XMLHttpRequest();
     
     ajax.responseType = "json";
@@ -306,21 +305,42 @@ function findAllItems() {
     ajax.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             for (i=0; i<this.response.items.length; i++) {
-                var newHTML = "<div class='item' id='" + this.response.items[i].id + "'>"
-                                + this.response.items[i].id
-                                + this.response.items[i].customerId
-                                + this.response.items[i].locationId
-                                + this.response.items[i].title
-                                + this.response.items[i].category
-                                + this.response.items[i].dressSize
-                                + this.response.items[i].price
-                                + this.response.items[i].personType
-                                + this.response.items[i].sold
-                                + this.response.items[i].published
-                                + "<p class='delete' id='" + this.response.items[i].id
-                                    + "' onClick='deleteItem(" + this.response.items[i].id + ")'>löschen</p>"
-                            + "</div>";
+                content.innerHTML += "<div class='Artikel' id='" + this.response.items[i].id + "'>"
+                                        + "<p>" + this.response.items[i].title + "</p>"
+                                        + "<p>" + this.response.items[i].customerId + "</p>"
+                                        + "<p>" + this.response.items[i].category  + "</p>"
+                                        + "<p>" + this.response.items[i].personType  + "</p>"
+                                        + "<div class='size'>Größe: " + this.response.items[i].dressSize + "</div>"
+                                        + "<div class='preis'>" + this.response.items[i].price + " €"
+                                        + "<p> Artikel verkauft:" + this.response.items[i].sold  + "</p>"
+                                        + "<p> Artikel veröffentlicht:" + this.response.items[i].published  + "</p>"
+                                        + "<p class='delete' id='" + this.response.items[i].id
+                                            + "' onClick='deleteItem(" + this.response.items[i].id + ")'>löschen</p>"
+                                    + "</div>";
+            }
+        }
+    };
+}
+
+function findItemsOfAllCustomers() {
+    var ajax = new XMLHttpRequest();
+    
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=findallcustomers", true);
+    ajax.send();
+    ajax.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            for (j=0; j<this.response.length; j++) {
+                for (i=0; i<this.response[j].items.length; i++) {
+                    var newHTML = "<div class='Artikel' id='" + this.response[j].items[i].id + "'>"
+                                    + "<p>" + this.response[j].items[i].title + "</p>"
+                                    + "<p>" + this.response[j].items[i].category  + "</p>"
+                                    + "<p>" + this.response[j].items[i].personType  + "</p>"
+                                    + "<div class='size'>Größe: " + this.response[j].items[i].dressSize + "</div>"
+                                    + "<div class='preis'>" + this.response[j].items[i].price + " €"
+                                + "</div>";
                 document.getElementsByClassName("items")[0].innerHTML += newHTML;
+                }
             }
         }
     };
@@ -355,7 +375,7 @@ function deleteItem(id) {
     ajax.send();
     ajax.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-            var parent = document.getElementsByClassName("items")[0];
+            var parent = document.getElementById("content");
             var child = document.getElementById(id);
             parent.removeChild(child);
         }
@@ -398,7 +418,7 @@ function login_check(){
             navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
                 "<a onclick='logout()'>Logout</a>" +
                 "<a onclick='myItems()'>My2Hand</a>"+
-                "<a onclick='artikel()'>Home</a>";
+                "<a href='/Gruppe5/SecondHand/'>Home</a>";
 
             var welcome = document.getElementById("willkommen");
             welcome.innerHTML += ", " + ajax.response.vorname + " " + ajax.response.name + " KuNr: " + ajax.response.kunr;
@@ -425,8 +445,8 @@ function logout(){
         var navigation = document.getElementById("feld");
         navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
                     "<a onclick='login()'>Login</a>" +
-                    "<a onclick='xxx()'>My2Hand</a>"+
-                    "<a onclick='artikel()'>Home</a>";
+                    "<a onclick='myItems()'>My2Hand</a>"+
+                    "<a href='/Gruppe5/SecondHand/'>Home</a>";
         loggingCustomer = null;
         
         var welcome = document.getElementById("willkommen");
@@ -440,9 +460,10 @@ function myItems(){
     
     if(loggingCustomer){  
         content.innerHTML = "<h1>Meine Artikel</h1>" +
-                "<input type='button' name='submit' value='Jetzt registrieren' onClick='CreateNewItem()'/>";
+                "<input type='button' name='submit' value='Jetzt registrieren' onClick='createNewItem()'/><br>";
+        findAllItems(loggingCustomer);
     }
     else{
-        content.innerHTML = "<h1>Bitte loggen Sie sich ein, damit Sie ihr Artikel sehen können!</h1>";
+        content.innerHTML = "<h1>Bitte loggen Sie sich ein, damit Sie Ihre Artikel sehen können!</h1>";
     }
 }

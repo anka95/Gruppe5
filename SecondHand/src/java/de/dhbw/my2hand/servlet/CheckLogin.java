@@ -41,12 +41,11 @@ public class CheckLogin extends HttpServlet {
 
         for(int i = 0; i < database.findAllCustomers().size(); i++ ){
             if(database.findAllCustomers().get(i).getPassword().equals(anfrage.pw) 
-                    && database.findAllCustomers().get(i).getEmail().equals(anfrage.mail))
+                    && database.findAllCustomers().get(i).getEmail().equals(anfrage.email))
             {
                 antwort.kunr = database.findAllCustomers().get(i).getId();
                 antwort.name = database.findAllCustomers().get(i).getLastName();
                 antwort.vorname = database.findAllCustomers().get(i).getFirstName();
-                
                 antwort.find = true;
             }
         }
@@ -60,7 +59,7 @@ public class CheckLogin extends HttpServlet {
 
 
 class jsonLogin{
-    public String pw, mail;
+    public String email, pw;
 }
 class jsonLogin_ant{
     public long kunr;

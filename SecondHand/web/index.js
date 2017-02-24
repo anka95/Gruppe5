@@ -57,9 +57,9 @@ function createNewCustomer() {
                 "</div>"+
 
             "</div>";
-    }
-    
-    function saveNewCustomer(){
+}
+
+function saveNewCustomer(){
     var salutation;
     var firstName = document.getElementsByName("firstName")[0].value;
     var lastName = document.getElementsByName("lastName")[0].value;
@@ -91,12 +91,12 @@ function createNewCustomer() {
         return;
     }
     
-    var ajax2 = new XMLHttpRequest();
-    ajax2.open("POST", "CheckEmail");
-    ajax2.responseType = "json";
-    ajax2.addEventListener("load", function(){
-        console.log(ajax2.response);
-        if(ajax2.response.vorhanden){
+    var ajax = new XMLHttpRequest();
+    ajax.open("POST", "CheckEmail");
+    ajax.responseType = "json";
+    ajax.addEventListener("load", function(){
+        console.log(ajax.response);
+        if(ajax.response.vorhanden){
             alert("Unter dieser E-Mailadress ist bereits ein Nutzer registriert!");
         } 
         else{
@@ -106,7 +106,7 @@ function createNewCustomer() {
     });
     
     
-    ajax2.send(JSON.stringify(
+    ajax.send(JSON.stringify(
     {
         salutation: salutation, 
         firstName: firstName,
@@ -123,27 +123,6 @@ function createNewCustomer() {
         password: passworda
     }
     ));
-           
-    
-    
-    
- //   var ajax = new XMLHttpRequest();
- //   ajax.responseType = "json";
- //   ajax.open("POST", "servlet?action=createnewcustomer&salutation=" + encodeURI(salutation)
- //           + "&firstname=" + encodeURI(firstName) + "&lastname=" + encodeURI(lastName)
- //           + "&street=" + encodeURI(street) + "&housenumber=" + encodeURI(houseNumber)
- //           + "&plz=" + encodeURI(plz) + "&place=" + encodeURI(place)
- //           + "&iban=" + encodeURI(iban) + "&bic=" + encodeURI(bic) + "&bank=" + encodeURI(bank)
- //           + "&telephone=" + encodeURI(telephone) + "&email=" + encodeURI(email)
- //           + "&password=" + encodeURI(passworda), true);
- //   ajax.send();
-   
- //   ajax.onreadystatechange = function() {
- //       if (this.readyState === 4 && this.status === 200) {
- //           //document.getElementsByClassName("customers")[0].innerHTML = "Kunde erfolgreich angelegt.";
- //           alert("Kunde erfolgreich angelegt!");
- //       }
- //  };
     
     document.getElementsByName("firstName")[0].value="";
     document.getElementsByName("lastName")[0].value="";
@@ -242,24 +221,24 @@ function saveNewItem(){
     var ajax = new XMLHttpRequest();
     
     for (i=0; i<document.getElementsByName("category")[0].length; i++) {
-        if(document.getElementsByName("category")[0].options[i].selected == true) {
+        if(document.getElementsByName("category")[0].options[i].selected === true) {
             category = document.getElementsByName("category")[0].options[i].value;
         }
     }
     
     for (i=0; i<document.getElementsByName("personType")[0].length; i++) {
-        if(document.getElementsByName("personType")[0].options[i].selected == true) {
+        if(document.getElementsByName("personType")[0].options[i].selected === true) {
             personType = document.getElementsByName("personType")[0].options[i].value;
         }
     }
     
-    if (document.soldButtons.sold[0].checked = true) {
+    if (document.soldButtons.sold[0].checked === true) {
         sold = true;
     } else {
         sold = false;
     }
     
-    if (document.publishedButtons.published[0].checked = true) {
+    if (document.publishedButtons.published[0].checked === true) {
         published = true;
     } else {
         published = false;
@@ -273,7 +252,7 @@ function saveNewItem(){
             + "&sold=" + encodeURI(sold) + "&published=" + encodeURI(published), true);
     ajax.send();
     ajax.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
             document.getElementsByClassName("items")[0].innerHTML = "Kleidungsstück erfolgreich angelegt.";
         }
     };
@@ -292,7 +271,7 @@ function findAllCustomers() {
     ajax.open("GET", "servlet?action=findallcustomers", true);
     ajax.send();
     ajax.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
             for (i=0; i<this.response.length; i++) {
                 var newHTML = "<div class='customer' id='" + this.response[i].customerId + "'>"
                                 + this.response[i].salutation
@@ -325,7 +304,7 @@ function findAllItems() {
     ajax.open("GET", "servlet?action=findallitems&customerid=" + customerId, true);
     ajax.send();
     ajax.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
             for (i=0; i<this.response.items.length; i++) {
                 var newHTML = "<div class='item' id='" + this.response.items[i].id + "'>"
                                 + this.response.items[i].id
@@ -357,7 +336,7 @@ function deleteCustomer(id) {
     ajax.open("GET", "servlet?action=deletecustomer&customerid=" + id, true);
     ajax.send();
     ajax.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
             var parent = document.getElementsByClassName("customers")[0];
             var child = document.getElementById(id);
             parent.removeChild(child);
@@ -375,7 +354,7 @@ function deleteItem(id) {
     ajax.open("GET", "servlet?action=deleteitem&itemid=" + id, true);
     ajax.send();
     ajax.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
             var parent = document.getElementsByClassName("items")[0];
             var child = document.getElementById(id);
             parent.removeChild(child);
@@ -399,11 +378,12 @@ function login(){
                 "</div>";    
 }
 
+//Methode von Ann-Katrin
 function login_check(){
-    var mail = document.getElementById("email").value;
+    var email = document.getElementById("email").value;
     var pw =  document.getElementById("pw").value;
-    
-    if(mail === "" || pw === ""){
+      
+    if(email === "" || pw === ""){
         alert("Bitte füllen Sie alle Felder aus!");
     }
     else{
@@ -417,7 +397,7 @@ function login_check(){
             var navigation = document.getElementById("feld");
             navigation.innerHTML = "<a onclick='xxx()'>Profil</a>" +
                 "<a onclick='logout()'>Logout</a>" +
-                "<a onclick='xxx()'>My2Hand</a>"+
+                "<a onclick='myItems()'>My2Hand</a>"+
                 "<a onclick='artikel()'>Home</a>";
 
             var welcome = document.getElementById("willkommen");
@@ -430,7 +410,7 @@ function login_check(){
     });
     ajax.send(JSON.stringify(
         {
-            mail: mail,
+            email: email,
             pw: pw
         }
     
@@ -451,5 +431,18 @@ function logout(){
         
         var welcome = document.getElementById("willkommen");
         welcome.innerHTML = "Herzlich Willkommen";
+    }
+}
+
+//Methode von Ann-Katrin
+function myItems(){
+    var content = document.getElementById("content");
+    
+    if(loggingCustomer){  
+        content.innerHTML = "<h1>Meine Artikel</h1>" +
+                "<input type='button' name='submit' value='Jetzt registrieren' onClick='CreateNewItem()'/>";
+    }
+    else{
+        content.innerHTML = "<h1>Bitte loggen Sie sich ein, damit Sie ihr Artikel sehen können!</h1>";
     }
 }

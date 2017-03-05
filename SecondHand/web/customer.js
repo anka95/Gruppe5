@@ -129,6 +129,7 @@ function saveNewCustomer() {
             alert("Unter dieser E-Mail-Adresse ist bereits ein Nutzer registriert!");
         } else {
             alert("Ihr Kundenkonto wurde erfolgreich angelegt!");
+            login();
         }
 
     });
@@ -150,8 +151,6 @@ function saveNewCustomer() {
                 password: passworda
             }
     ));
-
-    login();
 }
 
 function showUserProfile() {
@@ -173,7 +172,7 @@ function showUserProfile() {
             if (this.readyState === 4 && this.status === 200) {
                 content.innerHTML = "<div class='profile'>"
                         + "<h1>Mein Profil</h1>"
-                        + "<input type='button' name='submit' value='Profil ändern' onClick='updateProfile()'/>"
+                        + "<input type='button' name='submit' value='Profil bearbeiten' onClick='updateProfile()'/>"
                         + "<h2>Name und Anschrift</h2>"
                         + "<p>" + this.response.salutation + " " + this.response.firstName + " " + this.response.lastName + "</p>"
                         + "<p>" + this.response.street + " " + this.response.houseNumber + "</p>"
@@ -187,6 +186,7 @@ function showUserProfile() {
                         + "<h2>Kontaktdaten</h2>"
                         + "<p>Telefon: " + this.response.telephone + "</p>"
                         + "<p>E-Mail: " + this.response.email + "</p>"
+                        + "<input type='button' name='submit' value='Profil löschen' onClick='deleteCustomer(" + getCookie() + ")'/>"
                         + "</div>";
             }
         };
@@ -214,7 +214,7 @@ function updateProfile() {
 
             var content = document.getElementById("content");
             content.innerHTML = "<div id='updateProfile'>" +
-                    "<h1>Profil aktualisieren</h1>" +
+                    "<h1>Profil bearbeiten</h1>" +
                     "<div id='bezeichner'" +
                     "<label>*Anrede</label>" +
                     "<br>" +
@@ -348,9 +348,8 @@ function deleteCustomer(id) {
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            var parent = document.getElementsByClassName("customers")[0];
-            var child = document.getElementById(id);
-            parent.removeChild(child);
+            deleteCookie();
+            findItemsOfAllCustomers();
         }
     };
 }

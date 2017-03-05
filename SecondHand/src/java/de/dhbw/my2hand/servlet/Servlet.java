@@ -124,7 +124,7 @@ public class Servlet extends HttpServlet {
                 // constructs the directory path to store upload file
                 String uploadPath = getServletContext().getRealPath("")
                         + File.separator + UPLOAD_DIRECTORY;
-                
+
                 // creates the directory if it does not exist
                 File uploadDir = new File(uploadPath);
                 if (!uploadDir.exists()) {
@@ -147,7 +147,7 @@ public class Servlet extends HttpServlet {
 
                             String filePath = uploadPath + File.separator + itemId + "." + fileExtension;
                             File storeFile = new File(filePath);
-                            
+
                             item = database.findItem(itemId);
                             item.setImagePath(UPLOAD_DIRECTORY + File.separator + itemId + "." + fileExtension);
                             database.save(item);
@@ -161,6 +161,15 @@ public class Servlet extends HttpServlet {
                     request.setAttribute("message", "There was an error: " + ex.getMessage());
                 }
                 response.sendRedirect("http://localhost:8080/Gruppe5/SecondHand/");
+
+                break;
+
+            case "updateitem":
+                // Artikel aktualisieren
+                item = database.findItem(new Long(request.getParameter("id")));
+                item.setTitle(request.getParameter("title"));
+                item.setPrice(new Double(request.getParameter("price")));
+                database.save(item);
 
                 break;
         }
@@ -241,6 +250,26 @@ public class Servlet extends HttpServlet {
                 }
 
                 gson.toJson(jsonItems, toBrowser);
+                toBrowser.flush();
+
+                break;
+
+            case "finditem":
+                // Artikel finden
+                item = database.findItem(new Long(request.getParameter("itemid")));
+                JsonItem jsonItem = new JsonItem();
+                jsonItem.id = item.getId();
+                jsonItem.customerId = item.getCustomer().getId();
+                jsonItem.locationPlace = item.getLocation().getPlace();
+                jsonItem.title = item.getTitle();
+                jsonItem.category = item.getCategory();
+                jsonItem.dressSize = item.getDressSize();
+                jsonItem.price = item.getPrice();
+                jsonItem.personType = item.getPersonType();
+                jsonItem.imagePath = item.getImagePath();
+                jsonItem.sold = item.getSold();
+                jsonItem.published = item.getPublished();
+                gson.toJson(jsonItem, toBrowser);
                 toBrowser.flush();
 
                 break;

@@ -19,4 +19,13 @@ function getCookie() {
 
 function deleteCookie() {
     document.cookie = 'customerId=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+    findItemsOfAllCustomers();
+    var navigation = document.getElementById("feld");
+    navigation.innerHTML = "<a onclick='showUserProfile()'>Profil</a>" +
+            "<a onclick='login()'>Login</a>" +
+            "<a onclick='myItems()'>My2Hand</a>" +
+            "<a onclick='findItemsOfAllCustomers()'>Home</a>";
+
+    var welcome = document.getElementById("willkommen");
+    welcome.innerHTML = "Herzlich Willkommen";
 }

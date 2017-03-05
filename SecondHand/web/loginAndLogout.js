@@ -74,14 +74,5 @@ function logout() {
     var r = confirm("Wollen Sie sich wirklich ausloggen?");
     if (r === true) {
         deleteCookie();
-        findItemsOfAllCustomers();
-        var navigation = document.getElementById("feld");
-        navigation.innerHTML = "<a onclick='showUserProfile()'>Profil</a>" +
-                "<a onclick='login()'>Login</a>" +
-                "<a onclick='myItems()'>My2Hand</a>" +
-                "<a onclick='findItemsOfAllCustomers()'>Home</a>";
-
-        var welcome = document.getElementById("willkommen");
-        welcome.innerHTML = "Herzlich Willkommen";
     }
 }

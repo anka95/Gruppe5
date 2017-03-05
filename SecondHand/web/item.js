@@ -87,6 +87,8 @@ function findAllItems(customerId) {
                         + "<div class='preis'>" + this.response.items[i].price + " €"
                         + "<p> Artikel verkauft:" + this.response.items[i].sold + "</p>"
                         + "<p> Artikel veröffentlicht:" + this.response.items[i].published + "</p>"
+                        + "<p class='update' id='" + this.response.items[i].id
+                        + "' onClick='updateItem(" + this.response.items[i].id + ")'>bearbeiten</p>"
                         + "<p class='delete' id='" + this.response.items[i].id
                         + "' onClick='deleteItem(" + this.response.items[i].id + ")'>löschen</p>"
                         + "</div>";
@@ -164,6 +166,7 @@ function actionString() {
     var dressSize = document.getElementsByName("dressSize")[0].value;
     var price = document.getElementsByName("price")[0].value;
     var personType;
+    var image = document.getElementsByName("imageUpload")[0].value;
 
     for (i = 0; i < document.getElementsByName("locationPlace")[0].length; i++) {
         if (document.getElementsByName("locationPlace")[0].options[i].selected === true) {
@@ -183,12 +186,17 @@ function actionString() {
         }
     }
 
-    var actionString = "servlet?action=createnewitem&customerid=" + encodeURI(getCookie())
-            + "&locationplace=" + encodeURI(locationPlace) + "&title=" + encodeURI(title)
-            + "&category=" + encodeURI(category) + "&dresssize=" + encodeURI(dressSize)
-            + "&price=" + encodeURI(price) + "&persontype=" + encodeURI(personType);
+    if (locationPlace === "-Bitte auswählen-" || title === "" || category === "-Bitte auswählen-"
+            || personType === "-Bitte auswählen-" || dressSize === "" || price === "" || image === "") {
+        alert("Bitte füllen Sie alle Pflichtfelder aus!");
+    } else {
+        var actionString = "servlet?action=createnewitem&customerid=" + encodeURI(getCookie())
+                + "&locationplace=" + encodeURI(locationPlace) + "&title=" + encodeURI(title)
+                + "&category=" + encodeURI(category) + "&dresssize=" + encodeURI(dressSize)
+                + "&price=" + encodeURI(price) + "&persontype=" + encodeURI(personType);
 
-    document.getElementById("formItems").setAttribute("action", actionString);
+        document.getElementById("formItems").setAttribute("action", actionString);
+    }
 }
 
 //Methode von Ann-Katrin
@@ -208,6 +216,69 @@ function myItems() {
     } else {
         content.innerHTML = "<h1>Bitte loggen Sie sich ein, damit Sie Ihre Artikel sehen können!</h1>";
     }
+}
+
+function updateItem(id) {
+    var ajax = new XMLHttpRequest();
+
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=finditem&itemid=" + id, true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            var content = document.getElementById("content");
+            content.innerHTML = "<div id='updateItem'>" +
+                    "<h1>Artikel bearbeiten</h1>" +
+                    "<label>Standort:</label>" +
+                    "<br>" +
+                    this.response.locationPlace +
+                    "<br><br>" +
+                    "<label>Titel*</label>" +
+                    "<br>" +
+                    "<input type='text' name='title' value='" + this.response.title + "'>" +
+                    "<br><br>" +
+                    "<label>Kategorie:</label>" +
+                    "<br>" +
+                    this.response.category +
+                    "<br><br>" +
+                    "<label>Abteilung:</label>" +
+                    "<br>" +
+                    this.response.personType +
+                    "<br><br>" +
+                    "<label>Größe:</label>" +
+                    "<br>" +
+                    this.response.dressSize +
+                    "<br><br>" +
+                    "<label>Verkaufspreis*:</label>" +
+                    "<br>" +
+                    "<input type='text' name='price' value='" + this.response.price + "'>" +
+                    "<br><br>" +
+                    "<input type='button' name='submit' value='Speichern' onClick='saveItemsUpdates(" + this.response.id + ")'/>" +
+                    "</div>";
+        }
+    };
+}
+
+function saveItemsUpdates(id) {
+    var title = document.getElementsByName("title")[0].value;
+    var price = document.getElementsByName("price")[0].value;
+
+    if (title === "" || price === "") {
+        alert("Bitte füllen Sie alle Pflichtfelder aus!");
+        return;
+    }
+
+    var ajax = new XMLHttpRequest();
+    ajax.open("POST", "servlet?action=updateitem&id=" + encodeURI(id)
+                + "&title=" + encodeURI(title) + "&price=" + encodeURI(price), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            console.log(ajax.response);
+            alert("Ihr Artikel wurde erfolgreich aktualisiert!");
+            myItems();
+        }
+    };
 }
 
 function deleteItem(id) {

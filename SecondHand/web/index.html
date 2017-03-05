@@ -1,12 +1,17 @@
-<html>
+<!DOCTYPE html>
+<html lang="de">
     <head>
         <title>My2Hand</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="style.css" />
-        <script src="index.js"></script>
+        <script src="index.js" charset="utf-8"></script>
+        <script src="cookie.js" charset="utf-8"></script>
+        <script src="customer.js" charset="utf-8"></script>
+        <script src="item.js" charset="utf-8"></script>
+        <script src="loginAndLogout.js" charset="utf-8"></script>
     </head>
-    <body onload="findItemsOfAllCustomers()">
+    <body onload="findItemsOfAllCustomers(); isLoggedIn();">
         <div id="header">
             <div id="logo">
                 <img src="img/Logo.png" alt="Logo" width="200"/>
@@ -22,143 +27,6 @@
                 </div>
             </div>
         </div>
-
-        <div id = "selection">
-            <form>
-                <b>Standort</b>
-                <hr>
-                <input type="radio" name="standort" value="ka">Karlsruhe<br>
-                <input type="radio" name="standort" value="b">Berlin<br>
-                <input type="radio" name="standort" value="m">München<br>
-                <input type="radio" name="standort" value="hh">Hamburg<br>
-                <input type="radio" name="standort" value="k">Köln<br>
-                <br>
-                <b>Kategorie</b>
-                <hr>
-                <input type="radio" name="kategorie" value="Hosen">Hosen<br>
-                <input type="radio" name="kategorie" value="Accessoires">Accessoires<br>
-                <input type="radio" name="kategorie" value="Röcke">Röcke<br>
-                <input type="radio" name="kategorie" value="Kleider">Kleider<br>
-                <input type="radio" name="kategorie" value="Oberteile">Oberteile<br>
-                <input type="radio" name="kategorie" value="Bademoden">Bademode<br>
-                <input type="radio" name="kategorie" value="Jacken">Jacken<br>
-                <input type="radio" name="kategorie" value="Unterwaesche">Unterwäsche<br>
-                <input type="radio" name="kategorie" value="Schuhe">Schuhe<br>
-                <input type="radio" name="kategorie" value="Sonstiges">Sonstiges<br>
-                <br>
-                <b>Abteilung</b>
-                <hr/>
-                <input type="radio" name="abteilung" value="Maenner">Männer<br>
-                <input type="radio" name="abteilung" value="Frauen">Frauen<br>
-                <input type="radio" name="abteilung" value="Maedchen">Mädchen<br>
-                <input type="radio" name="abteilung" value="Jungen">Jungen<br>
-                <input type="radio" name="abteilung" value="Babys">Babys<br>
-                <br>
-                <b>Größen</b>
-                <hr/>
-                <input type="radio" name="groessen" value="XS">XS<br>
-                <input type="radio" name="groessen" value="S">S<br>
-                <input type="radio" name="groessen" value="M">M<br>
-                <input type="radio" name="groessen" value="L">L<br>
-                <input type="radio" name="groessen" value="XL">XL<br>
-                <input type="radio" name="groessen" value="GSonstiges">Sonstiges<br>
-                <br>
-                <input type="button" name="submit" value="Suchen" onClick="sellArticles()"/>
-            </form>
-        </div>
-
-        <div id = "content">       
-            <!--            <input type="button" name="submit" value="Alle Kunden anzeigen" onClick="findAllCustomers()"/> 
-                        <div class="customers"></div>
-            
-                        <div id="formItems">
-                            <h1>Kleidungsstück verkaufen</h1>
-                            <label>Kundennr.*:</label>
-                            <input type="text" name="customerId" placeholder="Kundennr.">
-                            <br>
-                            <label>Standortnr.*:</label>
-                            <input type="text" name="locationId" placeholder="Standortnr.">
-                            <br>
-                            <label>Titel*</label>
-                            <input type="text" name="title" placeholder="Titel">
-                            <br>
-                            <label>Kategorie*:</label>
-                            <select name="category">
-                                <option>-Bitte auswählen-</option>
-                                <option>Hosen</option>
-                                <option>Accessoires</option>
-                                <option>Röcke</option>
-                                <option>Kleider</option>
-                                <option>Oberteile</option>
-                                <option>Bademode</option>
-                                <option>Jacken</option>
-                                <option>Unterwäsche</option>
-                                <option>Schuhe</option>
-                                <option>Sonstiges</option>
-                            </select>
-                            <br>
-                            <label>Abteilung*:</label>
-                            <select name="personType">
-                                <option>-Bitte auswählen-</option>
-                                <option>Frauen</option>
-                                <option>Männer</option>
-                                <option>Mädchen</option>
-                                <option>Jungen</option>
-                                <option>Babys</option>
-                            </select>
-                            <br>
-                            <label>Größe*:</label>
-                            <input type="text" name="dressSize" placeholder="Größe">
-                            <br>
-                            <label>Verkaufspreis*:</label>
-                            <input type="text" name="price" placeholder="Verkaufspreis">
-                            <br>
-                            <form name="soldButtons">
-                                <label>verkauft*:</label>
-                                <input type="radio" name="sold" value="Ja" checked> Ja
-                                <input type="radio" name="sold" value="Nein"> Nein
-                            </form>
-                            <br>
-                            <form name="publishedButtons">
-                                <label>veröffentlicht*:</label>
-                                <input type="radio" name="published" value="Ja" checked> Ja
-                                <input type="radio" name="published" value="Nein"> Nein
-                            </form>
-                            <br>
-                            <input type="button" name="submit" value="Anbieten" onClick="createNewItem()"/>
-                        </div>
-            
-                        <label>Kundennr.*:</label>
-                        <input type="text" name="customerId" placeholder="Kundennr.">
-                        <br>
-                        <input type="button" name="submit" value="Alle Artikel anzeigen" onClick="findAllItems()"/>
-                        <input type="button" name="submit" value="Alle Artikel von allen Kunden anzeigen" onClick="findItemsOfAllCustomers()"/>-->
-<!--            <div class="items">
-                Artikel
-                            <input type="button" name="submit" value="Alle Filter anwenden" onClick="findAllItems()" />   
-                <div class="Artikel">
-                    <img src="Artikel_img/A1B1.jpg" alt="Dirndel"/>
-                    <p>heißes Dirndel</p>
-                    <div class="size"> <a>S/36</a> </div>
-                    <div class="preis"> <a><u>350€</u></a></div>
-                </div>
-
-                <div class="Artikel">
-                    <img src="Artikel_img/A1B1.jpg" alt="Dirndel"/>
-                    <p>heißes Dirndel</p>
-                    <div class="size"> <a>S/36</a> </div>
-                    <div class="preis"> <a><u>350€</u></a></div>
-                </div>
-
-                <div class="Artikel">
-                    <img src="Artikel_img/A1B1.jpg" alt="Dirndel"/>
-                    <br><br>
-                    <a>heißes Dirndel</a> 
-                    <br><br>
-                    <div class="size"> S/36</div>
-                    <div class="preis"><u>350€</u></div>
-                </div>
-            </div>-->
-        </div>
+        <div id="other"></div>
     </body>
 </html>

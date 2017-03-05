@@ -59,13 +59,14 @@ public class DatabaseFacade {
      * @param dressSize Größe des Kleidungsstücks
      * @param price Verkaufspreis des Kleidungsstücks
      * @param personType Personentyp des Kleidungstücks
+     * @param filePath Pfad zur Bilddatei
      * @return Das neue Kleidungsstück
      */
     public Item createNewItem(Customer customer, Location location, String title,
                             String category, String dressSize, Double price,
-                            String personType) {
+                            String personType, String filePath) {
         Item item = new Item(customer, location, title, category, dressSize, price,
-                            personType);
+                            personType, filePath);
         customer.getItems().add(item);
         
         item = this.em.merge(item);

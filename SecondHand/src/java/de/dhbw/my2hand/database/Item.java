@@ -27,6 +27,7 @@ public class Item implements Serializable {
     private String dressSize = "";
     private Double price = 0.0;
     private String personType = "";
+    private String imagePath = "";
     private boolean sold = false;
     private boolean published = false;
     
@@ -53,11 +54,10 @@ public class Item implements Serializable {
      * @param dressSize Größe des Kleidungsstücks
      * @param price Verkaufspreis des Kleidungsstücks
      * @param personType Personentyp des Kleidungstücks
-     * @param sold Kleidungsstück ist verkauft oder nicht
-     * @param published Kleidungsstück wird auf Webseite angezeigt oder nicht
+     * @param imagePath Pfad zur Bilddatei
      */
     public Item(Customer customer, Location location, String title, String category, String dressSize,
-                Double price, String personType) {
+                Double price, String personType, String imagePath) {
         this.customer = customer;
         this.location = location;
         this.title = title;
@@ -65,6 +65,7 @@ public class Item implements Serializable {
         this.dressSize = dressSize;
         this.price = price;
         this.personType = personType;
+        this.imagePath = imagePath;
     }
     // </editor-fold>
     
@@ -142,6 +143,14 @@ public class Item implements Serializable {
 
     public void setPersonType(String personType) {
         this.personType = personType;
+    }
+    
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
     
     public Boolean getSold() {

@@ -22,9 +22,9 @@ public class Location implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String place = "";
-    
     private Long id = 0L;
+    
+    private String place = "";
     private String street = "";
     private String houseNumber = "";
     private String plz = "";

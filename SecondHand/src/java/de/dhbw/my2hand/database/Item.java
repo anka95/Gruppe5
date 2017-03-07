@@ -1,11 +1,14 @@
 package de.dhbw.my2hand.database;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,10 +26,7 @@ public class Item implements Serializable {
     private Long id = 0L;
     
     private String title = "";
-    private String category = "";
-    private String dressSize = "";
     private Double price = 0.0;
-    private String personType = "";
     private String imagePath = "";
     private boolean sold = false;
     private boolean published = false;
@@ -36,6 +36,15 @@ public class Item implements Serializable {
     
     @ManyToOne
     private Location location;
+    
+    @OneToMany(mappedBy="category")
+    private Category category;
+    
+    @OneToMany(mappedBy="personType")
+    private PersonType personType;
+    
+    @OneToMany(mappedBy="dressSize")
+    private DressSize dressSize;
 
     // <editor-fold defaultstate="collapsed" desc="${Konstruktoren}">
     /**
@@ -56,8 +65,8 @@ public class Item implements Serializable {
      * @param personType Personentyp des Kleidungstücks
      * @param imagePath Pfad zur Bilddatei
      */
-    public Item(Customer customer, Location location, String title, String category, String dressSize,
-                Double price, String personType, String imagePath) {
+    public Item(Customer customer, Location location, String title, Category category, DressSize dressSize,
+                Double price, PersonType personType, String imagePath) {
         this.customer = customer;
         this.location = location;
         this.title = title;
@@ -113,19 +122,19 @@ public class Item implements Serializable {
         this.title = title;
     }
     
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
-    public String getDressSize() {
+    public DressSize getDressSize() {
         return dressSize;
     }
 
-    public void setDressSize(String dressSize) {
+    public void setDressSize(DressSize dressSize) {
         this.dressSize = dressSize;
     }
     
@@ -137,11 +146,11 @@ public class Item implements Serializable {
         this.price = price;
     }
     
-    public String getPersonType() {
+    public PersonType getPersonType() {
         return personType;
     }
 
-    public void setPersonType(String personType) {
+    public void setPersonType(PersonType personType) {
         this.personType = personType;
     }
     

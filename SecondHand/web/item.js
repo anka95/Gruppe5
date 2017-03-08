@@ -55,10 +55,10 @@ function findItemsOfAllCustomers() {
                 var newHTML = "<div class='Artikel' id='" + this.response[i].id + "'>"
                         + "<img src='" + this.response[i].imagePath + "' alt='Artikelbild'/>"
                         + "<p>" + this.response[i].title + "</p>"
-                        + "<p>" + this.response[i].category + "</p>"
-                        + "<p>" + this.response[i].personType + "</p>"
+                        + "<p>" + this.response[i].categoryName + "</p>"
+                        + "<p>" + this.response[i].personTypeName + "</p>"
                         + "<p>" + this.response[i].locationPlace + "</p>"
-                        + "<div class='size'>Größe: " + this.response[i].dressSize + "</div>"
+                        + "<div class='size'>Größe: " + this.response[i].dressSizeName + "</div>"
                         + "<div class='preis'>" + this.response[i].price + " €"
                         + "</div>";
                 document.getElementsByClassName("items")[0].innerHTML += newHTML;
@@ -80,10 +80,10 @@ function findAllItems(customerId) {
                         + "<img src='" + this.response.items[i].imagePath + "' alt='Artikelbild'/>"
                         + "<p>" + this.response.items[i].title + "</p>"
                         + "<p>" + this.response.items[i].customerId + "</p>"
-                        + "<p>" + this.response.items[i].category + "</p>"
-                        + "<p>" + this.response.items[i].personType + "</p>"
+                        + "<p>" + this.response.items[i].categoryName + "</p>"
+                        + "<p>" + this.response.items[i].personTypeName + "</p>"
                         + "<p>" + this.response.items[i].locationPlace + "</p>"
-                        + "<div class='size'>Größe: " + this.response.items[i].dressSize + "</div>"
+                        + "<div class='size'>Größe: " + this.response.items[i].dressSizeName + "</div>"
                         + "<div class='preis'>" + this.response.items[i].price + " €"
                         + "<p> Artikel verkauft:" + this.response.items[i].sold + "</p>"
                         + "<p> Artikel veröffentlicht:" + this.response.items[i].published + "</p>"
@@ -118,7 +118,7 @@ function createNewItem() {
             "<br><br>" +
             "<label>Kategorie*:</label>" +
             "<br>" +
-            "<select name='category'>" +
+            "<select name='categoryName'>" +
             "<option>-Bitte auswählen-</option>" +
             "<option>Hosen</option>" +
             "<option>Accessoires</option>" +
@@ -134,7 +134,7 @@ function createNewItem() {
             "<br><br>" +
             "<label>Abteilung*:</label>" +
             "<br>" +
-            "<select name='personType'>" +
+            "<select name='personTypeName'>" +
             "<option>-Bitte auswählen-</option>" +
             "<option>Frauen</option>" +
             "<option>Männer</option>" +
@@ -145,7 +145,15 @@ function createNewItem() {
             "<br><br>" +
             "<label>Größe*:</label>" +
             "<br>" +
-            "<input type='text' name='dressSize' placeholder='Größe'>" +
+            "<select name='dressSizeName'>" +
+            "<option>-Bitte auswählen-</option>" +
+            "<option>XS</option>" +
+            "<option>S</option>" +
+            "<option>M</option>" +
+            "<option>L</option>" +
+            "<option>XL</option>" +
+            "<option>Sonstiges</option>" +
+            "</select>" +
             "<br><br>" +
             "<label>Verkaufspreis*:</label>" +
             "<br>" +
@@ -162,10 +170,10 @@ function createNewItem() {
 function actionString() {
     var locationPlace;
     var title = document.getElementsByName("title")[0].value;
-    var category;
-    var dressSize = document.getElementsByName("dressSize")[0].value;
+    var categoryName;
+    var dressSizeName;
     var price = document.getElementsByName("price")[0].value;
-    var personType;
+    var personTypeName;
     var image = document.getElementsByName("imageUpload")[0].value;
 
     for (i = 0; i < document.getElementsByName("locationPlace")[0].length; i++) {
@@ -174,27 +182,33 @@ function actionString() {
         }
     }
 
-    for (i = 0; i < document.getElementsByName("category")[0].length; i++) {
-        if (document.getElementsByName("category")[0].options[i].selected === true) {
-            category = document.getElementsByName("category")[0].options[i].value;
+    for (i = 0; i < document.getElementsByName("categoryName")[0].length; i++) {
+        if (document.getElementsByName("categoryName")[0].options[i].selected === true) {
+            categoryName = document.getElementsByName("categoryName")[0].options[i].value;
         }
     }
 
-    for (i = 0; i < document.getElementsByName("personType")[0].length; i++) {
-        if (document.getElementsByName("personType")[0].options[i].selected === true) {
-            personType = document.getElementsByName("personType")[0].options[i].value;
+    for (i = 0; i < document.getElementsByName("personTypeName")[0].length; i++) {
+        if (document.getElementsByName("personTypeName")[0].options[i].selected === true) {
+            personTypeName = document.getElementsByName("personTypeName")[0].options[i].value;
         }
     }
 
-    if (locationPlace === "-Bitte auswählen-" || title === "" || category === "-Bitte auswählen-"
-            || personType === "-Bitte auswählen-" || dressSize === "" || price === "" || image === "") {
+    for (i = 0; i < document.getElementsByName("dressSizeName")[0].length; i++) {
+        if (document.getElementsByName("dressSizeName")[0].options[i].selected === true) {
+            dressSizeName = document.getElementsByName("dressSizeName")[0].options[i].value;
+        }
+    }
+
+    if (locationPlace === "-Bitte auswählen-" || title === "" || categoryName === "-Bitte auswählen-"
+            || personTypeName === "-Bitte auswählen-" || dressSizeName === "-Bitte auswählen-"
+            || price === "" || image === "") {
         alert("Bitte füllen Sie alle Pflichtfelder aus!");
     } else {
         var actionString = "servlet?action=createnewitem&customerid=" + encodeURI(getCookie())
                 + "&locationplace=" + encodeURI(locationPlace) + "&title=" + encodeURI(title)
-                + "&category=" + encodeURI(category) + "&dresssize=" + encodeURI(dressSize)
-                + "&price=" + encodeURI(price) + "&persontype=" + encodeURI(personType);
-
+                + "&categoryname=" + encodeURI(categoryName) + "&dresssizename=" + encodeURI(dressSizeName)
+                + "&price=" + encodeURI(price) + "&persontypename=" + encodeURI(personTypeName);
         document.getElementById("formItems").setAttribute("action", actionString);
     }
 }
@@ -239,15 +253,15 @@ function updateItem(id) {
                     "<br><br>" +
                     "<label>Kategorie:</label>" +
                     "<br>" +
-                    this.response.category +
+                    this.response.categoryName +
                     "<br><br>" +
                     "<label>Abteilung:</label>" +
                     "<br>" +
-                    this.response.personType +
+                    this.response.personTypeName +
                     "<br><br>" +
                     "<label>Größe:</label>" +
                     "<br>" +
-                    this.response.dressSize +
+                    this.response.dressSizeName +
                     "<br><br>" +
                     "<label>Verkaufspreis*:</label>" +
                     "<br>" +
@@ -270,7 +284,7 @@ function saveItemsUpdates(id) {
 
     var ajax = new XMLHttpRequest();
     ajax.open("POST", "servlet?action=updateitem&id=" + encodeURI(id)
-                + "&title=" + encodeURI(title) + "&price=" + encodeURI(price), true);
+            + "&title=" + encodeURI(title) + "&price=" + encodeURI(price), true);
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {

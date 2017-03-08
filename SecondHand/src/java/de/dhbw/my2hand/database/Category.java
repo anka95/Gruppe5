@@ -1,16 +1,17 @@
 package de.dhbw.my2hand.database;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * Persistenzklasse für ein Kleidungsstück. Ein Kleidungsstück hat eine Verkäufer,
- * einen Titel, einen Standort, eine Kategorie, eine Größe und einen Preis.
+ * Persistenzklasse für eine Kategorie.
  */
 @Entity
 @Table(name="KATEGORIE")
@@ -20,21 +21,12 @@ public class Category implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = 0L;
+    private String category = "";
     
-    private String hose = "";
-    private String accessoire ="";
-    private String rock = "";
-    private String kleid ="";
-    private String oberteil = "";
-    private String bademode = "";
-    private String jacke = "";
-    private String unterwaesche ="";
-    private String schuhe = "";
-    private String sonstiges ="";
- 
-    @ManyToOne
-    private Item artikel;
+    private Long id = 0L;
+
+    @OneToMany(mappedBy="category")
+    private List<Item> items = new ArrayList<>();
 
     // <editor-fold defaultstate="collapsed" desc="${Konstruktoren}">
     /**
@@ -43,7 +35,13 @@ public class Category implements Serializable {
     public Category() {
     }
     
-
+    /**
+     * Konstruktor für einen neue Kategorie.
+     * @param category Kategorie des Kleidungsstücks
+     */
+    public Category(String category) {
+        this.category = category;
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="${Krimskrams von Object geerbt}">
@@ -69,7 +67,7 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return "de.dhbw.my2hand.database.Category[ id=" + id + " ]";
+        return "de.dhbw.my2hand.database.Category[id=" + this.id + ", category=" + this.category;
     }
     // </editor-fold>
     
@@ -82,91 +80,20 @@ public class Category implements Serializable {
         this.id = id;
     }
 
-    public String getHose() {
-        return hose;
+    public String getCategory() {
+        return category;
     }
 
-    public void setHose(String hose) {
-        this.hose = hose;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public String getAccessoire() {
-        return accessoire;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setAccessoire(String accessoire) {
-        this.accessoire = accessoire;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
-
-    public String getRock() {
-        return rock;
-    }
-
-    public void setRock(String rock) {
-        this.rock = rock;
-    }
-
-    public String getKleid() {
-        return kleid;
-    }
-
-    public void setKleid(String kleid) {
-        this.kleid = kleid;
-    }
-
-    public String getOberteil() {
-        return oberteil;
-    }
-
-    public void setOberteil(String oberteil) {
-        this.oberteil = oberteil;
-    }
-
-    public String getBademode() {
-        return bademode;
-    }
-
-    public void setBademode(String bademode) {
-        this.bademode = bademode;
-    }
-
-    public String getJacke() {
-        return jacke;
-    }
-
-    public void setJacke(String jacke) {
-        this.jacke = jacke;
-    }
-
-    public String getUnterwaesche() {
-        return unterwaesche;
-    }
-
-    public void setUnterwaesche(String unterwaesche) {
-        this.unterwaesche = unterwaesche;
-    }
-
-    public String getSchuhe() {
-        return schuhe;
-    }
-
-    public void setSchuhe(String schuhe) {
-        this.schuhe = schuhe;
-    }
-
-    public String getSonstiges() {
-        return sonstiges;
-    }
-
-    public void setSonstiges(String sonstiges) {
-        this.sonstiges = sonstiges;
-    }
-
-    public Item getArtikel() {
-        return artikel;
-    }
-
-    public void setArtikel(Item artikel) {
-        this.artikel = artikel;
-    }
+    // </editor-fold> 
 }

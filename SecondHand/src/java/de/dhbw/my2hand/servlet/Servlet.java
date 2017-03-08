@@ -1,9 +1,12 @@
 package de.dhbw.my2hand.servlet;
 
+import de.dhbw.my2hand.database.Category;
 import de.dhbw.my2hand.database.Customer;
 import de.dhbw.my2hand.database.DatabaseFacade;
+import de.dhbw.my2hand.database.DressSize;
 import de.dhbw.my2hand.database.Item;
 import de.dhbw.my2hand.database.Location;
+import de.dhbw.my2hand.database.PersonType;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -43,9 +46,12 @@ public class Servlet extends HttpServlet {
     private Customer customer;
     private Location location;
     private Item item;
+    private Category category;
+    private DressSize dressSize;
+    private PersonType personType;
     private String customerId, salutation, firstName, lastName, street, houseNumber,
             plz, place, iban, bic, bank, telephone, email, password,
-            locationPlace, title, category, dressSize, price, personType;
+            locationPlace, title, categoryName, dressSizeName, price, personTypeName;
     private Gson gson = new GsonBuilder().create();
 
     @Override
@@ -93,14 +99,17 @@ public class Servlet extends HttpServlet {
                 // Neues Kleidungsstück anlegen
                 customerId = request.getParameter("customerid");
                 locationPlace = request.getParameter("locationplace");
-                title = request.getParameter("title");
-                category = request.getParameter("category");
-                dressSize = request.getParameter("dresssize");
-                price = request.getParameter("price");
-                personType = request.getParameter("persontype");
+                categoryName = request.getParameter("categoryname");
+                dressSizeName = request.getParameter("dresssizename");
+                personTypeName = request.getParameter("persontypename");
 
                 customer = database.findCustomer(new Long(customerId));
                 location = database.findLocation(locationPlace);
+                category = database.findCategory(categoryName);
+                dressSize = database.findDressSize(dressSizeName);
+                personType = database.findPersonType(personTypeName);
+                title = request.getParameter("title");
+                price = request.getParameter("price");
                 database.createNewItem(customer, location, title, category, dressSize,
                         new Double(price), personType, "");
 
@@ -239,10 +248,10 @@ public class Servlet extends HttpServlet {
                     jsonItem.customerId = item.getCustomer().getId();
                     jsonItem.locationPlace = item.getLocation().getPlace();
                     jsonItem.title = item.getTitle();
-                    jsonItem.category = item.getCategory();
-                    jsonItem.dressSize = item.getDressSize();
+                    jsonItem.categoryName = item.getCategory().getCategory();
+                    jsonItem.dressSizeName = item.getDressSize().getDressSize();
                     jsonItem.price = item.getPrice();
-                    jsonItem.personType = item.getPersonType();
+                    jsonItem.personTypeName = item.getPersonType().getPersonType();
                     jsonItem.imagePath = item.getImagePath();
                     jsonItem.sold = item.getSold();
                     jsonItem.published = item.getPublished();
@@ -262,10 +271,10 @@ public class Servlet extends HttpServlet {
                 jsonItem.customerId = item.getCustomer().getId();
                 jsonItem.locationPlace = item.getLocation().getPlace();
                 jsonItem.title = item.getTitle();
-                jsonItem.category = item.getCategory();
-                jsonItem.dressSize = item.getDressSize();
+                jsonItem.categoryName = item.getCategory().getCategory();
+                jsonItem.dressSizeName = item.getDressSize().getDressSize();
                 jsonItem.price = item.getPrice();
-                jsonItem.personType = item.getPersonType();
+                jsonItem.personTypeName = item.getPersonType().getPersonType();
                 jsonItem.imagePath = item.getImagePath();
                 jsonItem.sold = item.getSold();
                 jsonItem.published = item.getPublished();
@@ -300,10 +309,10 @@ public class Servlet extends HttpServlet {
             jsonItem.customerId = item.getCustomer().getId();
             jsonItem.locationPlace = item.getLocation().getPlace();
             jsonItem.title = item.getTitle();
-            jsonItem.category = item.getCategory();
-            jsonItem.dressSize = item.getDressSize();
+            jsonItem.categoryName = item.getCategory().getCategory();
+            jsonItem.dressSizeName = item.getDressSize().getDressSize();
             jsonItem.price = item.getPrice();
-            jsonItem.personType = item.getPersonType();
+            jsonItem.personTypeName = item.getPersonType().getPersonType();
             jsonItem.imagePath = item.getImagePath();
             jsonItem.sold = item.getSold();
             jsonItem.published = item.getPublished();
@@ -324,7 +333,7 @@ class JsonCustomer {
 class JsonItem {
 
     public Long id, customerId;
-    public String locationPlace, title, category, dressSize, personType, imagePath;
+    public String title, locationPlace, categoryName, dressSizeName, personTypeName, imagePath;
     public Double price;
     public Boolean sold, published;
 }

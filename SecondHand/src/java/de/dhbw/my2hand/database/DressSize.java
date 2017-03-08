@@ -1,37 +1,33 @@
 package de.dhbw.my2hand.database;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * Persistenzklasse für ein Kleidungsstück. Ein Kleidungsstück hat eine Verkäufer,
- * einen Titel, einen Standort, eine Kategorie, eine Größe und einen Preis.
+ * Persistenzklasse für eine Größe.
  */
 @Entity
 @Table(name="GROESSE")
 public class DressSize implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = 0L;
+    private String dressSize = "";
     
-    private String xs = "";
-    private String s ="";
-    private String m = "";
-    private String l ="";
-    private String xl = "";
-    private String sonstiges = "";
-   
-    @ManyToOne
-    private Item artikel;
+    private Long id = 0L;
 
+    @OneToMany(mappedBy="dressSize")
+    private List<Item> items = new ArrayList<>();
+    
     // <editor-fold defaultstate="collapsed" desc="${Konstruktoren}">
     /**
      * Standard-Konstruktor, der das Objekt mit leeren Werten initialisiert.
@@ -39,7 +35,13 @@ public class DressSize implements Serializable {
     public DressSize() {
     }
     
-
+    /**
+     * Konstruktor für eine neue Abteilung.
+     * @param dressSize Größe des Kleidungsstücks
+     */
+    public DressSize(String dressSize) {
+        this.dressSize = dressSize;
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="${Krimskrams von Object geerbt}">
@@ -65,74 +67,33 @@ public class DressSize implements Serializable {
 
     @Override
     public String toString() {
-        return "de.dhbw.my2hand.database.Section[ id=" + id + " ]";
+        return "de.dhbw.my2hand.database.DressSize[id=" + this.id + ", dressSize=" + this.dressSize;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="${Setter und Getter}">
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getXs() {
-        return xs;
+    public String getDressSize() {
+        return dressSize;
     }
 
-    public void setXs(String xs) {
-        this.xs = xs;
-    }
-
-    public String getS() {
-        return s;
-    }
-
-    public void setS(String s) {
-        this.s = s;
-    }
-
-    public String getM() {
-        return m;
-    }
-
-    public void setM(String m) {
-        this.m = m;
-    }
-
-    public String getL() {
-        return l;
-    }
-
-    public void setL(String l) {
-        this.l = l;
-    }
-
-    public String getXl() {
-        return xl;
-    }
-
-    public void setXl(String xl) {
-        this.xl = xl;
-    }
-
-    public String getSonstiges() {
-        return sonstiges;
-    }
-
-    public void setSonstiges(String sonstiges) {
-        this.sonstiges = sonstiges;
-    }
-
-    public Item getArtikel() {
-        return artikel;
-    }
-
-    public void setArtikel(Item artikel) {
-        this.artikel = artikel;
+    public void setDressSize(String dressSize) {
+        this.dressSize = dressSize;
     }
     
-    
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+    // </editor-fold>    
 }

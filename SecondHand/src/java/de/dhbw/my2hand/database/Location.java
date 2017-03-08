@@ -22,9 +22,9 @@ public class Location implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = 0L;
-    
     private String place = "";
+    
+    private Long id = 0L;
     private String street = "";
     private String houseNumber = "";
     private String plz = "";
@@ -78,7 +78,7 @@ public class Location implements Serializable {
 
     @Override
     public String toString() {
-        return "de.dhbw.my2hand.database.Customer[id=" + this.id + ", street="
+        return "de.dhbw.my2hand.database.Location[id=" + this.id + ", street="
                 + this.street + ", houseNumber=" + this.houseNumber + ", plz="
                 + this.plz + ", place=" + this.place;
     }

@@ -1,18 +1,15 @@
 package de.dhbw.my2hand.database;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * Persistenzklasse für ein Kleidungsstück. Ein Kleidungsstück hat eine Verkäufer,
+ * Persistenzklasse für ein Kleidungsstück. Ein Kleidungsstück hat einen Verkäufer,
  * einen Titel, einen Standort, eine Kategorie, eine Größe und einen Preis.
  */
 @Entity
@@ -37,13 +34,13 @@ public class Item implements Serializable {
     @ManyToOne
     private Location location;
     
-    @OneToMany(mappedBy="category")
+    @ManyToOne
     private Category category;
     
-    @OneToMany(mappedBy="personType")
+    @ManyToOne
     private PersonType personType;
     
-    @OneToMany(mappedBy="dressSize")
+    @ManyToOne
     private DressSize dressSize;
 
     // <editor-fold defaultstate="collapsed" desc="${Konstruktoren}">
@@ -62,11 +59,11 @@ public class Item implements Serializable {
      * @param category Kategorie des Kleidungsstücks z.B. Hose
      * @param dressSize Größe des Kleidungsstücks
      * @param price Verkaufspreis des Kleidungsstücks
-     * @param personType Personentyp des Kleidungstücks
+     * @param personType Personentyp des Kleidungsstücks
      * @param imagePath Pfad zur Bilddatei
      */
-    public Item(Customer customer, Location location, String title, Category category, DressSize dressSize,
-                Double price, PersonType personType, String imagePath) {
+    public Item(Customer customer, Location location, String title, Category category,
+            DressSize dressSize, Double price, PersonType personType, String imagePath) {
         this.customer = customer;
         this.location = location;
         this.title = title;

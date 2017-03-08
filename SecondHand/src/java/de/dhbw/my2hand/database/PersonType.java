@@ -1,36 +1,33 @@
 package de.dhbw.my2hand.database;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * Persistenzklasse für ein Kleidungsstück. Ein Kleidungsstück hat eine Verkäufer,
- * einen Titel, einen Standort, eine Kategorie, eine Größe und einen Preis.
+ * Persistenzklasse für eine Abteilung.
  */
 @Entity
 @Table(name="ABTEILUNG")
 public class PersonType implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = 0L;
+    private String personType = "";
     
-    private String frau = "";
-    private String mann ="";
-    private String maedchen = "";
-    private String junge ="";
-    private String baby = "";
-   
-    @ManyToOne
-    private Item artikel;
+    private Long id = 0L;
 
+    @OneToMany(mappedBy="personType")
+    private List<Item> items = new ArrayList<>();
+    
     // <editor-fold defaultstate="collapsed" desc="${Konstruktoren}">
     /**
      * Standard-Konstruktor, der das Objekt mit leeren Werten initialisiert.
@@ -38,7 +35,13 @@ public class PersonType implements Serializable {
     public PersonType() {
     }
     
-
+    /**
+     * Konstruktor für eine neue Abteilung.
+     * @param personType Abteilung des Kleidungsstücks
+     */
+    public PersonType(String personType) {
+        this.personType = personType;
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="${Krimskrams von Object geerbt}">
@@ -64,65 +67,33 @@ public class PersonType implements Serializable {
 
     @Override
     public String toString() {
-        return "de.dhbw.my2hand.database.Section[ id=" + id + " ]";
+        return "de.dhbw.my2hand.database.PersonType[id=" + this.id + ", personType=" + this.personType;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="${Setter und Getter}">
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
-        
-    public String getFrau() {
-        return frau;
+
+    public String getPersonType() {
+        return personType;
     }
 
-    public void setFrau(String frau) {
-        this.frau = frau;
+    public void setPersonType(String personType) {
+        this.personType = personType;
+    }
+    
+    public List<Item> getItems() {
+        return items;
     }
 
-    public String getMann() {
-        return mann;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
-
-    public void setMann(String mann) {
-        this.mann = mann;
-    }
-
-    public String getMaedchen() {
-        return maedchen;
-    }
-
-    public void setMaedchen(String maedchen) {
-        this.maedchen = maedchen;
-    }
-
-    public String getJunge() {
-        return junge;
-    }
-
-    public void setJunge(String junge) {
-        this.junge = junge;
-    }
-
-    public String getBaby() {
-        return baby;
-    }
-
-    public void setBaby(String baby) {
-        this.baby = baby;
-    }
-
-    public Item getArtikel() {
-        return artikel;
-    }
-
-    public void setArtikel(Item artikel) {
-        this.artikel = artikel;
-    }
-
+    // </editor-fold>    
 }

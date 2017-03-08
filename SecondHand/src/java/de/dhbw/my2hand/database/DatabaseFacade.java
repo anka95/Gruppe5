@@ -59,7 +59,7 @@ public class DatabaseFacade {
      * @param dressSize Größe des Kleidungsstücks
      * @param price Verkaufspreis des Kleidungsstücks
      * @param personType Personentyp des Kleidungstücks
-     * @param filePath Pfad zur Bilddatei
+     * @param imagePath Pfad zur Bilddatei
      * @return Das neue Kleidungsstück
      */
     public Item createNewItem(Customer customer, Location location, String title, Category category, DressSize dressSize,
@@ -90,22 +90,36 @@ public class DatabaseFacade {
         return this.em.createQuery("SELECT n FROM Item n ORDER BY n.id").getResultList();
     }
     
-    /**
-     * Auslesen eines Kunden mit all seinen Artikeln anhand seiner ID.
-     * @param id Die ID des gesuchten Kunden
-     * @return Das gesuchte Customer-Objekt oder null, wenn es nicht gefunden wurde
+    /** 
+     * Gibt eine Liste aller Standorte und ihrer Artikel zurück.
+     * @return Eine Liste aller gefundenen Kunden
      */
-    public Customer findCustomer(long id) {
-        return this.em.find(Customer.class, id);
+    public List<Location> findAllLocations() {
+        return this.em.createQuery("SELECT n FROM Location n ORDER BY n.id").getResultList();
     }
     
-    /**
-     * Auslesen eines Standorts mit all seinen Artikeln anhand seines Orts.
-     * @param place Ort des gesuchten Standorts
-     * @return Das gesuchte Location-Objekt oder null, wenn es nicht gefunden wurde
+    /** 
+     * Gibt eine Liste aller Kategorien und ihrer Artikel zurück.
+     * @return Eine Liste aller gefundenen Kategorien
      */
-    public Location findLocation(String place) {
-        return this.em.find(Location.class, place);
+    public List<Category> findAllCategories() {
+        return this.em.createQuery("SELECT n FROM Category n ORDER BY n.id").getResultList();
+    }
+    
+    /** 
+     * Gibt eine Liste aller Kleidergrößen und ihrer Artikel zurück.
+     * @return Eine Liste aller gefundenen Kleidergrößen
+     */
+    public List<DressSize> findAllDressSizes() {
+        return this.em.createQuery("SELECT n FROM DressSize n ORDER BY n.id").getResultList();
+    }
+    
+    /** 
+     * Gibt eine Liste aller Abteilungen und ihrer Artikel zurück.
+     * @return Eine Liste aller gefundenen Abteilungen
+     */
+    public List<PersonType> findAllPersonTypes() {
+        return this.em.createQuery("SELECT n FROM PersonType n ORDER BY n.id").getResultList();
     }
     
     /**
@@ -118,6 +132,51 @@ public class DatabaseFacade {
      */
     public Item findItem(long id) {
         return this.em.find(Item.class, id);
+    }
+    
+    /**
+     * Auslesen eines Kunden mit all seinen Artikeln anhand seiner ID.
+     * @param id Die ID des gesuchten Kunden
+     * @return Das gesuchte Customer-Objekt oder null, wenn es nicht gefunden wurde
+     */
+    public Customer findCustomer(long id) {
+        return this.em.find(Customer.class, id);
+    }
+    
+    /**
+     * Auslesen eines Standorts mit all seinen Artikeln anhand seines Orts.
+     * @param place Der Ort des gesuchten Standorts
+     * @return Das gesuchte Location-Objekt oder null, wenn es nicht gefunden wurde
+     */
+    public Location findLocation(String place) {
+        return this.em.find(Location.class, place);
+    }
+    
+    /**
+     * Auslesen einer Kategorie mit all ihren Artikeln anhand ihrer ID.
+     * @param category Der Name der gesuchten Kategorie
+     * @return Das gesuchte Category-Objekt oder null, wenn es nicht gefunden wurde
+     */
+    public Category findCategory(String category) {
+        return this.em.find(Category.class, category);
+    }
+    
+    /**
+     * Auslesen einer Abteilung mit all ihrer Artikeln anhand ihrer ID.
+     * @param personType Der Name der gesuchten Abteilung
+     * @return Das gesuchte PersonType-Objekt oder null, wenn es nicht gefunden wurde
+     */
+    public PersonType findPersonType(String personType) {
+        return this.em.find(PersonType.class, personType);
+    }
+    
+    /**
+     * Auslesen einer Größe mit all ihrer Artikeln anhand ihrer ID.
+     * @param dressSize Der Name der gesuchten Größe
+     * @return Das gesuchte DressSize-Objekt oder null, wenn es nicht gefunden wurde
+     */
+    public DressSize findDressSize(String dressSize) {
+        return this.em.find(DressSize.class, dressSize);
     }
 
     /**

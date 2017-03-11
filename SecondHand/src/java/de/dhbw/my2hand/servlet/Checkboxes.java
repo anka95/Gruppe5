@@ -1,3 +1,4 @@
+/*
 package de.dhbw.my2hand.servlet;
 
 import com.google.gson.Gson;
@@ -18,11 +19,12 @@ import javax.servlet.http.HttpServletResponse;
             name = "Checkboxes", 
             urlPatterns = "/Checkboxes"
 )
-
+*/
 /**
  *
  * @author Isabell
  */
+/*
 public class Checkboxes extends HttpServlet{
     
     @EJB 
@@ -82,9 +84,7 @@ class jsonCheckboxAntwort{
             
 }
 
-
-
-
+*/
 
 
 

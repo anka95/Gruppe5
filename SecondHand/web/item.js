@@ -99,17 +99,39 @@ function findAllItems(customerId) {
 
 function createNewItem() {
     var content = document.getElementById("content");
-    content.innerHTML = "<form id='formItems' action='' method='post' enctype='multipart/form-data'>" +
+    
+    var ajax = new XMLHttpRequest();
+    ajax.open("Post","CreateSelection");
+    ajax.responseType = "json";
+    ajax.addEventListener("load", function(){
+        console.log(ajax.response);
+        var location = "<option VALUE = '0' >-Bitte auswählen-</option>";
+        for(var i = 0; i < ajax.response.loc.length; i++){
+                location += "<option VALUE = " + ajax.response.loc[i].id + ">" + ajax.response.loc[i].place + "</option>";
+        }
+        
+        var cat = "<option VALUE = '0' >-Bitte auswählen-</option>";
+        for(var i = 0; i < ajax.response.cat.length; i++){
+                cat += "<option VALUE = " + ajax.response.cat[i].id + ">" + ajax.response.cat[i].category + "</option>";
+        }
+        
+        var person = "<option VALUE = '0' >-Bitte auswählen-</option>";
+        for(var i = 0; i < ajax.response.persontype.length; i++){
+                person += "<option VALUE = " + ajax.response.persontype[i].id + ">" + ajax.response.persontype[i].personType + "</option>";
+                alert(ajax.response.persontype[i].personType);
+        }
+        
+        var size = "<option VALUE = '0' >-Bitte auswählen-</option>";
+        for(var i = 0; i < ajax.response.size.length; i++){
+                size += "<option VALUE = " + ajax.response.size[i].id + ">" + ajax.response.size[i].dressSize + "</option>";
+        }
+        
+        content.innerHTML = "<form id='formItems' action='' method='post' enctype='multipart/form-data'>" +
             "<h1>Kleidungsstück verkaufen</h1>" +
             "<label>Standort*:</label>" +
             "<br>" +
-            "<select name='locationPlace'>" +
-            "<option>-Bitte auswählen-</option>" +
-            "<option>Karlsruhe</option>" +
-            "<option>Berlin</option>" +
-            "<option>München</option>" +
-            "<option>Hamburg</option>" +
-            "<option>Köln</option>" +
+            "<select name='locationPlace'>" + 
+           location +
             "</select>" +
             "<br><br>" +
             "<label>Titel*</label>" +
@@ -119,40 +141,43 @@ function createNewItem() {
             "<label>Kategorie*:</label>" +
             "<br>" +
             "<select name='categoryName'>" +
-            "<option>-Bitte auswählen-</option>" +
-            "<option>Hosen</option>" +
-            "<option>Accessoires</option>" +
-            "<option>Röcke</option>" +
-            "<option>Kleider</option>" +
-            "<option>Oberteile</option>" +
-            "<option>Bademode</option>" +
-            "<option>Jacken</option>" +
-            "<option>Unterwäsche</option>" +
-            "<option>Schuhe</option>" +
-            "<option>Sonstiges</option>" +
+            cat + 
+//            "<option>-Bitte auswählen-</option>" +
+//            "<option>Hosen</option>" +
+//            "<option>Accessoires</option>" +
+//            "<option>Röcke</option>" +
+//            "<option>Kleider</option>" +
+//            "<option>Oberteile</option>" +
+//            "<option>Bademode</option>" +
+//            "<option>Jacken</option>" +
+//            "<option>Unterwäsche</option>" +
+//            "<option>Schuhe</option>" +
+//            "<option>Sonstiges</option>" +
             "</select>" +
             "<br><br>" +
             "<label>Abteilung*:</label>" +
             "<br>" +
             "<select name='personTypeName'>" +
-            "<option>-Bitte auswählen-</option>" +
-            "<option>Frauen</option>" +
-            "<option>Männer</option>" +
-            "<option>Mädchen</option>" +
-            "<option>Jungen</option>" +
-            "<option>Babys</option>" +
+            person + 
+//            "<option>-Bitte auswählen-</option>" +
+//            "<option>Frauen</option>" +
+//            "<option>Männer</option>" +
+//            "<option>Mädchen</option>" +
+//            "<option>Jungen</option>" +
+//            "<option>Babys</option>" +
             "</select>" +
             "<br><br>" +
             "<label>Größe*:</label>" +
             "<br>" +
             "<select name='dressSizeName'>" +
-            "<option>-Bitte auswählen-</option>" +
-            "<option>XS</option>" +
-            "<option>S</option>" +
-            "<option>M</option>" +
-            "<option>L</option>" +
-            "<option>XL</option>" +
-            "<option>Sonstiges</option>" +
+            size + 
+//            "<option>-Bitte auswählen-</option>" +
+//            "<option>XS</option>" +
+//            "<option>S</option>" +
+//            "<option>M</option>" +
+//            "<option>L</option>" +
+//            "<option>XL</option>" +
+//            "<option>Sonstiges</option>" +
             "</select>" +
             "<br><br>" +
             "<label>Verkaufspreis*:</label>" +
@@ -165,6 +190,8 @@ function createNewItem() {
             "<br><br>" +
             "<input type='submit' name='formItemsButton' value='Anbieten' onClick='actionString()'/>" +
             "</form>";
+    });
+    ajax.send();
 }
 
 function actionString() {

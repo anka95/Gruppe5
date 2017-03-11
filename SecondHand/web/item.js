@@ -1,46 +1,56 @@
-function findItemsOfAllCustomers() {
-    document.getElementById("other").innerHTML = "<div id='selection'>"
+function createNav(){
+    var ajax = new XMLHttpRequest();
+    ajax.open("Post","CreateSelection");
+    ajax.responseType = "json";
+    ajax.addEventListener("load", function(){
+        console.log(ajax.response);
+        var location = "";
+        for(var i = 0; i < ajax.response.loc.length; i++){
+                location += "<input type='radio' name='standort' VALUE = '" + ajax.response.loc[i].id + "'>" + ajax.response.loc[i].place + "</br>";
+        }
+        var cat = "";
+        for(var i = 0; i < ajax.response.cat.length; i++){
+                cat += "<input type='radio' name='kategorie' VALUE = '" + ajax.response.cat[i].id + "'>" + ajax.response.cat[i].category + "</br>";
+        }
+        
+        var person = "";
+        for(var i = 0; i < ajax.response.persontype.length; i++){
+                person += "<input type='radio' name='abteilung' VALUE = '" + ajax.response.persontype[i].id + "'>" + ajax.response.persontype[i].personType + "</br>";
+        }
+        
+        var size = "";
+        for(var i = 0; i < ajax.response.size.length; i++){
+                size += "<input type='radio' name='groessen' VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</br>";
+        }
+    
+    var help = 
+            "<div id='selection'>"
             + "<form>"
             + "<b>Standort</b>"
             + "<hr>"
-            + "<input type='radio' name='standort' value='ka'>Karlsruhe<br>"
-            + "<input type='radio' name='standort' value='b'>Berlin<br>"
-            + "<input type='radio' name='standort' value='m'>München<br>"
-            + "<input type='radio' name='standort' value='hh'>Hamburg<br>"
-            + "<input type='radio' name='standort' value='k'>Köln<br>"
+            + location
             + "<br><b>Kategorie</b>"
             + "<hr>"
-            + "<input type='radio' name='kategorie' value='Hosen'>Hosen<br>"
-            + "<input type='radio' name='kategorie' value='Accessoires'>Accessoires<br>"
-            + "<input type='radio' name='kategorie' value='Röcke'>Röcke<br>"
-            + "<input type='radio' name='kategorie' value='Kleider'>Kleider<br>"
-            + "<input type='radio' name='kategorie' value='Oberteile'>Oberteile<br>"
-            + "<input type='radio' name='kategorie' value='Bademoden'>Bademode<br>"
-            + "<input type='radio' name='kategorie' value='Jacken'>Jacken<br>"
-            + "<input type='radio' name='kategorie' value='Unterwaesche'>Unterwäsche<br>"
-            + "<input type='radio' name='kategorie' value='Schuhe'>Schuhe<br>"
-            + "<input type='radio' name='kategorie' value='Sonstiges'>Sonstiges<br>"
+            + cat
             + "<br> <b>Abteilung</b>"
             + "<hr/>"
-            + "<input type='radio' name='abteilung' value='Maenner'>Männer<br>"
-            + "<input type='radio' name='abteilung' value='Frauen'>Frauen<br>"
-            + "<input type='radio' name='abteilung' value='Maedchen'>Mädchen<br>"
-            + "<input type='radio' name='abteilung' value='Jungen'>Jungen<br>"
-            + "<input type='radio' name='abteilung' value='Babys'>Babys<br>"
+            + person
             + "<br><b>Größen</b>"
             + "<hr/>"
-            + "<input type='radio' name='groessen' value='XS'>XS<br>"
-            + "<input type='radio' name='groessen' value='S'>S<br>"
-            + "<input type='radio' name='groessen' value='M'>M<br>"
-            + "<input type='radio' name='groessen' value='L'>L<br>"
-            + "<input type='radio' name='groessen' value='XL'>XL<br>"
-            + "<input type='radio' name='groessen' value='GSonstiges'>Sonstiges<br>"
+            + size
             + "<br>"
             + "<input type='button' name='submit' value='Suchen' onClick='sellArticles()'/>"
             + "</form>"
             + "</div>"
             + "<div id='content'>"
-            + "</div>";
+            + "</div>";;
+            document.getElementById("other").innerHTML = help;
+    });
+    ajax.send();
+}
+
+function findItemsOfAllCustomers() {
+    createNav(); //Write the Code to create the selection and the content
 
     var ajax = new XMLHttpRequest();
 
@@ -107,25 +117,24 @@ function createNewItem() {
         console.log(ajax.response);
         var location = "<option VALUE = '0' >-Bitte auswählen-</option>";
         for(var i = 0; i < ajax.response.loc.length; i++){
-                location += "<option VALUE = " + ajax.response.loc[i].id + ">" + ajax.response.loc[i].place + "</option>";
+                location += "<option VALUE = '" + ajax.response.loc[i].id + "'>" + ajax.response.loc[i].place + "</option>";
         }
         
         var cat = "<option VALUE = '0' >-Bitte auswählen-</option>";
         for(var i = 0; i < ajax.response.cat.length; i++){
-                cat += "<option VALUE = " + ajax.response.cat[i].id + ">" + ajax.response.cat[i].category + "</option>";
+                cat += "<option VALUE = '" + ajax.response.cat[i].id + "'>" + ajax.response.cat[i].category + "</option>";
         }
         
-        var person = "<option VALUE = '0' >-Bitte auswählen-</option>";
+        var person = "<option VALUE = '0'>-Bitte auswählen-</option>";
         for(var i = 0; i < ajax.response.persontype.length; i++){
-                person += "<option VALUE = " + ajax.response.persontype[i].id + ">" + ajax.response.persontype[i].personType + "</option>";
-                alert(ajax.response.persontype[i].personType);
+                person += "<option VALUE = '" + ajax.response.persontype[i].id + "'>" + ajax.response.persontype[i].personType + "</option>";
         }
         
         var size = "<option VALUE = '0' >-Bitte auswählen-</option>";
         for(var i = 0; i < ajax.response.size.length; i++){
-                size += "<option VALUE = " + ajax.response.size[i].id + ">" + ajax.response.size[i].dressSize + "</option>";
+                size += "<option VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</option>";
         }
-        
+    
         content.innerHTML = "<form id='formItems' action='' method='post' enctype='multipart/form-data'>" +
             "<h1>Kleidungsstück verkaufen</h1>" +
             "<label>Standort*:</label>" +
@@ -142,42 +151,18 @@ function createNewItem() {
             "<br>" +
             "<select name='categoryName'>" +
             cat + 
-//            "<option>-Bitte auswählen-</option>" +
-//            "<option>Hosen</option>" +
-//            "<option>Accessoires</option>" +
-//            "<option>Röcke</option>" +
-//            "<option>Kleider</option>" +
-//            "<option>Oberteile</option>" +
-//            "<option>Bademode</option>" +
-//            "<option>Jacken</option>" +
-//            "<option>Unterwäsche</option>" +
-//            "<option>Schuhe</option>" +
-//            "<option>Sonstiges</option>" +
             "</select>" +
             "<br><br>" +
             "<label>Abteilung*:</label>" +
             "<br>" +
             "<select name='personTypeName'>" +
             person + 
-//            "<option>-Bitte auswählen-</option>" +
-//            "<option>Frauen</option>" +
-//            "<option>Männer</option>" +
-//            "<option>Mädchen</option>" +
-//            "<option>Jungen</option>" +
-//            "<option>Babys</option>" +
             "</select>" +
             "<br><br>" +
             "<label>Größe*:</label>" +
             "<br>" +
             "<select name='dressSizeName'>" +
             size + 
-//            "<option>-Bitte auswählen-</option>" +
-//            "<option>XS</option>" +
-//            "<option>S</option>" +
-//            "<option>M</option>" +
-//            "<option>L</option>" +
-//            "<option>XL</option>" +
-//            "<option>Sonstiges</option>" +
             "</select>" +
             "<br><br>" +
             "<label>Verkaufspreis*:</label>" +

@@ -21,9 +21,9 @@ public class DressSize implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String dressSize = "";
-    
     private Long id = 0L;
+    
+    private String dressSize = "";
 
     @OneToMany(mappedBy="dressSize")
     private List<Item> items = new ArrayList<>();

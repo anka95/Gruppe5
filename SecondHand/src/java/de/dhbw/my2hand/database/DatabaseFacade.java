@@ -145,38 +145,38 @@ public class DatabaseFacade {
     
     /**
      * Auslesen eines Standorts mit all seinen Artikeln anhand seines Orts.
-     * @param place Der Ort des gesuchten Standorts
+     * @param id Die ID des gesuchten Standorts
      * @return Das gesuchte Location-Objekt oder null, wenn es nicht gefunden wurde
      */
-    public Location findLocation(String place) {
-        return this.em.find(Location.class, place);
+    public Location findLocation(long id) {
+        return this.em.find(Location.class, id);
     }
     
     /**
      * Auslesen einer Kategorie mit all ihren Artikeln anhand ihrer ID.
-     * @param category Der Name der gesuchten Kategorie
+     * @param id Die ID der gesuchten Kategorie
      * @return Das gesuchte Category-Objekt oder null, wenn es nicht gefunden wurde
      */
-    public Category findCategory(String category) {
-        return this.em.find(Category.class, category);
+    public Category findCategory(long id) {
+        return this.em.find(Category.class, id);
     }
     
     /**
      * Auslesen einer Abteilung mit all ihrer Artikeln anhand ihrer ID.
-     * @param personType Der Name der gesuchten Abteilung
+     * @param id Die ID der gesuchten Abteilung
      * @return Das gesuchte PersonType-Objekt oder null, wenn es nicht gefunden wurde
      */
-    public PersonType findPersonType(String personType) {
-        return this.em.find(PersonType.class, personType);
+    public PersonType findPersonType(long id) {
+        return this.em.find(PersonType.class, id);
     }
     
     /**
      * Auslesen einer Größe mit all ihrer Artikeln anhand ihrer ID.
-     * @param dressSize Der Name der gesuchten Größe
+     * @param id Die ID der gesuchten Größe
      * @return Das gesuchte DressSize-Objekt oder null, wenn es nicht gefunden wurde
      */
-    public DressSize findDressSize(String dressSize) {
-        return this.em.find(DressSize.class, dressSize);
+    public DressSize findDressSize(long id) {
+        return this.em.find(DressSize.class, id);
     }
 
     /**

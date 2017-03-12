@@ -21,9 +21,9 @@ public class PersonType implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String personType = "";
-    
     private Long id = 0L;
+    
+    private String personType = "";
 
     @OneToMany(mappedBy="personType")
     private List<Item> items = new ArrayList<>();

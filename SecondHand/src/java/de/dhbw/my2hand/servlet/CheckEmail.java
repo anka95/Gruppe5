@@ -59,7 +59,7 @@ public class CheckEmail extends HttpServlet {
                     }
                 }
 
-                if (antwort.vorhanden == false) {
+                if (!antwort.vorhanden) {
                     antwort.c = database.createNewCustomer(anfrage.salutation, anfrage.firstName, anfrage.lastName,
                             anfrage.street, anfrage.houseNumber, anfrage.plz,
                             anfrage.place, anfrage.iban, anfrage.bic, anfrage.bank,
@@ -79,7 +79,7 @@ public class CheckEmail extends HttpServlet {
                     }
                 }
 
-                if (antwort.vorhanden == false) {
+                if (!antwort.vorhanden) {
                     antwort.c = database.findCustomer(new Long(anfrage.customerId));
                     antwort.c.setSalutation(anfrage.salutation);
                     antwort.c.setFirstName(anfrage.firstName);
@@ -112,6 +112,6 @@ class jsonEmail {
 
 class jsonEmailAntwort {
 
-    public Boolean vorhanden;
+    public boolean vorhanden;
     public Customer c;
 }

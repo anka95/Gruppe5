@@ -51,7 +51,7 @@ public class Servlet extends HttpServlet {
     private PersonType personType;
     private String customerId, salutation, firstName, lastName, street, houseNumber,
             plz, place, iban, bic, bank, telephone, email, password,
-            locationPlace, title, categoryName, dressSizeName, price, personTypeName;
+            locationId, title, categoryId, dressSizeId, price, personTypeId;
     private Gson gson = new GsonBuilder().create();
 
     @Override
@@ -71,43 +71,43 @@ public class Servlet extends HttpServlet {
         }
 
         switch (action) {
-            case "createnewcustomer":                              // index.js: createNewCustomer()
-                // Neuer Kunde anlegen
-                salutation = request.getParameter("salutation");
-                firstName = request.getParameter("firstname");
-                lastName = request.getParameter("lastname");
-                street = request.getParameter("street");
-                houseNumber = request.getParameter("housenumber");
-                plz = request.getParameter("plz");
-                place = request.getParameter("place");
-                iban = request.getParameter("iban");
-                bic = request.getParameter("bic");
-                bank = request.getParameter("bank");
-                telephone = request.getParameter("telephone");
-                email = request.getParameter("email");
-                password = request.getParameter("password");
+//            case "createnewcustomer":
+//                // Neuer Kunde anlegen
+//                salutation = request.getParameter("salutation");
+//                firstName = request.getParameter("firstname");
+//                lastName = request.getParameter("lastname");
+//                street = request.getParameter("street");
+//                houseNumber = request.getParameter("housenumber");
+//                plz = request.getParameter("plz");
+//                place = request.getParameter("place");
+//                iban = request.getParameter("iban");
+//                bic = request.getParameter("bic");
+//                bank = request.getParameter("bank");
+//                telephone = request.getParameter("telephone");
+//                email = request.getParameter("email");
+//                password = request.getParameter("password");
+//
+//                customer = database.createNewCustomer(salutation, firstName, lastName, street,
+//                        houseNumber, plz, place, iban, bic, bank, telephone, email, password);
+//
+//                gson.toJson(customer, toBrowser);
+//                toBrowser.flush();
+//
+//                break;
 
-                customer = database.createNewCustomer(salutation, firstName, lastName, street,
-                        houseNumber, plz, place, iban, bic, bank, telephone, email, password);
-
-                gson.toJson(customer, toBrowser);
-                toBrowser.flush();
-
-                break;
-
-            case "createnewitem":                                 // index.js: createNewItem(customerId)
+            case "createnewitem":
                 // Neues Kleidungsstück anlegen
                 customerId = request.getParameter("customerid");
-                locationPlace = request.getParameter("locationplace");
-                categoryName = request.getParameter("categoryname");
-                dressSizeName = request.getParameter("dresssizename");
-                personTypeName = request.getParameter("persontypename");
+                locationId = request.getParameter("locationid");
+                categoryId = request.getParameter("categoryid");
+                dressSizeId = request.getParameter("dresssizeid");
+                personTypeId = request.getParameter("persontypeid");
 
                 customer = database.findCustomer(new Long(customerId));
-                location = database.findLocation(locationPlace);
-                category = database.findCategory(categoryName);
-                dressSize = database.findDressSize(dressSizeName);
-                personType = database.findPersonType(personTypeName);
+                location = database.findLocation(new Long(locationId));
+                category = database.findCategory(new Long(categoryId));
+                dressSize = database.findDressSize(new Long(dressSizeId));
+                personType = database.findPersonType(new Long(personTypeId));
                 title = request.getParameter("title");
                 price = request.getParameter("price");
                 database.createNewItem(customer, location, title, category, dressSize,
@@ -201,35 +201,63 @@ public class Servlet extends HttpServlet {
         }
 
         switch (action) {
-            case "deletecustomer":       // index.js: deleteCustomer(id)
+            case "deletecustomer":
                 // Kunden löschen
                 customer = database.findCustomer(new Long(request.getParameter("customerid")));
                 database.delete(customer);
 
                 break;
 
-            case "deleteitem":          // content.js: deleteItem(customerId)
+            case "deleteitem":
                 // Kleidungsstück löschen
                 item = database.findItem(new Long(request.getParameter("itemid")));
                 database.delete(item);
 
                 break;
 
-            case "findallcustomers":   // index.js: findAllCustomers()
-                // Alle Kunden anzeigen
-                List<Customer> customers = database.findAllCustomers();
-                List<JsonCustomer> jsonCustomers = new ArrayList<JsonCustomer>();
+            case "finditemsofpersontype":
+                personType = database.findPersonType(new Long(request.getParameter("persontype")));
+                JsonPersonType jsonPersonType = new JsonPersonType();
+                jsonPersonType.id = personType.getId();
+                jsonPersonType.personType = personType.getPersonType();
+                jsonPersonType.items = new ArrayList<JsonItem>();
 
-                for (Customer customer : customers) {
-                    jsonCustomers.add(convert(customer));
+                for (Item item : personType.getItems()) {
+                    JsonItem jsonItem = new JsonItem();
+                    jsonItem.id = item.getId();
+                    jsonItem.customerId = item.getCustomer().getId();
+                    jsonItem.locationPlace = item.getLocation().getPlace();
+                    jsonItem.title = item.getTitle();
+                    jsonItem.categoryName = item.getCategory().getCategory();
+                    jsonItem.dressSizeName = item.getDressSize().getDressSize();
+                    jsonItem.price = item.getPrice();
+                    jsonItem.personTypeName = item.getPersonType().getPersonType();
+                    jsonItem.imagePath = item.getImagePath();
+                    jsonItem.sold = item.getSold();
+                    jsonItem.published = item.getPublished();
+                    jsonPersonType.items.add(jsonItem);
                 }
 
-                gson.toJson(jsonCustomers, toBrowser);
+                gson.toJson(jsonPersonType, toBrowser);
                 toBrowser.flush();
 
                 break;
 
-            case "findallitems":     // content.js: findAllItems(customerId)
+//            case "findallcustomers":
+//                // Alle Kunden anzeigen
+//                List<Customer> customers = database.findAllCustomers();
+//                List<JsonCustomer> jsonCustomers = new ArrayList<JsonCustomer>();
+//
+//                for (Customer customer : customers) {
+//                    jsonCustomers.add(convert(customer));
+//                }
+//
+//                gson.toJson(jsonCustomers, toBrowser);
+//                toBrowser.flush();
+//
+//                break;
+
+            case "findallitems":
                 // Alle Kleidungstücke eines Kunden anzeigen
                 customer = database.findCustomer(new Long(request.getParameter("customerid")));
                 gson.toJson(convert(customer), toBrowser);
@@ -306,7 +334,6 @@ public class Servlet extends HttpServlet {
         for (Item item : customer.getItems()) {
             JsonItem jsonItem = new JsonItem();
             jsonItem.id = item.getId();
-            jsonItem.customerId = item.getCustomer().getId();
             jsonItem.locationPlace = item.getLocation().getPlace();
             jsonItem.title = item.getTitle();
             jsonItem.categoryName = item.getCategory().getCategory();

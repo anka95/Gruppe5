@@ -21,9 +21,9 @@ public class Category implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String category = "";
-    
     private Long id = 0L;
+    
+    private String category = "";
 
     @OneToMany(mappedBy="category")
     private List<Item> items = new ArrayList<>();

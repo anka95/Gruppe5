@@ -57,13 +57,13 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");        // SONST ERKENNT DER BROWSER NICHT
-        PrintWriter toBrowser = response.getWriter();       // DASS WIR IHM JSON SCHICKEN!  
-
         // Sonderzeichen richtig erkennen!
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
 
+        response.setContentType("application/json");        // SONST ERKENNT DER BROWSER NICHT
+        PrintWriter toBrowser = response.getWriter();       // DASS WIR IHM JSON SCHICKEN!  
+        
         // Angeforderte Datenbankaktion ausführen
         String action = request.getParameter("action");
         if (action == null) {
@@ -187,12 +187,12 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");        // SONST ERKENNT DER BROWSER NICHT
-        PrintWriter toBrowser = response.getWriter();       // DASS WIR IHM JSON SCHICKEN!  
-
         // Sonderzeichen richtig erkennen!
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
+        
+        response.setContentType("application/json");        // SONST ERKENNT DER BROWSER NICHT
+        PrintWriter toBrowser = response.getWriter();       // DASS WIR IHM JSON SCHICKEN!  
 
         // Angeforderte Datenbankaktion ausführen
         String action = request.getParameter("action");

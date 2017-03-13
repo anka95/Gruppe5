@@ -188,22 +188,22 @@ function createNewItem() {
         console.log(ajax.response);
         var location = "<option VALUE = '0' >-Bitte auswählen-</option>";
         for (var i = 0; i < ajax.response.loc.length; i++) {
-            location += "<option VALUE = '" + ajax.response.loc[i].id + ">" + ajax.response.loc[i].place + "'</option>";
+            location += "<option VALUE = '" + ajax.response.loc[i].id + "'>" + ajax.response.loc[i].place + "</option>";
         }
 
         var cat = "<option VALUE = '0' >-Bitte auswählen-</option>";
         for (var i = 0; i < ajax.response.cat.length; i++) {
-            cat += "<option VALUE = '" + ajax.response.cat[i].id + ">" + ajax.response.cat[i].category + "'</option>";
+            cat += "<option VALUE = '" + ajax.response.cat[i].id + "'>" + ajax.response.cat[i].category + "</option>";
         }
 
         var person = "<option VALUE = '0' >-Bitte auswählen-</option>";
         for (var i = 0; i < ajax.response.persontype.length; i++) {
-            person += "<option VALUE = '" + ajax.response.persontype[i].id + ">" + ajax.response.persontype[i].personType + "'</option>";
+            person += "<option VALUE = '" + ajax.response.persontype[i].id + "'>" + ajax.response.persontype[i].personType + "</option>";
         }
 
         var size = "<option VALUE = '0' >-Bitte auswählen-</option>";
         for (var i = 0; i < ajax.response.size.length; i++) {
-            size += "<option VALUE = '" + ajax.response.size[i].id + ">" + ajax.response.size[i].dressSize + "'</option>";
+            size += "<option VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</option>";
         }
 
         content.innerHTML = "<form id='formItems' action='' method='post' enctype='multipart/form-data'>" +

@@ -101,7 +101,7 @@ function findItemsOfPersonType(personType) {
     var ajax = new XMLHttpRequest();
 
     ajax.responseType = "json";
-    ajax.open("GET", "servlet?action=finditemsofpersontype&persontype=" + personType, true);
+    ajax.open("GET", "servlet?action=finditemsofallcustomers", true);
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -111,18 +111,20 @@ function findItemsOfPersonType(personType) {
             createFilter();
             console.log(this.response);
 
-            for (i = 0; i < this.response.items.length; i++) {
-                var newHTML = "<div class='artikel'>"
-                        + "<div class='artikelbilddiv'><img class='artikelbild' src='" + this.response.items[i].imagePath + "' alt='" + this.response.items[i].title + "'></div>"
-                        + "<div class='artikeltext'>"
-                        + "<h3 class='artikelh3'>" + this.response.items[i].title + "</h2>"
-                        + "<p class='category'>" + this.response.items[i].categoryName + "</p>"
-                        + "<p>" + this.response.items[i].personTypeName + " • " + this.response.items[i].locationPlace + "</p>"
-                        + "<p>Größe: " + this.response.items[i].dressSizeName + "</p>"
-                        + "<p><b>" + this.response.items[i].price + " €</b></p>"
-                        + "</div>"
-                        + "</div>";
-                document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
+            for (i = 0; i < this.response.length; i++) {
+                if (this.response[i].personTypeName === personType) {
+                    var newHTML = "<div class='artikel'>"
+                            + "<div class='artikelbilddiv'><img class='artikelbild' src='" + this.response[i].imagePath + "' alt='" + this.response[i].title + "'></div>"
+                            + "<div class='artikeltext'>"
+                            + "<h3 class='artikelh3'>" + this.response[i].title + "</h2>"
+                            + "<p class='category'>" + this.response[i].categoryName + "</p>"
+                            + "<p>" + this.response[i].personTypeName + " • " + this.response[i].locationPlace + "</p>"
+                            + "<p>Größe: " + this.response[i].dressSizeName + "</p>"
+                            + "<p><b>" + this.response[i].price + " €</b></p>"
+                            + "</div>"
+                            + "</div>";
+                    document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
+                }
             }
         }
     };

@@ -215,33 +215,33 @@ public class Servlet extends HttpServlet {
 
                 break;
 
-            case "finditemsofpersontype":
-                personType = database.findPersonType(new Long(request.getParameter("persontype")));
-                JsonPersonType jsonPersonType = new JsonPersonType();
-                jsonPersonType.id = personType.getId();
-                jsonPersonType.personType = personType.getPersonType();
-                jsonPersonType.items = new ArrayList<JsonItem>();
-
-                for (Item item : personType.getItems()) {
-                    JsonItem jsonItem = new JsonItem();
-                    jsonItem.id = item.getId();
-                    jsonItem.customerId = item.getCustomer().getId();
-                    jsonItem.locationPlace = item.getLocation().getPlace();
-                    jsonItem.title = item.getTitle();
-                    jsonItem.categoryName = item.getCategory().getCategory();
-                    jsonItem.dressSizeName = item.getDressSize().getDressSize();
-                    jsonItem.price = item.getPrice();
-                    jsonItem.personTypeName = item.getPersonType().getPersonType();
-                    jsonItem.imagePath = item.getImagePath();
-                    jsonItem.sold = item.getSold();
-                    jsonItem.published = item.getPublished();
-                    jsonPersonType.items.add(jsonItem);
-                }
-
-                gson.toJson(jsonPersonType, toBrowser);
-                toBrowser.flush();
-
-                break;
+//            case "finditemsofpersontype":
+//                personType = database.findPersonType(new Long(request.getParameter("persontype")));
+//                JsonPersonType jsonPersonType = new JsonPersonType();
+//                jsonPersonType.id = personType.getId();
+//                jsonPersonType.personType = personType.getPersonType();
+//                jsonPersonType.items = new ArrayList<JsonItem>();
+//
+//                for (Item item : personType.getItems()) {
+//                    JsonItem jsonItem = new JsonItem();
+//                    jsonItem.id = item.getId();
+//                    jsonItem.customerId = item.getCustomer().getId();
+//                    jsonItem.locationPlace = item.getLocation().getPlace();
+//                    jsonItem.title = item.getTitle();
+//                    jsonItem.categoryName = item.getCategory().getCategory();
+//                    jsonItem.dressSizeName = item.getDressSize().getDressSize();
+//                    jsonItem.price = item.getPrice();
+//                    jsonItem.personTypeName = item.getPersonType().getPersonType();
+//                    jsonItem.imagePath = item.getImagePath();
+//                    jsonItem.sold = item.getSold();
+//                    jsonItem.published = item.getPublished();
+//                    jsonPersonType.items.add(jsonItem);
+//                }
+//
+//                gson.toJson(jsonPersonType, toBrowser);
+//                toBrowser.flush();
+//
+//                break;
 
 //            case "findallcustomers":
 //                // Alle Kunden anzeigen

@@ -1,0 +1,16 @@
+Datenbank importieren:
+
+Windows
+
+Zip-Datei entpacken in 
+"C:\Users\"Windows Benutzer"\.netbeans-derby\" und sun-appserv-samples ersetzen.
+
+Falls der Ordner nicht in dem Verzeichnis sein sollte, dann in
+"C:\Users\"Windows Benutzer"\AppData\Roaming\NetBeans\Derby" nachschauen und die Zip-Datei in das Verzeichnis entpacken!
+
+Bilder der Artikel
+
+Zip-Datei entpacken in 
+"C:\Users\"Windows-Benutzer"\Documents\NetBeansProjects\Gruppe5\SecondHand\build\web" entpacken und ggfs. den Ordner "images" ersetzen.
+(Pfad kann je nach dem, wo euer NetBeans-Projekt abgespeichert ist, abweichen!).
+

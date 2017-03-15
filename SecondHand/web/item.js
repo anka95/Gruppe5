@@ -6,16 +6,16 @@ function itemsCarousel() {
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            console.log(this.response);
+            console.log(ajax.response);
             for (i = 0; i < 5; i++) {
                 document.getElementsByClassName("item")[i].innerHTML =
-                        "<img class='carousel-image' src='" + this.response[i].imagePath + "' alt='" + this.response[i].title + "'>"
+                        "<img class='carousel-image' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'>"
                         + "<div class='carousel-text'>"
-                        + "<h2>" + this.response[i].title + "</h2>"
-                        + "<p class='category'>" + this.response[i].categoryName + "</p>"
-                        + "<p>" + this.response[i].personTypeName + " • " + this.response[i].locationPlace + "</p>"
-                        + "<p>Größe: " + this.response[i].dressSizeName + "</p>"
-                        + "<p><b>" + this.response[i].price + " €</b></p>"
+                        + "<h2>" + ajax.response[i].title + "</h2>"
+                        + "<p class='category'>" + ajax.response[i].categoryName + "</p>"
+                        + "<p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "</p>"
+                        + "<p>Größe: " + ajax.response[i].dressSizeName + "</p>"
+                        + "<p><b>" + ajax.response[i].price + " €</b></p>"
                         + "</div>";
             }
         }
@@ -34,16 +34,16 @@ function findItemsOfAllCustomers() {
             document.getElementsByClassName("row")[2].innerHTML = "";
             document.getElementsByClassName("row")[3].innerHTML = "";
             createFilter();
-            console.log(this.response);
-            for (i = 0; i < this.response.length; i++) {
+            console.log(ajax.response);
+            for (i = 0; i < ajax.response.length; i++) {
                 var newHTML = "<div class='artikel'>"
-                        + "<div class='artikelbilddiv'><img class='artikelbild' src='" + this.response[i].imagePath + "' alt='" + this.response[i].title + "'></div>"
+                        + "<div class='artikelbilddiv'><img class='artikelbild' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'></div>"
                         + "<div class='artikeltext'>"
-                        + "<h3 class='artikelh3'>" + this.response[i].title + "</h2>"
-                        + "<p class='category'>" + this.response[i].categoryName + "</p>"
-                        + "<p>" + this.response[i].personTypeName + " • " + this.response[i].locationPlace + "</p>"
-                        + "<p>Größe: " + this.response[i].dressSizeName + "</p>"
-                        + "<p><b>" + this.response[i].price + " €</b></p>"
+                        + "<h3 class='artikelh3'>" + ajax.response[i].title + "</h2>"
+                        + "<p class='category'>" + ajax.response[i].categoryName + "</p>"
+                        + "<p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "</p>"
+                        + "<p>Größe: " + ajax.response[i].dressSizeName + "</p>"
+                        + "<p><b>" + ajax.response[i].price + " €</b></p>"
                         + "</div>"
                         + "</div>";
                 document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
@@ -112,18 +112,18 @@ function findItemsOfPersonType(personType) {
             document.getElementsByClassName("row")[2].innerHTML = "";
             document.getElementsByClassName("row")[3].innerHTML = "";
             createFilter();
-            console.log(this.response);
+            console.log(ajax.response);
 
-            for (i = 0; i < this.response.length; i++) {
-                if (this.response[i].personTypeName === personType) {
+            for (i = 0; i < ajax.response.length; i++) {
+                if (ajax.response[i].personTypeName === personType) {
                     var newHTML = "<div class='artikel'>"
-                            + "<div class='artikelbilddiv'><img class='artikelbild' src='" + this.response[i].imagePath + "' alt='" + this.response[i].title + "'></div>"
+                            + "<div class='artikelbilddiv'><img class='artikelbild' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'></div>"
                             + "<div class='artikeltext'>"
-                            + "<h3 class='artikelh3'>" + this.response[i].title + "</h2>"
-                            + "<p class='category'>" + this.response[i].categoryName + "</p>"
-                            + "<p>" + this.response[i].personTypeName + " • " + this.response[i].locationPlace + "</p>"
-                            + "<p>Größe: " + this.response[i].dressSizeName + "</p>"
-                            + "<p><b>" + this.response[i].price + " €</b></p>"
+                            + "<h3 class='artikelh3'>" + ajax.response[i].title + "</h2>"
+                            + "<p class='category'>" + ajax.response[i].categoryName + "</p>"
+                            + "<p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "</p>"
+                            + "<p>Größe: " + ajax.response[i].dressSizeName + "</p>"
+                            + "<p><b>" + ajax.response[i].price + " €</b></p>"
                             + "</div>"
                             + "</div>";
                     document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
@@ -144,37 +144,37 @@ function myItems() {
             document.getElementsByClassName("row")[1].innerHTML = "<div class='col-sm-12'></div>";
             document.getElementsByClassName("row")[2].innerHTML = "";
             document.getElementsByClassName("row")[3].innerHTML = "";
-            console.log(this.response);
+            console.log(ajax.response);
             document.getElementsByClassName("col-sm-12")[0].innerHTML = "<div class='artikelplus'>"
                     + "<div class='overlay glyphicon glyphicon-plus' data-toggle='modal' data-target='#newItem' onclick='createNewItem()' title='Artikel verkaufen'></div></div>";
 
-            for (i = 0; i < this.response.items.length; i++) {
-                if (this.response.items[i].published) {
+            for (i = 0; i < ajax.response.items.length; i++) {
+                if (ajax.response.items[i].published) {
                     var published = "<span class='published label label-success'>veröffentlicht</span>";
                 } else {
                     var published = "<span class='published label label-warning'>nicht veröffentlicht</span>";
                 }
 
-                if (this.response.items[i].sold) {
+                if (ajax.response.items[i].sold) {
                     var sold = "<span class='label label-success'>verkauft</span>";
                 } else {
                     var sold = "<span class='label label-warning'>nicht verkauft</span>";
                 }
 
-                var newHTML = "<div class='artikel' id='" + this.response.items[i].id + "'>"
-                        + "<div class='glyphicon glyphicon-edit' data-toggle='modal' data-target='#newItem' onClick='updateItem(" + this.response.items[i].id + ")' title='Artikel bearbeiten'></div>"
-                        + "<div class='glyphicon glyphicon-trash' onClick='deleteItem(" + this.response.items[i].id + ")' title='Artikel löschen'></div>"
-                        + "<div class='artikelbilddiv'><img class='artikelbild' src='" + this.response.items[i].imagePath + "' alt='" + this.response.items[i].title + "'></div>"
+                var newHTML = "<div class='artikel' id='" + ajax.response.items[i].id + "'>"
+                        + "<div class='glyphicon glyphicon-edit' data-toggle='modal' data-target='#newItem' onClick='updateItem(" + ajax.response.items[i].id + ")' title='Artikel bearbeiten'></div>"
+                        + "<div class='glyphicon glyphicon-trash' onClick='deleteItem(" + ajax.response.items[i].id + ")' title='Artikel löschen'></div>"
+                        + "<div class='artikelbilddiv'><img class='artikelbild' src='" + ajax.response.items[i].imagePath + "' alt='" + ajax.response.items[i].title + "'></div>"
                         + "<div class='artikeltext'>"
-                        + "<h3 class='artikelh3'>" + this.response.items[i].title + "</h2>"
+                        + "<h3 class='artikelh3'>" + ajax.response.items[i].title + "</h2>"
                         + "<br>"
                         + published
                         + sold
                         + "<br><br>"
-                        + "<p class='category'>" + this.response.items[i].categoryName + "</p>"
-                        + "<p>" + this.response.items[i].personTypeName + " • " + this.response.items[i].locationPlace + "</p>"
-                        + "<p>Größe: " + this.response.items[i].dressSizeName + "</p>"
-                        + "<p><b>" + this.response.items[i].price + " €</b></p>"
+                        + "<p class='category'>" + ajax.response.items[i].categoryName + "</p>"
+                        + "<p>" + ajax.response.items[i].personTypeName + " • " + ajax.response.items[i].locationPlace + "</p>"
+                        + "<p>Größe: " + ajax.response.items[i].dressSizeName + "</p>"
+                        + "<p><b>" + ajax.response.items[i].price + " €</b></p>"
                         + "</div>"
                         + "</div>";
                 document.getElementsByClassName("col-sm-12")[0].innerHTML += newHTML;
@@ -184,7 +184,9 @@ function myItems() {
 }
 
 function createNewItem() {
-    var content = document.getElementsByClassName("modal-signUp")[1];
+    document.getElementsByClassName("modal-header")[2].innerHTML =
+            "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
+            + "<h4 class='modal-title'>Artikel verkaufen</h4>";
     var ajax = new XMLHttpRequest();
 
     ajax.responseType = "json";
@@ -213,7 +215,7 @@ function createNewItem() {
                 size += "<option VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</option>";
             }
 
-            content.innerHTML = "<form id='formItems' action='' method='post' enctype='multipart/form-data'>" +
+            document.getElementsByClassName("modal-signUp")[1].innerHTML = "<form id='formItems' action='' method='post' enctype='multipart/form-data'>" +
                     "<label>Standort*</label>" +
                     "<select class='loginInput' name='locationId' required>" +
                     location +
@@ -301,22 +303,22 @@ function updateItem(id) {
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            document.getElementsByClassName("modal-title")[1].innerHTML = "Artikel bearbeiten";
+            document.getElementsByClassName("modal-title")[2].innerHTML = "Artikel bearbeiten";
             document.getElementsByClassName("modal-signUp")[1].innerHTML = "<div id='formItems'>" +
                     "<label>Standort:</label>" +
-                    "<input class='loginInput' type='text' name='locationPlace' value='" + this.response.locationPlace + "' disabled>" +
+                    "<input class='loginInput' type='text' name='locationPlace' value='" + ajax.response.locationPlace + "' disabled>" +
                     "<label>Titel*</label>" +
-                    "<input class='loginInput' type='text' name='title' value='" + this.response.title + "' required>" +
+                    "<input class='loginInput' type='text' name='title' value='" + ajax.response.title + "' required>" +
                     "<label>Kategorie</label>" +
-                    "<input class='loginInput' type='text' name='locationPlace' value='" + this.response.categoryName + "' disabled>" +
+                    "<input class='loginInput' type='text' name='locationPlace' value='" + ajax.response.categoryName + "' disabled>" +
                     "<label>Abteilung</label>" +
-                    "<input class='loginInput' type='text' name='locationPlace' value='" + this.response.personTypeName + "' disabled>" +
+                    "<input class='loginInput' type='text' name='locationPlace' value='" + ajax.response.personTypeName + "' disabled>" +
                     "<label>Größe</label>" +
-                    "<input class='loginInput' type='text' name='locationPlace' value='" + this.response.dressSizeName + "' disabled>" +
+                    "<input class='loginInput' type='text' name='locationPlace' value='" + ajax.response.dressSizeName + "' disabled>" +
                     "<label>Verkaufspreis*</label>" +
-                    "<input class='loginInput' type='text' name='price' value='" + this.response.price + "' required>" +
+                    "<input class='loginInput' type='text' name='price' value='" + ajax.response.price + "' required>" +
                     "<br>" +
-                    "<button class='loginButton' type='submit' onClick='saveItemsUpdates(" + this.response.id + ")'>Artikel aktualisieren</button>" +
+                    "<button class='loginButton' type='submit' onClick='saveItemsUpdates(" + ajax.response.id + ")'>Artikel aktualisieren</button>" +
                     "</div>";
         }
     };

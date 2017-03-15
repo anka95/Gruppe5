@@ -56,7 +56,7 @@ public class CheckEmail extends HttpServlet {
                             request.getParameter("place"), request.getParameter("iban"), request.getParameter("bic"), request.getParameter("bank"),
                             request.getParameter("telephone"), request.getParameter("email"), request.getParameter("password"));
                 }
-                gson.toJson(antwort, toBrowser);
+                gson.toJson(antwort.vorhanden, toBrowser);
                 toBrowser.flush();
 
                 break;
@@ -87,7 +87,7 @@ public class CheckEmail extends HttpServlet {
                     antwort.c.setPassword(request.getParameter("password"));
                     database.save(antwort.c);
                 }
-                gson.toJson(antwort, toBrowser);
+                gson.toJson(antwort.vorhanden, toBrowser);
                 toBrowser.flush();
 
                 break;

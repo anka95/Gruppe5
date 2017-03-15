@@ -15,8 +15,10 @@ function login() {
                 $('#login').modal('hide');
                 isLoggedIn();
             } else {
-                document.getElementsByClassName("modal-header")[0].innerHTML +=
-                        "<br><div class='alert alert-danger'>Ihre E-Mail-Adresse oder Ihr Passwort ist falsch!</div>";
+                document.getElementsByClassName("modal-header")[0].innerHTML =
+                        "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
+                        + "<h4 class='modal-title'>Login</h4>"
+                        + "<br><div class='alert alert-danger'>Ihre E-Mail-Adresse oder Ihr Passwort ist falsch!</div>";
             }
         }
     };

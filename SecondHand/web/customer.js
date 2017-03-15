@@ -1,44 +1,11 @@
-function findAllCustomers() {
-    var ajax = new XMLHttpRequest();
-
-    ajax.responseType = "json";
-    ajax.open("GET", "servlet?action=findallcustomers", true);
-    ajax.send();
-    ajax.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            for (i = 0; i < this.response.length; i++) {
-                var newHTML = "<div class='customer' id='" + this.response[i].customerId + "'>"
-                        + this.response[i].salutation
-                        + this.response[i].firstName
-                        + this.response[i].lastName
-                        + this.response[i].street
-                        + this.response[i].houseNumber
-                        + this.response[i].plz
-                        + this.response[i].place
-                        + this.response[i].iban
-                        + this.response[i].bic
-                        + this.response[i].bank
-                        + this.response[i].telephone
-                        + this.response[i].email
-                        + this.response[i].password
-                        + "<p class='delete' id='" + this.response[i].customerId
-                        + "' onClick='deleteCustomer()'>löschen</p>"
-                        + "</div>";
-                document.getElementsByClassName("customers")[0].innerHTML += newHTML;
-            }
-        }
-    };
-}
-
 function createNewCustomer() {
-    var content = document.getElementById("content");
-    content.innerHTML = "<div id='formCustomers'>" +
+    document.getElementById("content").innerHTML = "<div id='formCustomers'>" +
             "<h1>Neu registrieren</h1>" +
             "<div id='bezeichner'" +
             "<label>*Anrede</label>" +
             "<br>" +
-            "<input type='radio' name='salutation' value='Frau' > Frau" +
-            "<input type='radio' name='salutation' value='Herr' > Herr" +
+            "<input type='radio' name='salutation' value='Frau'> Frau" +
+            "<input type='radio' name='salutation' value='Herr'> Herr" +
             "<br><br>" +
             "<label>*Name</label>" +
             "<br>" +
@@ -128,7 +95,11 @@ function saveNewCustomer() {
     }
 
     ajax.responseType = "json";
-    ajax.open("POST", "CheckEmail?action=createnewcustomer&salutation= " + encodeURI(salutation) + "&firstName=" + encodeURI(firstName) + "&lastName=" + encodeURI(lastName) + "&street=" + encodeURI(street) + "&houseNumber=" + encodeURI(houseNumber) + "&plz=" + encodeURI(plz) + "&place=" + encodeURI(place) + "&iban=" + encodeURI(iban) + "&bic=" + encodeURI(bic) + "&bank=" + encodeURI(bank) + "&telephone=" + encodeURI(telephone) + "&email=" + encodeURI(email) + "&password=" + encodeURI(passworda), true);
+    ajax.open("POST", "CheckEmail?action=createnewcustomer&salutation=" + encodeURI(salutation) + "&firstName="
+            + encodeURI(firstName) + "&lastName=" + encodeURI(lastName) + "&street=" + encodeURI(street) + "&houseNumber="
+            + encodeURI(houseNumber) + "&plz=" + encodeURI(plz) + "&place=" + encodeURI(place) + "&iban="
+            + encodeURI(iban) + "&bic=" + encodeURI(bic) + "&bank=" + encodeURI(bank) + "&telephone="
+            + encodeURI(telephone) + "&email=" + encodeURI(email) + "&password=" + encodeURI(passworda), true);
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -174,24 +145,24 @@ function showUserProfile() {
             document.getElementsByClassName("row")[1].innerHTML = "<div class='col-sm-12 profile'></div>";
             document.getElementsByClassName("row")[2].innerHTML = "<div class='col-sm-4 profile'></div><div class='col-sm-4 profile'></div><div class='col-sm-4 profile'></div>";
             document.getElementsByClassName("row")[3].innerHTML = "";
-            console.log(this.response);
+            console.log(ajax.response);
             document.getElementsByClassName("col-sm-12")[0].innerHTML =
                     "<h2>Mein Profil <span class='editProfile glyphicon glyphicon-edit' onClick='updateProfile()' data-toggle='modal' data-target='#signUp' title='Profil bearbeiten'></span>"
                     + "<span class='editProfile glyphicon glyphicon-trash' onClick='deleteCustomer()' title='Profil löschen'></span></h2>";
             document.getElementsByClassName("col-sm-4")[0].innerHTML =
                     "<h3>Name und Anschrift</h3>"
-                    + "<p>" + this.response.salutation + " " + this.response.firstName + " " + this.response.lastName + "</p>"
-                    + "<p>" + this.response.street + " " + this.response.houseNumber + "</p>"
-                    + "<p>" + this.response.plz + " " + this.response.place + "</p>";
+                    + "<p>" + ajax.response.salutation + " " + ajax.response.firstName + " " + ajax.response.lastName + "</p>"
+                    + "<p>" + ajax.response.street + " " + ajax.response.houseNumber + "</p>"
+                    + "<p>" + ajax.response.plz + " " + ajax.response.place + "</p>";
             document.getElementsByClassName("col-sm-4")[1].innerHTML =
                     "<h3>Bankverbindung</h3>"
-                    + "<p>IBAN: " + this.response.iban + "</p>"
-                    + "<p>BIC: " + this.response.bic + "</p>"
-                    + "<p>Bankname: " + this.response.bank + "</p>";
+                    + "<p>IBAN: " + ajax.response.iban + "</p>"
+                    + "<p>BIC: " + ajax.response.bic + "</p>"
+                    + "<p>Bankname: " + ajax.response.bank + "</p>";
             document.getElementsByClassName("col-sm-4")[2].innerHTML =
                     "<h3>Kontaktdaten</h3>"
-                    + "<p>Telefon: " + this.response.telephone + "</p>"
-                    + "<p>E-Mail: " + this.response.email + "</p>";
+                    + "<p>Telefon: " + ajax.response.telephone + "</p>"
+                    + "<p>E-Mail: " + ajax.response.email + "</p>";
         }
     };
 }
@@ -205,9 +176,9 @@ function updateProfile() {
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             var salutation;
-            if (this.response.salutation === "Frau") {
+            if (ajax.response.salutation === "Frau") {
                 salutation = "<input type='radio' name='salutation' value='Frau' checked> Frau" +
-                        "<input type='radio' name='salutation' value='Herr' > Herr";
+                        "<input type='radio' name='salutation' value='Herr'> Herr";
             } else {
                 salutation = "<input type='radio' name='salutation' value='Frau'> Frau" +
                         "<input type='radio' name='salutation' value='Herr' checked> Herr";
@@ -221,32 +192,32 @@ function updateProfile() {
                     + "</div>"
                     + "<br>"
                     + "<label class='signUpLabel'><b>Vorname*</b></label>"
-                    + "<input class='signUpInput' type='text' value='" + this.response.firstName + "' name='firstName' required>"
+                    + "<input class='signUpInput' type='text' value='" + ajax.response.firstName + "' name='firstName' required>"
                     + "<label class='signUpLabel'><b>Nachname*</b></label>"
-                    + "<input class='signUpInput' type='text' value='" + this.response.lastName + "' name='lastName' required>"
+                    + "<input class='signUpInput' type='text' value='" + ajax.response.lastName + "' name='lastName' required>"
                     + "<br>"
                     + "<label class='signUpLabel'><b>Straße*</b></label>"
-                    + "<input class='signUpInput' type='text' value='" + this.response.street + "' name='street' required>"
+                    + "<input class='signUpInput' type='text' value='" + ajax.response.street + "' name='street' required>"
                     + "<label class='signUpLabel'><b>Hausnummer*</b></label>"
-                    + "<input class='signUpInput' type='text' value='" + this.response.houseNumber + "' name='houseNumber' required>"
+                    + "<input class='signUpInput' type='text' value='" + ajax.response.houseNumber + "' name='houseNumber' required>"
                     + "<br>"
                     + "<label class='signUpLabel'><b>PLZ*</b></label>"
-                    + "<input class='signUpInput' type='text' value='" + this.response.plz + "' name='plz' required>"
+                    + "<input class='signUpInput' type='text' value='" + ajax.response.plz + "' name='plz' required>"
                     + "<label class='signUpLabel'><b>Ort*</b></label>"
-                    + "<input class='signUpInput' type='text' value='" + this.response.place + "' name='place' required>"
+                    + "<input class='signUpInput' type='text' value='" + ajax.response.place + "' name='place' required>"
                     + "<br>"
                     + "<label class='signUpLabel'><b>IBAN*</b></label>"
-                    + "<input class='signUpInput' type='text' value='" + this.response.iban + "' name='iban' required>"
+                    + "<input class='signUpInput' type='text' value='" + ajax.response.iban + "' name='iban' required>"
                     + "<label class='signUpLabel'><b>BIC*</b></label>"
-                    + "<input class='signUpInput' type='text' value='" + this.response.bic + "' name='bic' required>"
+                    + "<input class='signUpInput' type='text' value='" + ajax.response.bic + "' name='bic' required>"
                     + "<br>"
                     + "<label class='signUpLabel'><b>Bank*</b></label>"
-                    + "<input class='signUpInput' type='text' value='" + this.response.bank + "' name='bank' required>"
+                    + "<input class='signUpInput' type='text' value='" + ajax.response.bank + "' name='bank' required>"
                     + "<br>"
                     + "<label class='signUpLabel'><b>Telefonnummer</b></label>"
-                    + "<input class='signUpInput' type='text' value='" + this.response.telephone + "' name='telephone'>"
+                    + "<input class='signUpInput' type='text' value='" + ajax.response.telephone + "' name='telephone'>"
                     + "<label class='signUpLabel'><b>E-Mail-Adresse*</b></label>"
-                    + "<input class='signUpInput' type='text' value='" + this.response.email + "' name='signUpEmail' required>"
+                    + "<input class='signUpInput' type='text' value='" + ajax.response.email + "' name='signUpEmail' required>"
                     + "<br>"
                     + "<label class='signUpLabel'><b>Passwort*</b></label>"
                     + "<input class='signUpInput' type='password' placeholder='Passwort eingeben' name='passworda' required>"
@@ -299,7 +270,11 @@ function saveUpdates() {
     }
 
     ajax.responseType = "json";
-    ajax.open("POST", "CheckEmail?action=updateprofile&customerid=" + getCookie() + "&salutation= " + encodeURI(salutation) + "&firstName=" + encodeURI(firstName) + "&lastName=" + encodeURI(lastName) + "&street=" + encodeURI(street) + "&houseNumber=" + encodeURI(houseNumber) + "&plz=" + encodeURI(plz) + "&place=" + encodeURI(place) + "&iban=" + encodeURI(iban) + "&bic=" + encodeURI(bic) + "&bank=" + encodeURI(bank) + "&telephone=" + encodeURI(telephone) + "&email=" + encodeURI(email) + "&password=" + encodeURI(passworda), true);
+    ajax.open("POST", "CheckEmail?action=updateprofile&customerid=" + getCookie() + "&salutation=" + encodeURI(salutation) + "&firstName="
+            + encodeURI(firstName) + "&lastName=" + encodeURI(lastName) + "&street=" + encodeURI(street) + "&houseNumber="
+            + encodeURI(houseNumber) + "&plz=" + encodeURI(plz) + "&place=" + encodeURI(place) + "&iban=" + encodeURI(iban) + "&bic="
+            + encodeURI(bic) + "&bank=" + encodeURI(bank) + "&telephone=" + encodeURI(telephone) + "&email=" + encodeURI(email) + "&password="
+            + encodeURI(passworda), true);
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -315,7 +290,7 @@ function saveUpdates() {
                         "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
                         + "<h4 class='modal-title'>Profil bearbeiten</h4>"
                         + "<br><div class='alert alert-success'>Ihr Profil wurde erfolgreich aktualisiert!</div>";
-                showUserProfile()
+                showUserProfile();
             }
         }
     };

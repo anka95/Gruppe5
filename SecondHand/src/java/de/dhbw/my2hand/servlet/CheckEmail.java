@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.dhbw.my2hand.database.Customer;
 import de.dhbw.my2hand.database.DatabaseFacade;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -15,10 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(
-        name = "CheckEmail",
-        urlPatterns = "/CheckEmail"
-)
+@WebServlet(name = "CheckEmail", urlPatterns = {"/CheckEmail"})
 
 public class CheckEmail extends HttpServlet {
 
@@ -35,11 +30,7 @@ public class CheckEmail extends HttpServlet {
         response.setContentType("application/json");        // SONST ERKENNT DER BROWSER NICHT
         PrintWriter toBrowser = response.getWriter();       // DASS WIR IHM JSON SCHICKEN!
 
-        BufferedReader fromBrowser = new BufferedReader(new InputStreamReader(request.getInputStream()));
-
         Gson gson = new GsonBuilder().create();
-
-        jsonEmail anfrage = gson.fromJson(fromBrowser, jsonEmail.class);
         jsonEmailAntwort antwort = new jsonEmailAntwort();
 
         antwort.vorhanden = false;
@@ -53,17 +44,17 @@ public class CheckEmail extends HttpServlet {
         switch (action) {
             case "createnewcustomer":
                 for (int i = 0; i < database.findAllCustomers().size(); i++) {
-                    if (database.findAllCustomers().get(i).getEmail().equals(anfrage.email)) {
+                    if (database.findAllCustomers().get(i).getEmail().equals(request.getParameter("email"))) {
                         antwort.vorhanden = true;
                         break;
                     }
                 }
 
                 if (!antwort.vorhanden) {
-                    antwort.c = database.createNewCustomer(anfrage.salutation, anfrage.firstName, anfrage.lastName,
-                            anfrage.street, anfrage.houseNumber, anfrage.plz,
-                            anfrage.place, anfrage.iban, anfrage.bic, anfrage.bank,
-                            anfrage.telephone, anfrage.email, anfrage.password);
+                    antwort.c = database.createNewCustomer(request.getParameter("salutation"), request.getParameter("firstName"), request.getParameter("lastName"),
+                            request.getParameter("street"), request.getParameter("houseNumber"), request.getParameter("plz"),
+                            request.getParameter("place"), request.getParameter("iban"), request.getParameter("bic"), request.getParameter("bank"),
+                            request.getParameter("telephone"), request.getParameter("email"), request.getParameter("password"));
                 }
                 gson.toJson(antwort, toBrowser);
                 toBrowser.flush();
@@ -72,28 +63,28 @@ public class CheckEmail extends HttpServlet {
 
             case "updateprofile":
                 for (int i = 0; i < database.findAllCustomers().size(); i++) {
-                    if (database.findAllCustomers().get(i).getEmail().equals(anfrage.email)
-                            && !database.findAllCustomers().get(i).getId().equals(new Long(anfrage.customerId))) {
+                    if (database.findAllCustomers().get(i).getEmail().equals(request.getParameter("email"))
+                            && !database.findAllCustomers().get(i).getId().equals(new Long(request.getParameter("customerid")))) {
                         antwort.vorhanden = true;
                         break;
                     }
                 }
 
                 if (!antwort.vorhanden) {
-                    antwort.c = database.findCustomer(new Long(anfrage.customerId));
-                    antwort.c.setSalutation(anfrage.salutation);
-                    antwort.c.setFirstName(anfrage.firstName);
-                    antwort.c.setLastName(anfrage.lastName);
-                    antwort.c.setStreet(anfrage.street);
-                    antwort.c.setHouseNumber(anfrage.houseNumber);
-                    antwort.c.setPLZ(anfrage.plz);
-                    antwort.c.setPlace(anfrage.place);
-                    antwort.c.setIban(anfrage.iban);
-                    antwort.c.setBic(anfrage.bic);
-                    antwort.c.setBank(anfrage.bank);
-                    antwort.c.setTelephone(anfrage.telephone);
-                    antwort.c.setEmail(anfrage.email);
-                    antwort.c.setPassword(anfrage.password);
+                    antwort.c = database.findCustomer(new Long(request.getParameter("customerid")));
+                    antwort.c.setSalutation(request.getParameter("salutation"));
+                    antwort.c.setFirstName(request.getParameter("firstName"));
+                    antwort.c.setLastName(request.getParameter("lastName"));
+                    antwort.c.setStreet(request.getParameter("street"));
+                    antwort.c.setHouseNumber(request.getParameter("houseNumber"));
+                    antwort.c.setPLZ(request.getParameter("plz"));
+                    antwort.c.setPlace(request.getParameter("place"));
+                    antwort.c.setIban(request.getParameter("iban"));
+                    antwort.c.setBic(request.getParameter("bic"));
+                    antwort.c.setBank(request.getParameter("bank"));
+                    antwort.c.setTelephone(request.getParameter("telephone"));
+                    antwort.c.setEmail(request.getParameter("email"));
+                    antwort.c.setPassword(request.getParameter("password"));
                     database.save(antwort.c);
                 }
                 gson.toJson(antwort, toBrowser);
@@ -102,12 +93,6 @@ public class CheckEmail extends HttpServlet {
                 break;
         }
     }
-}
-
-class jsonEmail {
-
-    public String customerId, email, salutation, firstName, lastName, street, houseNumber,
-            plz, place, iban, bic, bank, telephone, password;
 }
 
 class jsonEmailAntwort {

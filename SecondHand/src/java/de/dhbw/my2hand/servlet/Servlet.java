@@ -49,9 +49,7 @@ public class Servlet extends HttpServlet {
     private Category category;
     private DressSize dressSize;
     private PersonType personType;
-    private String customerId, salutation, firstName, lastName, street, houseNumber,
-            plz, place, iban, bic, bank, telephone, email, password,
-            locationId, title, categoryId, dressSizeId, price, personTypeId;
+    private String customerId, locationId, title, categoryId, dressSizeId, price, personTypeId;
     private Gson gson = new GsonBuilder().create();
 
     @Override
@@ -63,7 +61,7 @@ public class Servlet extends HttpServlet {
 
         response.setContentType("application/json");        // SONST ERKENNT DER BROWSER NICHT
         PrintWriter toBrowser = response.getWriter();       // DASS WIR IHM JSON SCHICKEN!  
-        
+
         // Angeforderte Datenbankaktion ausführen
         String action = request.getParameter("action");
         if (action == null) {
@@ -71,30 +69,6 @@ public class Servlet extends HttpServlet {
         }
 
         switch (action) {
-//            case "createnewcustomer":
-//                // Neuer Kunde anlegen
-//                salutation = request.getParameter("salutation");
-//                firstName = request.getParameter("firstname");
-//                lastName = request.getParameter("lastname");
-//                street = request.getParameter("street");
-//                houseNumber = request.getParameter("housenumber");
-//                plz = request.getParameter("plz");
-//                place = request.getParameter("place");
-//                iban = request.getParameter("iban");
-//                bic = request.getParameter("bic");
-//                bank = request.getParameter("bank");
-//                telephone = request.getParameter("telephone");
-//                email = request.getParameter("email");
-//                password = request.getParameter("password");
-//
-//                customer = database.createNewCustomer(salutation, firstName, lastName, street,
-//                        houseNumber, plz, place, iban, bic, bank, telephone, email, password);
-//
-//                gson.toJson(customer, toBrowser);
-//                toBrowser.flush();
-//
-//                break;
-
             case "createnewitem":
                 // Neues Kleidungsstück anlegen
                 customerId = request.getParameter("customerid");
@@ -190,7 +164,7 @@ public class Servlet extends HttpServlet {
         // Sonderzeichen richtig erkennen!
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
-        
+
         response.setContentType("application/json");        // SONST ERKENNT DER BROWSER NICHT
         PrintWriter toBrowser = response.getWriter();       // DASS WIR IHM JSON SCHICKEN!  
 
@@ -209,58 +183,52 @@ public class Servlet extends HttpServlet {
                 break;
 
             case "deleteitem":
-                // Kleidungsstück löschen
+                // Kleidungsstück und Artikelbild löschen
                 item = database.findItem(new Long(request.getParameter("itemid")));
+                String imagePath = getServletContext().getRealPath("") + File.separator + item.getImagePath();
+                File image = new File(imagePath);
+                image.delete();
                 database.delete(item);
 
                 break;
 
-//            case "finditemsofpersontype":
-//                personType = database.findPersonType(new Long(request.getParameter("persontype")));
-//                JsonPersonType jsonPersonType = new JsonPersonType();
-//                jsonPersonType.id = personType.getId();
-//                jsonPersonType.personType = personType.getPersonType();
-//                jsonPersonType.items = new ArrayList<JsonItem>();
-//
-//                for (Item item : personType.getItems()) {
-//                    JsonItem jsonItem = new JsonItem();
-//                    jsonItem.id = item.getId();
-//                    jsonItem.customerId = item.getCustomer().getId();
-//                    jsonItem.locationPlace = item.getLocation().getPlace();
-//                    jsonItem.title = item.getTitle();
-//                    jsonItem.categoryName = item.getCategory().getCategory();
-//                    jsonItem.dressSizeName = item.getDressSize().getDressSize();
-//                    jsonItem.price = item.getPrice();
-//                    jsonItem.personTypeName = item.getPersonType().getPersonType();
-//                    jsonItem.imagePath = item.getImagePath();
-//                    jsonItem.sold = item.getSold();
-//                    jsonItem.published = item.getPublished();
-//                    jsonPersonType.items.add(jsonItem);
-//                }
-//
-//                gson.toJson(jsonPersonType, toBrowser);
-//                toBrowser.flush();
-//
-//                break;
-
-//            case "findallcustomers":
-//                // Alle Kunden anzeigen
-//                List<Customer> customers = database.findAllCustomers();
-//                List<JsonCustomer> jsonCustomers = new ArrayList<JsonCustomer>();
-//
-//                for (Customer customer : customers) {
-//                    jsonCustomers.add(convert(customer));
-//                }
-//
-//                gson.toJson(jsonCustomers, toBrowser);
-//                toBrowser.flush();
-//
-//                break;
-
             case "findallitems":
                 // Alle Kleidungstücke eines Kunden anzeigen
                 customer = database.findCustomer(new Long(request.getParameter("customerid")));
-                gson.toJson(convert(customer), toBrowser);
+
+                JsonCustomer jsonCustomer = new JsonCustomer();
+                jsonCustomer.customerId = customer.getId();
+                jsonCustomer.salutation = customer.getSalutation();
+                jsonCustomer.firstName = customer.getFirstName();
+                jsonCustomer.lastName = customer.getLastName();
+                jsonCustomer.street = customer.getStreet();
+                jsonCustomer.houseNumber = customer.getHouseNumber();
+                jsonCustomer.plz = customer.getPLZ();
+                jsonCustomer.place = customer.getPlace();
+                jsonCustomer.iban = customer.getIban();
+                jsonCustomer.bic = customer.getBic();
+                jsonCustomer.bank = customer.getBank();
+                jsonCustomer.telephone = customer.getTelephone();
+                jsonCustomer.email = customer.getEmail();
+                jsonCustomer.password = customer.getPassword();
+                jsonCustomer.items = new ArrayList<JsonItem>();
+
+                for (Item item : customer.getItems()) {
+                    JsonItem jsonItem = new JsonItem();
+                    jsonItem.id = item.getId();
+                    jsonItem.locationPlace = item.getLocation().getPlace();
+                    jsonItem.title = item.getTitle();
+                    jsonItem.categoryName = item.getCategory().getCategory();
+                    jsonItem.dressSizeName = item.getDressSize().getDressSize();
+                    jsonItem.price = item.getPrice();
+                    jsonItem.personTypeName = item.getPersonType().getPersonType();
+                    jsonItem.imagePath = item.getImagePath();
+                    jsonItem.sold = item.getSold();
+                    jsonItem.published = item.getPublished();
+                    jsonCustomer.items.add(jsonItem);
+                }
+
+                gson.toJson(jsonCustomer, toBrowser);
                 toBrowser.flush();
 
                 break;
@@ -311,41 +279,6 @@ public class Servlet extends HttpServlet {
 
                 break;
         }
-    }
-
-    private JsonCustomer convert(Customer customer) {
-        JsonCustomer jsonCustomer = new JsonCustomer();
-        jsonCustomer.customerId = customer.getId();
-        jsonCustomer.salutation = customer.getSalutation();
-        jsonCustomer.firstName = customer.getFirstName();
-        jsonCustomer.lastName = customer.getLastName();
-        jsonCustomer.street = customer.getStreet();
-        jsonCustomer.houseNumber = customer.getHouseNumber();
-        jsonCustomer.plz = customer.getPLZ();
-        jsonCustomer.place = customer.getPlace();
-        jsonCustomer.iban = customer.getIban();
-        jsonCustomer.bic = customer.getBic();
-        jsonCustomer.bank = customer.getBank();
-        jsonCustomer.telephone = customer.getTelephone();
-        jsonCustomer.email = customer.getEmail();
-        jsonCustomer.password = customer.getPassword();
-        jsonCustomer.items = new ArrayList<JsonItem>();
-
-        for (Item item : customer.getItems()) {
-            JsonItem jsonItem = new JsonItem();
-            jsonItem.id = item.getId();
-            jsonItem.locationPlace = item.getLocation().getPlace();
-            jsonItem.title = item.getTitle();
-            jsonItem.categoryName = item.getCategory().getCategory();
-            jsonItem.dressSizeName = item.getDressSize().getDressSize();
-            jsonItem.price = item.getPrice();
-            jsonItem.personTypeName = item.getPersonType().getPersonType();
-            jsonItem.imagePath = item.getImagePath();
-            jsonItem.sold = item.getSold();
-            jsonItem.published = item.getPublished();
-            jsonCustomer.items.add(jsonItem);
-        }
-        return jsonCustomer;
     }
 }
 

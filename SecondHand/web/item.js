@@ -54,47 +54,50 @@ function findItemsOfAllCustomers() {
 
 function createFilter() {
     var ajax = new XMLHttpRequest();
-    ajax.open("Post", "CreateSelection");
+
     ajax.responseType = "json";
-    ajax.addEventListener("load", function () {
-        console.log(ajax.response);
-        var location = "";
-        for (var i = 0; i < ajax.response.loc.length; i++) {
-            location += "<input type='radio' name='standort' VALUE = '" + ajax.response.loc[i].id + "'>" + ajax.response.loc[i].place + "</br>";
-        }
-        var cat = "";
-        for (var i = 0; i < ajax.response.cat.length; i++) {
-            cat += "<input type='radio' name='kategorie' VALUE = '" + ajax.response.cat[i].id + "'>" + ajax.response.cat[i].category + "</br>";
-        }
-
-        var person = "";
-        for (var i = 0; i < ajax.response.persontype.length; i++) {
-            person += "<input type='radio' name='abteilung' VALUE = '" + ajax.response.persontype[i].id + "'>" + ajax.response.persontype[i].personType + "</br>";
-        }
-
-        var size = "";
-        for (var i = 0; i < ajax.response.size.length; i++) {
-            size += "<input type='radio' name='groessen' VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</br>";
-        }
-
-        document.getElementsByClassName("col-sm-2")[0].innerHTML =
-                "<form class='filter'>"
-                + "<b>Standorte</b><br><br>"
-                + location
-                + "<hr>"
-                + "<b>Kategorie</b><br><br>"
-                + cat
-                + "<hr>"
-                + "<b>Abteilung</b><br><br>"
-                + person
-                + "<hr>"
-                + "<b>Größen</b><br><br>"
-                + size
-                + "<hr>"
-                + "<input type='button' name='submit' value='Filtern' onClick='sellArticles()'/>"
-                + "</form>";
-    });
+    ajax.open("POST", "CreateSelection");
     ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            console.log(ajax.response);
+            var location = "";
+            for (var i = 0; i < ajax.response.loc.length; i++) {
+                location += "<input type='radio' name='standort' VALUE = '" + ajax.response.loc[i].id + "'>" + ajax.response.loc[i].place + "</br>";
+            }
+            var cat = "";
+            for (var i = 0; i < ajax.response.cat.length; i++) {
+                cat += "<input type='radio' name='kategorie' VALUE = '" + ajax.response.cat[i].id + "'>" + ajax.response.cat[i].category + "</br>";
+            }
+
+            var person = "";
+            for (var i = 0; i < ajax.response.persontype.length; i++) {
+                person += "<input type='radio' name='abteilung' VALUE = '" + ajax.response.persontype[i].id + "'>" + ajax.response.persontype[i].personType + "</br>";
+            }
+
+            var size = "";
+            for (var i = 0; i < ajax.response.size.length; i++) {
+                size += "<input type='radio' name='groessen' VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</br>";
+            }
+
+            document.getElementsByClassName("col-sm-2")[0].innerHTML =
+                    "<form class='filter'>"
+                    + "<b>Standorte</b><br><br>"
+                    + location
+                    + "<hr>"
+                    + "<b>Kategorie</b><br><br>"
+                    + cat
+                    + "<hr>"
+                    + "<b>Abteilung</b><br><br>"
+                    + person
+                    + "<hr>"
+                    + "<b>Größen</b><br><br>"
+                    + size
+                    + "<hr>"
+                    + "<input type='button' name='submit' value='Filtern' onClick='sellArticles()'/>"
+                    + "</form>";
+        }
+    };
 }
 
 function findItemsOfPersonType(personType) {
@@ -182,60 +185,62 @@ function myItems() {
 
 function createNewItem() {
     var content = document.getElementsByClassName("modal-signUp")[1];
-
     var ajax = new XMLHttpRequest();
-    ajax.open("Post", "CreateSelection");
+
     ajax.responseType = "json";
-    ajax.addEventListener("load", function () {
-        console.log(ajax.response);
-        var location = "<option VALUE = '0' >-Bitte auswählen-</option>";
-        for (var i = 0; i < ajax.response.loc.length; i++) {
-            location += "<option VALUE = '" + ajax.response.loc[i].id + "'>" + ajax.response.loc[i].place + "</option>";
-        }
-
-        var cat = "<option VALUE = '0' >-Bitte auswählen-</option>";
-        for (var i = 0; i < ajax.response.cat.length; i++) {
-            cat += "<option VALUE = '" + ajax.response.cat[i].id + "'>" + ajax.response.cat[i].category + "</option>";
-        }
-
-        var person = "<option VALUE = '0' >-Bitte auswählen-</option>";
-        for (var i = 0; i < ajax.response.persontype.length; i++) {
-            person += "<option VALUE = '" + ajax.response.persontype[i].id + "'>" + ajax.response.persontype[i].personType + "</option>";
-        }
-
-        var size = "<option VALUE = '0' >-Bitte auswählen-</option>";
-        for (var i = 0; i < ajax.response.size.length; i++) {
-            size += "<option VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</option>";
-        }
-
-        content.innerHTML = "<form id='formItems' action='' method='post' enctype='multipart/form-data'>" +
-                "<label>Standort*</label>" +
-                "<select class='loginInput' name='locationId' required>" +
-                location +
-                "</select>" +
-                "<label>Titel*</label>" +
-                "<input class='loginInput' type='text' name='title' placeholder='Titel' required>" +
-                "<label>Kategorie*</label>" +
-                "<select class='loginInput' name='categoryId' required>" +
-                cat +
-                "</select>" +
-                "<label>Abteilung*</label>" +
-                "<select class='loginInput' name='personTypeId' required>" +
-                person +
-                "</select>" +
-                "<label>Größe*</label>" +
-                "<select class='loginInput' name='dressSizeId' required>" +
-                size +
-                "</select>" +
-                "<label>Verkaufspreis*</label>" +
-                "<input class='loginInput' type='text' name='price' placeholder='Verkaufspreis' required>" +
-                "<label>Bild hochladen*</label>" +
-                "<input class='imageUpload' type='file' name='imageUpload' accept='image/*'/>" +
-                "<br>" +
-                "<button class='loginButton' type='submit' onClick='actionString()'>Artikel verkaufen</button>" +
-                "</form>";
-    });
+    ajax.open("POST", "CreateSelection");
     ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            console.log(ajax.response);
+            var location = "<option VALUE = '0' >-Bitte auswählen-</option>";
+            for (var i = 0; i < ajax.response.loc.length; i++) {
+                location += "<option VALUE = '" + ajax.response.loc[i].id + "'>" + ajax.response.loc[i].place + "</option>";
+            }
+
+            var cat = "<option VALUE = '0' >-Bitte auswählen-</option>";
+            for (var i = 0; i < ajax.response.cat.length; i++) {
+                cat += "<option VALUE = '" + ajax.response.cat[i].id + "'>" + ajax.response.cat[i].category + "</option>";
+            }
+
+            var person = "<option VALUE = '0' >-Bitte auswählen-</option>";
+            for (var i = 0; i < ajax.response.persontype.length; i++) {
+                person += "<option VALUE = '" + ajax.response.persontype[i].id + "'>" + ajax.response.persontype[i].personType + "</option>";
+            }
+
+            var size = "<option VALUE = '0' >-Bitte auswählen-</option>";
+            for (var i = 0; i < ajax.response.size.length; i++) {
+                size += "<option VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</option>";
+            }
+
+            content.innerHTML = "<form id='formItems' action='' method='post' enctype='multipart/form-data'>" +
+                    "<label>Standort*</label>" +
+                    "<select class='loginInput' name='locationId' required>" +
+                    location +
+                    "</select>" +
+                    "<label>Titel*</label>" +
+                    "<input class='loginInput' type='text' name='title' placeholder='Titel' required>" +
+                    "<label>Kategorie*</label>" +
+                    "<select class='loginInput' name='categoryId' required>" +
+                    cat +
+                    "</select>" +
+                    "<label>Abteilung*</label>" +
+                    "<select class='loginInput' name='personTypeId' required>" +
+                    person +
+                    "</select>" +
+                    "<label>Größe*</label>" +
+                    "<select class='loginInput' name='dressSizeId' required>" +
+                    size +
+                    "</select>" +
+                    "<label>Verkaufspreis*</label>" +
+                    "<input class='loginInput' type='text' name='price' placeholder='Verkaufspreis' required>" +
+                    "<label>Bild hochladen*</label>" +
+                    "<input class='imageUpload' type='file' name='imageUpload' accept='image/*'/>" +
+                    "<br>" +
+                    "<button class='loginButton' type='submit' onClick='actionString()'>Artikel verkaufen</button>" +
+                    "</form>";
+        }
+    };
 }
 
 function actionString() {
@@ -320,6 +325,7 @@ function updateItem(id) {
 function saveItemsUpdates(id) {
     var title = document.getElementsByName("title")[0].value;
     var price = document.getElementsByName("price")[0].value;
+    var ajax = new XMLHttpRequest();
 
     if (title === "" || price === "") {
         document.getElementsByClassName("modal-header")[2].innerHTML =
@@ -329,7 +335,7 @@ function saveItemsUpdates(id) {
         return;
     }
 
-    var ajax = new XMLHttpRequest();
+    ajax.responseType = "json";
     ajax.open("POST", "servlet?action=updateitem&id=" + encodeURI(id)
             + "&title=" + encodeURI(title) + "&price=" + encodeURI(price), true);
     ajax.send();

@@ -101,6 +101,7 @@ function saveNewCustomer() {
     var email = document.getElementsByName("signUpEmail")[0].value;
     var passworda = document.getElementsByName("passworda")[0].value;
     var passwordb = document.getElementsByName("passwordb")[0].value;
+    var ajax = new XMLHttpRequest();
 
     if (document.getElementsByName("salutation")[0].checked) {
         salutation = document.getElementsByName("salutation")[0].value;
@@ -126,56 +127,40 @@ function saveNewCustomer() {
         return;
     }
 
-    var ajax = new XMLHttpRequest();
-    ajax.open("POST", "CheckEmail?action=createnewcustomer");
     ajax.responseType = "json";
-    ajax.addEventListener("load", function () {
-        console.log(ajax.response);
-        if (ajax.response.vorhanden) {
-            document.getElementsByClassName("modal-header")[1].innerHTML =
-                    "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
-                    + "<h4 class='modal-title'>Neu registrieren</h4>"
-                    + "<br><div class='alert alert-danger'>Unter dieser E-Mail-Adresse ist bereits ein Nutzer registriert!</div>";
-        } else {
-            document.getElementsByClassName("modal-header")[1].innerHTML =
-                    "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
-                    + "<h4 class='modal-title'>Neu registrieren</h4>"
-                    + "<br><div class='alert alert-success'>Ihr Kundenkonto wurde erfolgreich angelegt!</div>";
-            document.getElementsByName("salutation")[0].checked = false;
-            document.getElementsByName("salutation")[1].checked = false;
-            document.getElementsByName("firstName")[0].value = "";
-            document.getElementsByName("lastName")[0].value = "";
-            document.getElementsByName("street")[0].value = "";
-            document.getElementsByName("houseNumber")[0].value = "";
-            document.getElementsByName("plz")[0].value = "";
-            document.getElementsByName("place")[0].value = "";
-            document.getElementsByName("iban")[0].value = "";
-            document.getElementsByName("bic")[0].value = "";
-            document.getElementsByName("bank")[0].value = "";
-            document.getElementsByName("telephone")[0].value = "";
-            document.getElementsByName("signUpEmail")[0].value = "";
-            document.getElementsByName("passworda")[0].value = "";
-            document.getElementsByName("passwordb")[0].value = "";
-        }
-    });
-
-    ajax.send(JSON.stringify(
-            {
-                salutation: salutation,
-                firstName: firstName,
-                lastName: lastName,
-                street: street,
-                houseNumber: houseNumber,
-                plz: plz,
-                place: place,
-                iban: iban,
-                bic: bic,
-                bank: bank,
-                telephone: telephone,
-                email: email,
-                password: passworda
+    ajax.open("POST", "CheckEmail?action=createnewcustomer&salutation= " + encodeURI(salutation) + "&firstName=" + encodeURI(firstName) + "&lastName=" + encodeURI(lastName) + "&street=" + encodeURI(street) + "&houseNumber=" + encodeURI(houseNumber) + "&plz=" + encodeURI(plz) + "&place=" + encodeURI(place) + "&iban=" + encodeURI(iban) + "&bic=" + encodeURI(bic) + "&bank=" + encodeURI(bank) + "&telephone=" + encodeURI(telephone) + "&email=" + encodeURI(email) + "&password=" + encodeURI(passworda), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            console.log(ajax.response);
+            if (ajax.response.vorhanden) {
+                document.getElementsByClassName("modal-header")[1].innerHTML =
+                        "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
+                        + "<h4 class='modal-title'>Neu registrieren</h4>"
+                        + "<br><div class='alert alert-danger'>Unter dieser E-Mail-Adresse ist bereits ein Nutzer registriert!</div>";
+            } else {
+                document.getElementsByClassName("modal-header")[1].innerHTML =
+                        "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
+                        + "<h4 class='modal-title'>Neu registrieren</h4>"
+                        + "<br><div class='alert alert-success'>Ihr Kundenkonto wurde erfolgreich angelegt!</div>";
+                document.getElementsByName("salutation")[0].checked = false;
+                document.getElementsByName("salutation")[1].checked = false;
+                document.getElementsByName("firstName")[0].value = "";
+                document.getElementsByName("lastName")[0].value = "";
+                document.getElementsByName("street")[0].value = "";
+                document.getElementsByName("houseNumber")[0].value = "";
+                document.getElementsByName("plz")[0].value = "";
+                document.getElementsByName("place")[0].value = "";
+                document.getElementsByName("iban")[0].value = "";
+                document.getElementsByName("bic")[0].value = "";
+                document.getElementsByName("bank")[0].value = "";
+                document.getElementsByName("telephone")[0].value = "";
+                document.getElementsByName("signUpEmail")[0].value = "";
+                document.getElementsByName("passworda")[0].value = "";
+                document.getElementsByName("passwordb")[0].value = "";
             }
-    ));
+        }
+    };
 }
 
 function showUserProfile() {
@@ -287,6 +272,7 @@ function saveUpdates() {
     var email = document.getElementsByName("signUpEmail")[0].value;
     var passworda = document.getElementsByName("passworda")[0].value;
     var passwordb = document.getElementsByName("passwordb")[0].value;
+    var ajax = new XMLHttpRequest();
 
     if (document.getElementsByName("salutation")[0].checked) {
         salutation = document.getElementsByName("salutation")[0].value;
@@ -312,48 +298,31 @@ function saveUpdates() {
         return;
     }
 
-    var ajax = new XMLHttpRequest();
-    ajax.open("POST", "CheckEmail?action=updateprofile");
     ajax.responseType = "json";
-    ajax.addEventListener("load", function () {
-        console.log(ajax.response);
-        if (ajax.response.vorhanden) {
-            document.getElementsByClassName("modal-header")[1].innerHTML =
-                    "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
-                    + "<h4 class='modal-title'>Profil bearbeiten</h4>"
-                    + "<br><div class='alert alert-danger'>Unter dieser E-Mail-Adresse ist bereits ein Nutzer registriert!</div>";
-            return;
-        } else {
-            document.getElementsByClassName("modal-header")[1].innerHTML =
-                    "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
-                    + "<h4 class='modal-title'>Profil bearbeiten</h4>"
-                    + "<br><div class='alert alert-success'>Ihr Profil wurde erfolgreich aktualisiert!</div>";
-            showUserProfile()
-        }
-    });
-
-    ajax.send(JSON.stringify(
-            {
-                customerId: getCookie(),
-                salutation: salutation,
-                firstName: firstName,
-                lastName: lastName,
-                street: street,
-                houseNumber: houseNumber,
-                plz: plz,
-                place: place,
-                iban: iban,
-                bic: bic,
-                bank: bank,
-                telephone: telephone,
-                email: email,
-                password: passworda
+    ajax.open("POST", "CheckEmail?action=updateprofile&customerid=" + getCookie() + "&salutation= " + encodeURI(salutation) + "&firstName=" + encodeURI(firstName) + "&lastName=" + encodeURI(lastName) + "&street=" + encodeURI(street) + "&houseNumber=" + encodeURI(houseNumber) + "&plz=" + encodeURI(plz) + "&place=" + encodeURI(place) + "&iban=" + encodeURI(iban) + "&bic=" + encodeURI(bic) + "&bank=" + encodeURI(bank) + "&telephone=" + encodeURI(telephone) + "&email=" + encodeURI(email) + "&password=" + encodeURI(passworda), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            console.log(ajax.response);
+            if (ajax.response.vorhanden) {
+                document.getElementsByClassName("modal-header")[1].innerHTML =
+                        "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
+                        + "<h4 class='modal-title'>Profil bearbeiten</h4>"
+                        + "<br><div class='alert alert-danger'>Unter dieser E-Mail-Adresse ist bereits ein Nutzer registriert!</div>";
+                return;
+            } else {
+                document.getElementsByClassName("modal-header")[1].innerHTML =
+                        "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
+                        + "<h4 class='modal-title'>Profil bearbeiten</h4>"
+                        + "<br><div class='alert alert-success'>Ihr Profil wurde erfolgreich aktualisiert!</div>";
+                showUserProfile()
             }
-    ));
+        }
+    };
 }
 
 function deleteCustomer() {
-    var result = confirm("Wollen Sie den Kunden wirklich löschen?");
+    var result = confirm("Wollen Sie Ihr Kundenkonto wirklich löschen?");
     if (!result)
         return;
 

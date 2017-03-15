@@ -19,10 +19,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(
-        name = "CreateSelection",
-        urlPatterns = "/CreateSelection"
-)
+@WebServlet(name = "CreateSelection", urlPatterns = {"/CreateSelection"})
+
 public class CreateSelection extends HttpServlet {
 
     @EJB
@@ -156,9 +154,6 @@ public class CreateSelection extends HttpServlet {
     }
 }
 
-//class jsonNav{
-//    
-//}
 class JsonLocation {
 
     public Long id;

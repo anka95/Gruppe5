@@ -14,6 +14,7 @@
         <script src="customer.js" charset="utf-8"></script>
         <script src="item.js" charset="utf-8"></script>
         <script src="loginAndLogout.js" charset="utf-8"></script>
+        <script src="email.js" charset="utf-8"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -26,6 +27,15 @@
             #willkommen {
                 font-family: 'Oranienbaum', serif;
                 font-size: 45px;
+            }
+
+            .kontakt {
+                float: right;
+                margin: 10px 15px 0 0;
+            }
+
+            .kon_imp:hover {
+                color: #d11860;
             }
 
             .row.header {
@@ -316,19 +326,68 @@
             .profile {
                 padding-left: 50px;
             }
+
+            #snackbar {
+                visibility: hidden; /* Hidden by default. Visible on click */
+                min-width: 250px; /* Set a default minimum width */
+                margin-left: -125px; /* Divide value of min-width by 2 */
+                background-color: #333; /* Black background color */
+                color: #fff; /* White text color */
+                text-align: center; /* Centered text */
+                border-radius: 2px; /* Rounded borders */
+                padding: 16px; /* Padding */
+                position: fixed; /* Sit on top of the screen */
+                z-index: 1; /* Add a z-index if needed */
+                left: 50%; /* Center the snackbar */
+                top: 30px; /* 30px from the top */
+            }
+
+            #snackbar.show {
+                visibility: visible; /* Show the snackbar */
+
+                /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+                However, delay the fade out process for 2.5 seconds */
+                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            }
+
+            /* Animations to fade the snackbar in and out */
+            @-webkit-keyframes fadein {
+                from {top: 0; opacity: 0;} 
+                to {top: 30px; opacity: 1;}
+            }
+
+            @keyframes fadein {
+                from {top: 0; opacity: 0;}
+                to {top: 30px; opacity: 1;}
+            }
+
+            @-webkit-keyframes fadeout {
+                from {top: 30px; opacity: 1;} 
+                to {top: 0; opacity: 0;}
+            }
+
+            @keyframes fadeout {
+                from {top: 30px; opacity: 1;}
+                to {top: 0; opacity: 0;}
+            }
         </style>
     </head>
 
     <body onload="itemsCarousel(); isLoggedIn();">
         <div class="container-fluid">
+            <div id="snackbar">Vielen Dank für Ihre Kontaktanfrage!</div>
             <div class="row header">
                 <div class="col-sm-3">
                     <div id="logo">
                         <a href="/Gruppe5/SecondHand/"><img src="img/Logo.png" alt="Logo" height="110"/></a>
                     </div>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-7">
                     <h1 id="willkommen">Herzlich Willkommen bei My2Hand</h1>
+                </div>
+                <div class="col-sm-2">
+                    <div class="kontakt"><span class="kon_imp">Impressum</span> • <span class="kon_imp" data-toggle="modal" data-target="#contact">Kontakt</span></div>
                 </div>
             </div>
             <nav class="navbar navbar-default">
@@ -513,6 +572,35 @@
                         <div class="modal-body">
                             <div class="modalBackground">
                                 <div class="modal-signUp">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Kontaktformular -->
+            <div id="contact" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Kontaktformular</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modalBackground">
+                                <div class="modal-signUp">
+                                    <label><b>Name</b></label>
+                                    <input class="loginInput" type="text" placeholder="Name eingeben" name="name" required>
+                                    <label><b>Betreff</b></label>
+                                    <input class="loginInput" type="text" placeholder="Betreff eingeben" name="subject" required>
+                                    <label><b>Nachricht</b></label>
+                                    <textarea rows="6" class="loginInput" placeholder="Nachricht eingeben" name="message" required></textarea>
+                                    <button class="loginButton" type="submit" onclick="sendContactMail()">Absenden</button>
                                 </div>
                             </div>
                         </div>

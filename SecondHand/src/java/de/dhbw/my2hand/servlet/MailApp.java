@@ -34,11 +34,11 @@ public class MailApp extends HttpServlet {
 
         switch (action) {
             case "sendContact":
-                String to = "uemran.celen@gmx.de";
+                String to = "team%service.2-hand@gmx.de";
                 String name = request.getParameter("name");
                 String subject = request.getParameter("subject");
                 String message = "Gesendet von: " + name + " \n Nachricht: " + request.getParameter("message");
-                String user = "uemran.celen@gmail.com";
+                String user = "service.2-hand@gmx.de";
                 String pass = "mailiese";
                 SendMail.send(to, subject, message, user, pass);
                 antwort.status = true;

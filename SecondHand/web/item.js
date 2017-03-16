@@ -80,7 +80,7 @@ function createFilter() {
                 size += "<input type='radio' name='groessen' VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</br>";
             }
 
-            document.getElementsByClassName("col-sm-2")[0].innerHTML =
+            document.getElementsByClassName("col-sm-2")[1].innerHTML =
                     "<form class='filter'>"
                     + "<b>Standorte</b><br><br>"
                     + location

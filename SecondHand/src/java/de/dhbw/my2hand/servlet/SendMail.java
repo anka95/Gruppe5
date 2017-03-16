@@ -17,7 +17,7 @@ public class SendMail {
            As shown here in the code. 
            Change accordingly, if your email id is not a gmail id
          */
-        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.host", "smtp.gmx.net");
         //below mentioned mail.smtp.port is optional
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");

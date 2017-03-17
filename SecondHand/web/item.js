@@ -214,7 +214,9 @@ function createNewItem() {
             for (var i = 0; i < ajax.response.size.length; i++) {
                 size += "<option VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</option>";
             }
+            
 
+            
             document.getElementsByClassName("modal-signUp")[1].innerHTML = "<form id='formItems' action='' method='post' enctype='multipart/form-data'>" +
                     "<label>Standort*</label>" +
                     "<select class='loginInput' name='locationId' required>" +
@@ -241,6 +243,20 @@ function createNewItem() {
                     "<br>" +
                     "<button class='loginButton' type='submit' onClick='actionString()'>Artikel verkaufen</button>" +
                     "</form>";
+        }
+    };
+    
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=getEmail&customerid=" + getCookie(), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            console.log(ajax.response);
+            var name = ajax.response.cust.firstName + " " + ajax.response.cust.lastName;
+            var mail = ajax.response.cust.email;
+            var subject = "Ihr Artikel wurde angelegt!";
+            
+            sendItemMail(mail, name, subject);
         }
     };
 }

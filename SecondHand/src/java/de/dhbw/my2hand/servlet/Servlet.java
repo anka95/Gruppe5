@@ -175,6 +175,15 @@ public class Servlet extends HttpServlet {
         }
 
         switch (action) {
+            case "getEmail":
+                JsonCustomer cust = new JsonCustomer();
+                customer = database.findCustomer(new Long(request.getParameter("customerid")));
+                cust.email = customer.getEmail();
+                cust.firstName = customer.getFirstName();
+                cust.lastName = customer.getLastName();
+                gson.toJson(cust, toBrowser);
+                toBrowser.flush();
+                
             case "deletecustomer":
                 // Kunden löschen
                 customer = database.findCustomer(new Long(request.getParameter("customerid")));

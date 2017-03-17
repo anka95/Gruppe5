@@ -68,6 +68,8 @@ function saveNewCustomer() {
     var email = document.getElementsByName("signUpEmail")[0].value;
     var passworda = document.getElementsByName("passworda")[0].value;
     var passwordb = document.getElementsByName("passwordb")[0].value;
+    var subject = "Herzlich Willkommen auf My2Hand";
+    var name = firstName + " " + lastName;
     var ajax = new XMLHttpRequest();
 
     if (document.getElementsByName("salutation")[0].checked) {
@@ -110,6 +112,7 @@ function saveNewCustomer() {
                         + "<h4 class='modal-title'>Neu registrieren</h4>"
                         + "<br><div class='alert alert-danger'>Unter dieser E-Mail-Adresse ist bereits ein Nutzer registriert!</div>";
             } else {
+                sendRegisterMail(email, name, subject);
                 document.getElementsByClassName("modal-header")[1].innerHTML =
                         "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
                         + "<h4 class='modal-title'>Neu registrieren</h4>"

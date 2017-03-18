@@ -79,3 +79,16 @@ function addItemMail(mail, name, subject) {
         }
     };
 }
+
+function delMail(mail, name, subject) {
+    var ajax = new XMLHttpRequest();
+    ajax.responseType = "json";
+    ajax.open("POST", "MailApp?action=sendDeleteItemMail&mail=" + encodeURI(mail) 
+        + "&name=" + encodeURI(name) + "&subject=" + encodeURI(subject), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            console.log(ajax.response);
+        }
+    };
+}

@@ -8,31 +8,31 @@ Zip-Datei "sun-appserv-samples" entpacken in
 Falls der Ordner nicht in dem Verzeichnis sein sollte, dann in
 "C:\Users\"Windows Benutzer"\AppData\Roaming\NetBeans\Derby" nachschauen und die Zip-Datei in das Verzeichnis entpacken!
 
+Wenn keines der Pfade stimmt, dann Ã¼ber NetBeans den Pfad herausfinden:
+Dazu auf Services(Dienste) und Rechtsklick auf JavaDB.  AnschlieÃŸend auf Eigenschaften/Properties und den Pfad rauskopieren und im Explorer eingeben.
+Zum Schluss die Zip-Datei per Drag&Drop entpacken.
+
 Bilder der Artikel
 
 Zip-Datei "images" entpacken in 
 "C:\Users\"Windows-Benutzer"\Documents\NetBeansProjects\Gruppe5\SecondHand\build\web" entpacken und ggfs. den Ordner "images" ersetzen.
 (Pfad kann je nach dem, wo euer NetBeans-Projekt abgespeichert ist, abweichen!).
 
-Wenn keines der Pfade stimmt, dann über NetBeans den Pfad herausfinden:
-Dazu auf Services(Dienste) und Rechtsklick auf JavaDB.  Anschließend auf Eigenschaften/Properties und den Pfad rauskopieren und im Explorer eingeben.
-Zum Schluss den Ordner per Drag&Drop entpacken.
+!!FÃœR MAC-USER!!
 
-!!FÜR MAC-USER!!
-
-Mac-User müssen die einzelnen Tabellen der DB per SQL-Befehl importieren. 
-Die Tabellen liegen standartmäßig im Gruppenordner/Repository im Unterverzeichnis "Datenbankimport".
-In dem Unterverzeichnis sind die Tabellen "Kunde", "Abteilung", "Größe", "Kategorie", "Standort" und "Artikel".
+Mac-User mÃ¼ssen die einzelnen Tabellen der DB per SQL-Befehl importieren. 
+Die Tabellen liegen standartmÃ¤ÃŸig im Gruppenordner/Repository im Unterverzeichnis "Datenbankimport".
+In dem Unterverzeichnis sind die Tabellen "Kunde", "Abteilung", "GrÃ¶ÃŸe", "Kategorie", "Standort" und "Artikel".
 WICHTIG: Die Tabelle "Artikel" als letztes importieren!
 
-Um die Tabellen per SQL zu Importieren, muss zunächst in NetBeans auf Dienste/Services geklickt werden. 
-Anschließend "Datenbanken" aufklappen und auf die Datenbank "sun-appserv-samples" rechtsklicken.
-Zuallererst "Verbinden" im Kontextmenü auswählen.
+Um die Tabellen per SQL zu Importieren, muss zunÃ¤chst in NetBeans auf Dienste/Services geklickt werden. 
+AnschlieÃŸend "Datenbanken" aufklappen und auf die Datenbank "sun-appserv-samples" rechtsklicken.
+Zuallererst "Verbinden" im KontextmenÃ¼ auswÃ¤hlen.
 
-Danach erneut rechtsklicken und im Kontextmenü "Befehl ausführen" anklicken.
-In dem Fenster den Befehl  CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null,'TABELLENNAME','Pfad meiner Tabelle, die ich importieren möchte',null,null,null,0); eingeben.
+Danach erneut rechtsklicken und im KontextmenÃ¼ "Befehl ausfÃ¼hren" anklicken.
+In dem Fenster den Befehl  CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null,'TABELLENNAME','Pfad meiner Tabelle, die ich importieren mÃ¶chte',null,null,null,0); eingeben.
 
-BEISPIEL: Auf meinem Rechner liegen die Tabellen in "D:\Dokumente\NetBeansProjects\Gruppe5\Datenbankimport". Ich möchte nun die Tabelle "Kunde" importieren.
+BEISPIEL: Auf meinem Rechner liegen die Tabellen in "D:\Dokumente\NetBeansProjects\Gruppe5\Datenbankimport". Ich mÃ¶chte nun die Tabelle "Kunde" importieren.
 Mein Pfad sieht wie folgt aus: "D:\Dokumente\NetBeansProjects\Gruppe5\Datenbankimport\Kunde".
 
 Mein einzugebendes SQL-Statement sieht also so aus: 

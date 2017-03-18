@@ -1,0 +1,46 @@
+Datenbank importieren:
+
+Windows
+
+Zip-Datei "sun-appserv-samples" entpacken in 
+"C:\Users\"Windows Benutzer"\.netbeans-derby\" und "sun-appserv-samples" ersetzen.
+
+Falls der Ordner nicht in dem Verzeichnis sein sollte, dann in
+"C:\Users\"Windows Benutzer"\AppData\Roaming\NetBeans\Derby" nachschauen und die Zip-Datei in das Verzeichnis entpacken!
+
+Bilder der Artikel
+
+Zip-Datei "images" entpacken in 
+"C:\Users\"Windows-Benutzer"\Documents\NetBeansProjects\Gruppe5\SecondHand\build\web" entpacken und ggfs. den Ordner "images" ersetzen.
+(Pfad kann je nach dem, wo euer NetBeans-Projekt abgespeichert ist, abweichen!).
+
+Wenn keines der Pfade stimmt, dann über NetBeans den Pfad herausfinden:
+Dazu auf Services(Dienste) und Rechtsklick auf JavaDB.  Anschließend auf Eigenschaften/Properties und den Pfad rauskopieren und im Explorer eingeben.
+Zum Schluss den Ordner per Drag&Drop entpacken.
+
+!!FÜR MAC-USER!!
+
+Mac-User müssen die einzelnen Tabellen der DB per SQL-Befehl importieren. 
+Die Tabellen liegen standartmäßig im Gruppenordner/Repository im Unterverzeichnis "Datenbankimport".
+In dem Unterverzeichnis sind die Tabellen "Kunde", "Abteilung", "Größe", "Kategorie", "Standort" und "Artikel".
+WICHTIG: Die Tabelle "Artikel" als letztes importieren!
+
+Um die Tabellen per SQL zu Importieren, muss zunächst in NetBeans auf Dienste/Services geklickt werden. 
+Anschließend "Datenbanken" aufklappen und auf die Datenbank "sun-appserv-samples" rechtsklicken.
+Zuallererst "Verbinden" im Kontextmenü auswählen.
+
+Danach erneut rechtsklicken und im Kontextmenü "Befehl ausführen" anklicken.
+In dem Fenster den Befehl  CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null,'TABELLENNAME','Pfad meiner Tabelle, die ich importieren möchte',null,null,null,0); eingeben.
+
+BEISPIEL: Auf meinem Rechner liegen die Tabellen in "D:\Dokumente\NetBeansProjects\Gruppe5\Datenbankimport". Ich möchte nun die Tabelle "Kunde" importieren.
+Mein Pfad sieht wie folgt aus: "D:\Dokumente\NetBeansProjects\Gruppe5\Datenbankimport\Kunde".
+
+Mein einzugebendes SQL-Statement sieht also so aus: 
+CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null,'KUNDE','D:\Dokumente\NetBeansProjects\Gruppe5\Datenbankimport\Kunde',null,null,null,0);
+
+Weitere Infos zum Im- und Export von DB-Tabellen per SQL auf: http://db.apache.org/derby/docs/10.9/adminguide/radminimport91458.html
+
+
+
+
+

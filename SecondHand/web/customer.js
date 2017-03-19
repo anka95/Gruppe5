@@ -303,14 +303,15 @@ function deleteCustomer() {
     var result = confirm("Wollen Sie Ihr Kundenkonto wirklich löschen?");
     if (!result)
         return;
-
+    
+    getData("delProfileMail");
     var ajax = new XMLHttpRequest();
 
     ajax.responseType = "json";
     ajax.open("GET", "servlet?action=deletecustomer&customerid=" + getCookie(), true);
     ajax.send();
     ajax.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
+        if (this.readyState === 4 && this.status === 200) {  
             deleteCookie();
             findItemsOfAllCustomers();
         }

@@ -112,6 +112,27 @@ public class MailApp extends HttpServlet {
                 gson.toJson(antwort, toBrowser);
                 toBrowser.flush();
                 } 
+                break;
+                
+            case "sendDeleteProfileMail":
+                
+                to = request.getParameter("mail");
+                name = request.getParameter("name");
+                subject = request.getParameter("subject");
+                message = "Hallo " + name + "! \n \n Hiermit wird die Löschung Ihres Profils bestätigt. Sollten sie noch Artikel in der/den Filiale/n haben, haben Sie die Möglichkeit, Ihren Artikel in Ihrer Heimatfiliale abzuholen. \n Sollte dies nicht innerhalb von 2 Wochen erfolgen, \n behalten wir uns vor, Ihren Artikel an die von Ihnen angegebene Adresse gegen einen Aufpreis zu versenden. \n Ihre Adresse wird selbstverständlich nach diesem Vorgang gelöscht. \n\n Ihr My2Hand-Team.";
+                user = "service.2-hand@gmx.de";
+                pass = "mailiese";
+
+                try {
+                    SendMail.send(to, subject, message, user, pass);
+                    antwort.status = true;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    antwort.status = false;
+                } finally {
+                gson.toJson(antwort, toBrowser);
+                toBrowser.flush();
+                }
         }
     }
 }

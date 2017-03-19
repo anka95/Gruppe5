@@ -80,7 +80,7 @@ function addItemMail(mail, name, subject) {
     };
 }
 
-function delMail(mail, name, subject) {
+function delItemMail(mail, name, subject) {
     var ajax = new XMLHttpRequest();
     ajax.responseType = "json";
     ajax.open("POST", "MailApp?action=sendDeleteItemMail&mail=" + encodeURI(mail) 
@@ -91,4 +91,52 @@ function delMail(mail, name, subject) {
             console.log(ajax.response);
         }
     };
+}
+
+function delProfileMail(mail, name, subject) {
+    var ajax = new XMLHttpRequest();
+    ajax.responseType = "json";
+    ajax.open("POST", "MailApp?action=sendDeleteProfileMail&mail=" + encodeURI(mail) 
+        + "&name=" + encodeURI(name) + "&subject=" + encodeURI(subject), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            console.log(ajax.response);
+        }
+    };
+}
+
+
+function getData(action) {
+    var ajax = new XMLHttpRequest();
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=getEmail&customerid=" + getCookie(), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            console.log(ajax.response);
+            /*var name = ajax.response.cust.firstName + " " + ajax.response.cust.lastName;*/
+            var mail = ajax.response.email;
+            var name = ajax.response.firstName + " " + ajax.response.lastName;
+            
+            switch(action) {
+                case "addMail":
+                    var subject = "Ihr Artikel wurde angelegt!";      
+                    addItemMail(mail, name, subject); 
+                    break;
+                    
+                case "delItemMail":
+                    var subject = "Ihr Artikel wurde gelöscht!";      
+                    delItemMail(mail, name, subject); 
+                    break;
+                
+                case "delProfileMail":
+                    var subject = "Ihr Profil wurde gelöscht!";
+                    delProfileMail(mail, name, subject);
+            }
+              
+        }
+  
+    };   
+   
 }

@@ -245,43 +245,8 @@ function createNewItem() {
                     "</form>";
         }
 
-    };
-    
+    };    
 
-}
-
-function getData(action) {
-    var ajax = new XMLHttpRequest();
-    ajax.responseType = "json";
-    ajax.open("GET", "servlet?action=getEmail&customerid=" + getCookie(), true);
-    ajax.send();
-    ajax.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            console.log(ajax.response);
-            /*var name = ajax.response.cust.firstName + " " + ajax.response.cust.lastName;*/
-            var mail = ajax.response.email;
-            var name = ajax.response.firstName + " " + ajax.response.lastName;
-            
-            switch(action) {
-                case "addMail":
-                    var subject = "Ihr Artikel wurde angelegt!";      
-                    addItemMail(mail, name, subject); 
-                    break;
-                    
-                case "delMail":
-                    var subject = "Ihr Artikel wurde gelöscht!";      
-                    delMail(mail, name, subject); 
-                    break;
-            }
-              
-        }
-  
-    };  
-    
-  
-    
-    
-   
 }
 
 function actionString() {
@@ -406,7 +371,7 @@ function deleteItem(id) {
             var parent = document.getElementsByClassName("col-sm-12")[0];
             var child = document.getElementById(id);
             parent.removeChild(child);
-            getData("delMail");
+            getData("delItemMail");
         }
     };
 }

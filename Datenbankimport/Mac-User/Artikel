@@ -1,13 +1,13 @@
-351,"images\351.jpg",10.0,0,0,"Damen T-Shirt Grau",3004,301,2002,4000,1000
+351,"images\351.jpg",10.0,0,1,"Damen T-Shirt Grau",3004,301,2002,4000,1000
 352,"images\352.jpg",15.0,0,0,"Damen T-Shirt weiﬂ",3004,301,2002,4000,1000
-353,"images\353.jpg",15.0,0,0,"Rˆhrenjeans Blau",3000,301,2002,4000,1000
+353,"images\353.jpg",15.0,0,1,"Rˆhrenjeans Blau",3000,301,2002,4000,1000
 354,"images\354.jpg",10.0,0,0,"Hose schwarz ",3000,301,2002,4000,1000
 356,"images\356.jpg",15.0,0,0,"Hemd weiﬂ",3004,355,2003,4000,1001
 357,"images\357.jpg",10.0,0,0,"T-Shirt blau",3004,355,2003,4000,1001
-358,"images\358.jpg",15.0,0,0,"Herren Jeans ",3000,355,2002,4000,1001
-359,"images\359.jpg",25.0,0,0,"Anzughose schwarz",3000,355,2002,4000,1001
-401,"images\401.jpg",15.0,0,0,"Hello Kitty Kleid blau",3003,360,2001,4004,1002
-402,"images\402.jpg",10.0,0,0,"Babystrampler rosa",3009,360,2000,4004,1004
+358,"images\358.jpg",15.0,0,1,"Herren Jeans ",3000,355,2002,4000,1001
+359,"images\359.jpg",25.0,0,1,"Anzughose schwarz",3000,355,2002,4000,1001
+401,"images\401.jpg",15.0,0,1,"Hello Kitty Kleid blau",3003,360,2001,4004,1002
+402,"images\402.jpg",10.0,0,1,"Babystrampler rosa",3009,360,2000,4004,1004
 403,"images\403.jpg",10.0,0,0,"Bandeau Bikini rot/bunt",3005,360,2002,4004,1000
 404,"images\404.jpg",10.0,0,0,"Rock knielang",3002,360,2002,4004,1000
 405,"images\405.jpg",5.0,0,0,"Strandkleid",3003,360,2001,4004,1000
@@ -17,7 +17,7 @@
 409,"images\409.jpg",10.0,0,0,"M‰dchen Tankini mint",3005,360,2001,4004,1002
 410,"images\410.jpg",20.0,0,0,"M‰dchen Ballerina pink Gr. 24",3008,360,2005,4004,1002
 411,"images\411.jpg",15.0,0,0,"M‰dchen Winterstiefel Gr. 33",3008,360,2005,4004,1002
-412,"images\412.jpg",20.0,0,0,"Herren Sneaker braun Gr. 44",3008,355,2005,4005,1001
+412,"images\412.jpg",20.0,0,1,"Herren Sneaker braun Gr. 44",3008,355,2005,4005,1001
 413,"images\413.jpg",5.0,0,0,"Herren Badehose blau",3005,355,2002,4005,1001
 414,"images\414.jpg",10.0,0,0,"Badehose gestreift",3005,355,2002,4005,1001
 415,"images\415.jpg",30.0,0,0,"Herren Jacke schwarz",3006,355,2002,4005,1001
@@ -29,22 +29,22 @@
 422,"images\422.jpg",20.0,0,0,"M‰dchen Jeans blau",3000,416,2001,4001,1002
 423,"images\423.png",15.0,0,0,"M‰dchen Hose mint",3000,416,2001,4001,1002
 424,"images\424.jpg",20.0,0,0,"Jungen Jacke",3006,416,2001,4001,1003
-425,"images\425.jpg",10.0,0,0,"Jungen Badehose",3005,416,2001,4001,1003
+425,"images\425.jpg",10.0,0,1,"Jungen Badehose",3005,416,2001,4001,1003
 426,"images\426.jpg",40.0,0,0,"Jungen Adidas Sneaker Gr 35",3008,416,2005,4001,1003
 427,"images\427.jpg",45.0,0,0,"Jungen Sneaker schwarz Gr. 34",3008,416,2005,4001,1003
-428,"images\428.jpg",20.0,0,0,"Hello Kitty Rock pink",3002,416,2001,4001,1002
+428,"images\428.jpg",20.0,0,1,"Hello Kitty Rock pink",3002,416,2001,4001,1002
 429,"images\429.jpg",10.0,0,0,"Jungen Jeans blau",3000,416,2001,4001,1003
 430,"images\430.jpg",20.0,0,0,"Jungen Hose blau",3000,416,2001,4001,1003
 431,"images\431.jpg",35.0,0,0,"Damen Parka",3006,301,2002,4003,1000
 432,"images\432.jpg",20.0,0,0,"Highheels schwarz-glitzer",3008,301,2002,4003,1000
-433,"images\433.jpg",55.0,0,0,"Adidas Superstar silber-weiﬂ",3008,301,2002,4003,1000
+433,"images\433.jpg",55.0,0,1,"Adidas Superstar silber-weiﬂ",3008,301,2002,4003,1000
 434,"images\434.jpg",100.0,0,0,"Michael Kors Ohrringe",3001,301,2005,4003,1000
-435,"images\435.jpg",20.0,0,0,"Kette Sterlingsilber",3001,301,2001,4003,1000
+435,"images\435.jpg",20.0,0,1,"Kette Sterlingsilber",3001,301,2001,4003,1000
 436,"images\436.jpg",1500.0,0,0,"Herrenuhr Breitling",3001,355,2005,4005,1001
 437,"images\437.jpg",5.0,0,0,"Tommy Hilfiger Boxershorts",3007,355,2001,4005,1001
 438,"images\438.jpg",10.0,0,0,"BH schwarz mit Spitze",3007,301,2002,4003,1000
-439,"images\439.jpg",10.0,0,0,"T-Shirt BH weiﬂ",3007,301,2002,4003,1000
+439,"images\439.jpg",10.0,0,1,"T-Shirt BH weiﬂ",3007,301,2002,4003,1000
 451,"images\451.JPG",40.0,0,0,"Baby Chucks rosa Gr 15-16",3008,416,2005,4001,1004
-452,"images\452.jpg",15.0,0,0,"Babyschuhe weiﬂ Gr. 15-16",3008,416,2005,4001,1004
+452,"images\452.jpg",15.0,0,1,"Babyschuhe weiﬂ Gr. 15-16",3008,416,2005,4001,1004
 453,"images\453.jpg",5.0,0,0,"Baby Body",3009,416,2001,4004,1004
 454,"images\454.jpg",30.0,0,0,"Baby Jacke blau",3006,416,2001,4004,1004

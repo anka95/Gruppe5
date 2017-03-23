@@ -40,25 +40,11 @@ function sendContactMail() {
     };
 }
 
-
 function sendRegisterMail(mail, name, subject) {
     var ajax = new XMLHttpRequest();
     ajax.responseType = "json";
-    ajax.open("POST", "MailApp?action=sendRegister&mail=" + encodeURI(mail) 
-        + "&name=" + encodeURI(name) + "&subject=" + encodeURI(subject), true);
-    ajax.send();
-    ajax.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            console.log(ajax.response);
-        }
-    };
-}
-
-function sendRegisterMail(mail, name, subject) {
-    var ajax = new XMLHttpRequest();
-    ajax.responseType = "json";
-    ajax.open("POST", "MailApp?action=sendRegister&mail=" + encodeURI(mail) 
-        + "&name=" + encodeURI(name) + "&subject=" + encodeURI(subject), true);
+    ajax.open("POST", "MailApp?action=sendRegister&mail=" + encodeURI(mail)
+            + "&name=" + encodeURI(name) + "&subject=" + encodeURI(subject), true);
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -70,8 +56,8 @@ function sendRegisterMail(mail, name, subject) {
 function addItemMail(mail, name, subject) {
     var ajax = new XMLHttpRequest();
     ajax.responseType = "json";
-    ajax.open("POST", "MailApp?action=sendItem&mail=" + encodeURI(mail) 
-        + "&name=" + encodeURI(name) + "&subject=" + encodeURI(subject), true);
+    ajax.open("POST", "MailApp?action=sendItem&mail=" + encodeURI(mail)
+            + "&name=" + encodeURI(name) + "&subject=" + encodeURI(subject), true);
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -83,8 +69,8 @@ function addItemMail(mail, name, subject) {
 function delItemMail(mail, name, subject) {
     var ajax = new XMLHttpRequest();
     ajax.responseType = "json";
-    ajax.open("POST", "MailApp?action=sendDeleteItemMail&mail=" + encodeURI(mail) 
-        + "&name=" + encodeURI(name) + "&subject=" + encodeURI(subject), true);
+    ajax.open("POST", "MailApp?action=sendDeleteItemMail&mail=" + encodeURI(mail)
+            + "&name=" + encodeURI(name) + "&subject=" + encodeURI(subject), true);
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -96,8 +82,8 @@ function delItemMail(mail, name, subject) {
 function delProfileMail(mail, name, subject) {
     var ajax = new XMLHttpRequest();
     ajax.responseType = "json";
-    ajax.open("POST", "MailApp?action=sendDeleteProfileMail&mail=" + encodeURI(mail) 
-        + "&name=" + encodeURI(name) + "&subject=" + encodeURI(subject), true);
+    ajax.open("POST", "MailApp?action=sendDeleteProfileMail&mail=" + encodeURI(mail)
+            + "&name=" + encodeURI(name) + "&subject=" + encodeURI(subject), true);
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -106,8 +92,7 @@ function delProfileMail(mail, name, subject) {
     };
 }
 
-
-function getData(action) {
+function sendMail(action) {
     var ajax = new XMLHttpRequest();
     ajax.responseType = "json";
     ajax.open("GET", "servlet?action=getEmail&customerid=" + getCookie(), true);
@@ -115,28 +100,24 @@ function getData(action) {
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             console.log(ajax.response);
-            /*var name = ajax.response.cust.firstName + " " + ajax.response.cust.lastName;*/
             var mail = ajax.response.email;
             var name = ajax.response.firstName + " " + ajax.response.lastName;
-            
-            switch(action) {
+
+            switch (action) {
                 case "addMail":
-                    var subject = "Ihr Artikel wurde angelegt!";      
-                    addItemMail(mail, name, subject); 
+                    var subject = "Ihr Artikel wurde angelegt!";
+                    addItemMail(mail, name, subject);
                     break;
-                    
+
                 case "delItemMail":
-                    var subject = "Ihr Artikel wurde gelöscht!";      
-                    delItemMail(mail, name, subject); 
+                    var subject = "Ihr Artikel wurde gelöscht!";
+                    delItemMail(mail, name, subject);
                     break;
-                
+
                 case "delProfileMail":
                     var subject = "Ihr Profil wurde gelöscht!";
                     delProfileMail(mail, name, subject);
             }
-              
         }
-  
-    };   
-   
+    };
 }

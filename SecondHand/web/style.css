@@ -350,3 +350,20 @@ p.category {
     from {top: 30px; opacity: 1;}
     to {top: 0; opacity: 0;}
 }
+
+.back-to-top {
+    background: #e2e4b4;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 1em;
+}
+
+a:focus, a:hover {
+    color: #d11860;
+    text-decoration: none;
+}
+
+a {
+    color: #24250e;
+}

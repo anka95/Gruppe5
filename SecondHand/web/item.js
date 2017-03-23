@@ -1,4 +1,4 @@
- function itemsCarousel() {
+function itemsCarousel() {
     var ajax = new XMLHttpRequest();
 
     ajax.responseType = "json";
@@ -7,16 +7,22 @@
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             console.log(ajax.response);
-            for (i = 0; i < 5; i++) {
-                document.getElementsByClassName("item")[i].innerHTML =
-                        "<img class='carousel-image' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'>"
-                        + "<div class='carousel-text'>"
-                        + "<h2>" + ajax.response[i].title + "</h2>"
-                        + "<p class='category'>" + ajax.response[i].categoryName + "</p>"
-                        + "<p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "</p>"
-                        + "<p>Größe: " + ajax.response[i].dressSizeName + "</p>"
-                        + "<p><b>" + ajax.response[i].price + " €</b></p>"
-                        + "</div>";
+            var count = 0;
+            for (i = 0; i < ajax.response.length; i++) {
+                if (!ajax.response[i].sold) {
+                    if (count < 5) {
+                        document.getElementsByClassName("item")[count].innerHTML =
+                                "<img class='carousel-image' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'>"
+                                + "<div class='carousel-text'>"
+                                + "<h2>" + ajax.response[i].title + "</h2>"
+                                + "<p class='category'>" + ajax.response[i].categoryName + "</p>"
+                                + "<p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "</p>"
+                                + "<p>Größe: " + ajax.response[i].dressSizeName + "</p>"
+                                + "<p><b>" + ajax.response[i].price + " €</b></p>"
+                                + "</div>";
+                        count++;
+                    }
+                }
             }
         }
     };
@@ -36,17 +42,19 @@ function findItemsOfAllCustomers() {
             createFilter();
             console.log(ajax.response);
             for (i = 0; i < ajax.response.length; i++) {
-                var newHTML = "<div class='artikel'>"
-                        + "<div class='artikelbilddiv'><img class='artikelbild' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'></div>"
-                        + "<div class='artikeltext'>"
-                        + "<h3 class='artikelh3'>" + ajax.response[i].title + "</h2>"
-                        + "<p class='category'>" + ajax.response[i].categoryName + "</p>"
-                        + "<p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "</p>"
-                        + "<p>Größe: " + ajax.response[i].dressSizeName + "</p>"
-                        + "<p><b>" + ajax.response[i].price + " €</b></p>"
-                        + "</div>"
-                        + "</div>";
-                document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
+                if (!ajax.response[i].sold) {
+                    var newHTML = "<div class='artikel'>"
+                            + "<div class='artikelbilddiv'><img class='artikelbild' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'></div>"
+                            + "<div class='artikeltext'>"
+                            + "<h3 class='artikelh3'>" + ajax.response[i].title + "</h2>"
+                            + "<p class='category'>" + ajax.response[i].categoryName + "</p>"
+                            + "<p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "</p>"
+                            + "<p>Größe: " + ajax.response[i].dressSizeName + "</p>"
+                            + "<p><b>" + ajax.response[i].price + " €</b></p>"
+                            + "</div>"
+                            + "</div>";
+                    document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
+                }
             }
         }
     };
@@ -116,17 +124,19 @@ function findItemsOfPersonType(personType) {
 
             for (i = 0; i < ajax.response.length; i++) {
                 if (ajax.response[i].personTypeName === personType) {
-                    var newHTML = "<div class='artikel'>"
-                            + "<div class='artikelbilddiv'><img class='artikelbild' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'></div>"
-                            + "<div class='artikeltext'>"
-                            + "<h3 class='artikelh3'>" + ajax.response[i].title + "</h2>"
-                            + "<p class='category'>" + ajax.response[i].categoryName + "</p>"
-                            + "<p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "</p>"
-                            + "<p>Größe: " + ajax.response[i].dressSizeName + "</p>"
-                            + "<p><b>" + ajax.response[i].price + " €</b></p>"
-                            + "</div>"
-                            + "</div>";
-                    document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
+                    if (!ajax.response[i].sold) {
+                        var newHTML = "<div class='artikel'>"
+                                + "<div class='artikelbilddiv'><img class='artikelbild' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'></div>"
+                                + "<div class='artikeltext'>"
+                                + "<h3 class='artikelh3'>" + ajax.response[i].title + "</h2>"
+                                + "<p class='category'>" + ajax.response[i].categoryName + "</p>"
+                                + "<p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "</p>"
+                                + "<p>Größe: " + ajax.response[i].dressSizeName + "</p>"
+                                + "<p><b>" + ajax.response[i].price + " €</b></p>"
+                                + "</div>"
+                                + "</div>";
+                        document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
+                    }
                 }
             }
         }
@@ -149,12 +159,6 @@ function myItems() {
                     + "<div class='overlay glyphicon glyphicon-plus' data-toggle='modal' data-target='#newItem' onclick='createNewItem()' title='Artikel verkaufen'></div></div>";
 
             for (i = 0; i < ajax.response.items.length; i++) {
-                if (ajax.response.items[i].published) {
-                    var published = "<span class='published label label-success'>veröffentlicht</span>";
-                } else {
-                    var published = "<span class='published label label-warning'>nicht veröffentlicht</span>";
-                }
-
                 if (ajax.response.items[i].sold) {
                     var sold = "<span class='label label-success'>verkauft</span>";
                 } else {
@@ -168,7 +172,6 @@ function myItems() {
                         + "<div class='artikeltext'>"
                         + "<h3 class='artikelh3'>" + ajax.response.items[i].title + "</h2>"
                         + "<br>"
-                        + published
                         + sold
                         + "<br><br>"
                         + "<p class='category'>" + ajax.response.items[i].categoryName + "</p>"
@@ -214,9 +217,9 @@ function createNewItem() {
             for (var i = 0; i < ajax.response.size.length; i++) {
                 size += "<option VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</option>";
             }
-            
-            getData("addMail");
-            
+
+            sendMail("addMail");
+
             document.getElementsByClassName("modal-signUp")[1].innerHTML = "<form id='formItems' action='' method='post' enctype='multipart/form-data'>" +
                     "<label>Standort*</label>" +
                     "<select class='loginInput' name='locationId' required>" +
@@ -244,9 +247,7 @@ function createNewItem() {
                     "<button class='loginButton' type='submit' onClick='actionString()'>Artikel verkaufen</button>" +
                     "</form>";
         }
-
-    };    
-
+    };
 }
 
 function actionString() {
@@ -371,7 +372,7 @@ function deleteItem(id) {
             var parent = document.getElementsByClassName("col-sm-12")[0];
             var child = document.getElementById(id);
             parent.removeChild(child);
-            getData("delItemMail");
+            sendMail("delItemMail");
         }
     };
 }

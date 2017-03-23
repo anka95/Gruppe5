@@ -48,11 +48,11 @@ public class MailApp extends HttpServlet {
                     ex.printStackTrace();
                     antwort.status = false;
                 } finally {
-                gson.toJson(antwort, toBrowser);
-                toBrowser.flush();
-                }      
+                    gson.toJson(antwort, toBrowser);
+                    toBrowser.flush();
+                }
                 break;
-                
+
             case "sendRegister":
                 to = request.getParameter("mail");
                 name = request.getParameter("name");
@@ -68,11 +68,11 @@ public class MailApp extends HttpServlet {
                     ex.printStackTrace();
                     antwort.status = false;
                 } finally {
-                gson.toJson(antwort, toBrowser);
-                toBrowser.flush();
-                } 
+                    gson.toJson(antwort, toBrowser);
+                    toBrowser.flush();
+                }
                 break;
-                
+
             case "sendItem":
                 to = request.getParameter("mail");
                 name = request.getParameter("name");
@@ -88,13 +88,12 @@ public class MailApp extends HttpServlet {
                     ex.printStackTrace();
                     antwort.status = false;
                 } finally {
-                gson.toJson(antwort, toBrowser);
-                toBrowser.flush();
-                } 
+                    gson.toJson(antwort, toBrowser);
+                    toBrowser.flush();
+                }
                 break;
-            
+
             case "sendDeleteItemMail":
-                
                 to = request.getParameter("mail");
                 name = request.getParameter("name");
                 subject = request.getParameter("subject");
@@ -109,13 +108,12 @@ public class MailApp extends HttpServlet {
                     ex.printStackTrace();
                     antwort.status = false;
                 } finally {
-                gson.toJson(antwort, toBrowser);
-                toBrowser.flush();
-                } 
+                    gson.toJson(antwort, toBrowser);
+                    toBrowser.flush();
+                }
                 break;
-                
+
             case "sendDeleteProfileMail":
-                
                 to = request.getParameter("mail");
                 name = request.getParameter("name");
                 subject = request.getParameter("subject");
@@ -130,8 +128,8 @@ public class MailApp extends HttpServlet {
                     ex.printStackTrace();
                     antwort.status = false;
                 } finally {
-                gson.toJson(antwort, toBrowser);
-                toBrowser.flush();
+                    gson.toJson(antwort, toBrowser);
+                    toBrowser.flush();
                 }
         }
     }

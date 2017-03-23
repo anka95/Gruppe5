@@ -19,5 +19,5 @@ function getCookie() {
 
 function deleteCookie() {
     document.cookie = 'customerId=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
-    document.location.href="/Gruppe5/SecondHand/";
+    document.location.href = "/Gruppe5/SecondHand/";
 }

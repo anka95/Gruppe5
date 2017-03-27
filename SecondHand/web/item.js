@@ -89,7 +89,7 @@ function createFilter() {
             }
 
             document.getElementsByClassName("col-sm-2")[1].innerHTML =
-                    "<form class='filter'>"
+                    "<form class='filter' name ='filter'>"
                     + "<b>Standorte</b><br><br>"
                     + location
                     + "<hr>"
@@ -106,6 +106,75 @@ function createFilter() {
                     + "</form>";
         }
     };
+}
+
+function sellArticles(){
+    var location_radio = document.filter.standort;
+    var category_radio = document.filter.kategorie;
+    var person_radio = document.filter.abteilung;
+    var size_radio = document.filter.groessen;
+    
+    var location_id = null;
+    var category_id = null;
+    var person_id = null;
+    var size_id = null;
+    
+    for(var i = 0; i < location_radio.length; i++){
+        if(location_radio[i].checked)
+            location_id = location_radio[i].value;
+    };
+    
+    for(var i = 0; i < category_radio.length; i++){
+        if(category_radio[i].checked)
+            category_id = category_radio[i].value;
+    };
+    
+     for(var i = 0; i < person_radio.length; i++){
+        if(person_radio[i].checked)
+            person_id = person_radio[i].value;
+    };
+    
+     for(var i = 0; i < size_radio.length; i++){
+        if(size_radio[i].checked)
+            size_id = size_radio[i].value;
+    };
+    
+    alert("Standord: " + location_id);
+    alert("Kategorie: " + category_id);
+    alert("Person: " + person_id);
+    alert("Größe: " + size_id);
+    
+    if(location_id === null || category_id === null
+            || person_id === null || size_id === null){
+        alert("Bitte füllen Sie alle Felder aus!");
+    } else{
+          var ajax = new XMLHttpRequest();
+            ajax.open("POST", "GetSelectedItems");
+            ajax.responseType = "json";
+
+            ajax.addEventListener("load", function(){
+                //Haben Daten entfangen, Ergebnis nun anzeigen
+                console.log(ajax.response.selectedItems);
+                if(ajax.response.selectedItems === null){
+                    alert("Keine Artikel");
+                }
+                else{
+                    alert("Artikel sind da!");
+                }
+               // alert(ajax.response.selectedItems);
+            });
+
+
+            ajax.send(JSON.stringify(
+                {
+                    location: location_id,
+                    category: category_id,
+                    persontyp: person_id,
+                    size: size_id
+                }
+            ));
+        
+    }
 }
 
 function findItemsOfPersonType(personType) {

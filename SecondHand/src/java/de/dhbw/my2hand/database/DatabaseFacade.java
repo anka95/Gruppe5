@@ -90,14 +90,6 @@ public class DatabaseFacade {
         return this.em.createQuery("SELECT n FROM Item n ORDER BY n.id").getResultList();
     }
     
-    
-    //Selected Item Methode
-    //  AND n.dressSize = :size AND n.personType = :personType AND n.category = :category 
-    // .setParameter("category", category).setParameter("personType", personType).setParameter("size", size)
-    public List <Item> findSelectedItem(long location, long category, long personType, long size){
-        return this.em.createQuery("SELECT n FROM Item n WHERE n.location = :location AND n.dressSize = :size AND n.personType = :personType AND n.category = :category ORDER BY n.id").setParameter("location", location).setParameter("category", category).setParameter("personType", personType).setParameter("size", size).getResultList(); 
-    }
-    
     /** 
      * Gibt eine Liste aller Standorte und ihrer Artikel zurück.
      * @return Eine Liste aller gefundenen Kunden

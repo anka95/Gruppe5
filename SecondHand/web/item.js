@@ -71,21 +71,21 @@ function createFilter() {
             console.log(ajax.response);
             var location = "";
             for (var i = 0; i < ajax.response.loc.length; i++) {
-                location += "<input type='radio' name='standort' VALUE = '" + ajax.response.loc[i].id + "'>" + ajax.response.loc[i].place + "</br>";
+                location += "<input type='radio' name='standort' VALUE = '" + ajax.response.loc[i].place + "'>" + ajax.response.loc[i].place + "</br>";
             }
             var cat = "";
             for (var i = 0; i < ajax.response.cat.length; i++) {
-                cat += "<input type='radio' name='kategorie' VALUE = '" + ajax.response.cat[i].id + "'>" + ajax.response.cat[i].category + "</br>";
+                cat += "<input type='radio' name='kategorie' VALUE = '" + ajax.response.cat[i].category + "'>" + ajax.response.cat[i].category + "</br>";
             }
 
             var person = "";
             for (var i = 0; i < ajax.response.persontype.length; i++) {
-                person += "<input type='radio' name='abteilung' VALUE = '" + ajax.response.persontype[i].id + "'>" + ajax.response.persontype[i].personType + "</br>";
+                person += "<input type='radio' name='abteilung' VALUE = '" + ajax.response.persontype[i].personType + "'>" + ajax.response.persontype[i].personType + "</br>";
             }
 
             var size = "";
             for (var i = 0; i < ajax.response.size.length; i++) {
-                size += "<input type='radio' name='groessen' VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</br>";
+                size += "<input type='radio' name='groessen' VALUE = '" + ajax.response.size[i].dressSize + "'>" + ajax.response.size[i].dressSize + "</br>";
             }
 
             document.getElementsByClassName("col-sm-2")[1].innerHTML =
@@ -102,78 +102,80 @@ function createFilter() {
                     + "<b>Größen</b><br><br>"
                     + size
                     + "<hr>"
-                    + "<input type='button' name='submit' value='Filtern' onClick='sellArticles()'/>"
+                    + "<input class='loginButton sellArticlesButton' type='button' name='submit' value='Filtern' onClick='sellArticles()'/>"
                     + "</form>";
         }
     };
 }
 
-function sellArticles(){
+function sellArticles() {
     var location_radio = document.filter.standort;
     var category_radio = document.filter.kategorie;
     var person_radio = document.filter.abteilung;
     var size_radio = document.filter.groessen;
-    
-    var location_id = null;
-    var category_id = null;
-    var person_id = null;
-    var size_id = null;
-    
-    for(var i = 0; i < location_radio.length; i++){
-        if(location_radio[i].checked)
-            location_id = location_radio[i].value;
-    };
-    
-    for(var i = 0; i < category_radio.length; i++){
-        if(category_radio[i].checked)
-            category_id = category_radio[i].value;
-    };
-    
-     for(var i = 0; i < person_radio.length; i++){
-        if(person_radio[i].checked)
-            person_id = person_radio[i].value;
-    };
-    
-     for(var i = 0; i < size_radio.length; i++){
-        if(size_radio[i].checked)
-            size_id = size_radio[i].value;
-    };
-    
-    alert("Standord: " + location_id);
-    alert("Kategorie: " + category_id);
-    alert("Person: " + person_id);
-    alert("Größe: " + size_id);
-    
-    if(location_id === null || category_id === null
-            || person_id === null || size_id === null){
+
+    var location = "";
+    var category = "";
+    var person = "";
+    var size = "";
+
+    for (var i = 0; i < location_radio.length; i++) {
+        if (location_radio[i].checked) {
+            location = location_radio[i].value;
+        }
+    }
+
+    for (var i = 0; i < category_radio.length; i++) {
+        if (category_radio[i].checked) {
+            category = category_radio[i].value;
+        }
+    }
+
+    for (var i = 0; i < person_radio.length; i++) {
+        if (person_radio[i].checked) {
+            person = person_radio[i].value;
+        }
+    }
+
+    for (var i = 0; i < size_radio.length; i++) {
+        if (size_radio[i].checked) {
+            size = size_radio[i].value;
+        }
+    }
+
+    if (location === "" || category === "" || person === "" || size === "") {
         alert("Bitte füllen Sie alle Felder aus!");
-    } else{
-          var ajax = new XMLHttpRequest();
-            ajax.open("POST", "GetSelectedItems");
-            ajax.responseType = "json";
-
-            ajax.addEventListener("load", function(){
-                //Haben Daten entfangen, Ergebnis nun anzeigen
-                console.log(ajax.response.selectedItems);
-                if(ajax.response.selectedItems === null){
-                    alert("Keine Artikel");
+    } else {
+        var ajax = new XMLHttpRequest();
+        ajax.responseType = "json";
+        ajax.open("GET", "servlet?action=finditemsofallcustomers", true);
+        ajax.send();
+        ajax.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                console.log(ajax.response);
+                document.getElementsByClassName("col-sm-10")[0].innerHTML = "";
+                for (i = 0; i < ajax.response.length; i++) {
+                    if (ajax.response[i].locationPlace === location &&
+                            ajax.response[i].categoryName === category &&
+                            ajax.response[i].personTypeName === person &&
+                            ajax.response[i].dressSizeName === size) {
+                        if (!ajax.response[i].sold) {
+                            var newHTML = "<div class='artikel'>"
+                                    + "<div class='artikelbilddiv'><img class='artikelbild' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'></div>"
+                                    + "<div class='artikeltext'>"
+                                    + "<h3 class='artikelh3'>" + ajax.response[i].title + "</h2>"
+                                    + "<p class='category'>" + ajax.response[i].categoryName + "</p>"
+                                    + "<p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "</p>"
+                                    + "<p>Größe: " + ajax.response[i].dressSizeName + "</p>"
+                                    + "<p><b>" + ajax.response[i].price + " €</b></p>"
+                                    + "</div>"
+                                    + "</div>";
+                            document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
+                        }
+                    }
                 }
-                else{
-                    alert("Artikel sind da!");
-                }
-               // alert(ajax.response.selectedItems);
-            });
-
-
-            ajax.send(JSON.stringify(
-                {
-                    location: location_id,
-                    category: category_id,
-                    persontyp: person_id,
-                    size: size_id
-                }
-            ));
-        
+            }
+        };
     }
 }
 

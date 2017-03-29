@@ -273,7 +273,7 @@ function saveUpdates() {
     }
 
     ajax.responseType = "json";
-    ajax.open("POST", "CheckEmail?action=updateprofile&customerid=" + getCookie() + "&salutation=" + encodeURI(salutation) + "&firstName="
+    ajax.open("PUT", "CheckEmail?customerid=" + getCookie() + "&salutation=" + encodeURI(salutation) + "&firstName="
             + encodeURI(firstName) + "&lastName=" + encodeURI(lastName) + "&street=" + encodeURI(street) + "&houseNumber="
             + encodeURI(houseNumber) + "&plz=" + encodeURI(plz) + "&place=" + encodeURI(place) + "&iban=" + encodeURI(iban) + "&bic="
             + encodeURI(bic) + "&bank=" + encodeURI(bank) + "&telephone=" + encodeURI(telephone) + "&email=" + encodeURI(email) + "&password="
@@ -308,7 +308,7 @@ function deleteCustomer() {
     var ajax = new XMLHttpRequest();
 
     ajax.responseType = "json";
-    ajax.open("GET", "servlet?action=deletecustomer&customerid=" + getCookie(), true);
+    ajax.open("DELETE", "servlet?action=deletecustomer&customerid=" + getCookie(), true);
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {

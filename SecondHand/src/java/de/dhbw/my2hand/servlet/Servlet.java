@@ -10,6 +10,8 @@ import de.dhbw.my2hand.database.PersonType;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import de.dhbw.my2hand.jsonClasses.JsonCustomer;
+import de.dhbw.my2hand.jsonClasses.JsonItem;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -146,15 +148,6 @@ public class Servlet extends HttpServlet {
                 response.sendRedirect("http://localhost:8080/Gruppe5/SecondHand/");
 
                 break;
-
-            case "updateitem":
-                // Artikel aktualisieren
-                item = database.findItem(new Long(request.getParameter("id")));
-                item.setTitle(request.getParameter("title"));
-                item.setPrice(new Double(request.getParameter("price")));
-                database.save(item);
-
-                break;
         }
     }
 
@@ -185,23 +178,6 @@ public class Servlet extends HttpServlet {
 
                 gson.toJson(cust, toBrowser);
                 toBrowser.flush();
-
-                break;
-
-            case "deletecustomer":
-                // Kunden löschen
-                customer = database.findCustomer(new Long(request.getParameter("customerid")));
-                database.delete(customer);
-
-                break;
-
-            case "deleteitem":
-                // Kleidungsstück und Artikelbild löschen
-                item = database.findItem(new Long(request.getParameter("itemid")));
-                String imagePath = getServletContext().getRealPath("") + File.separator + item.getImagePath();
-                File image = new File(imagePath);
-                image.delete();
-                database.delete(item);
 
                 break;
 
@@ -293,20 +269,62 @@ public class Servlet extends HttpServlet {
                 break;
         }
     }
-}
 
-class JsonCustomer {
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Sonderzeichen richtig erkennen!
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
 
-    public Long customerId;
-    public String salutation, firstName, lastName, street, houseNumber, plz,
-            place, iban, bic, bank, telephone, email, password;
-    public List<JsonItem> items;
-}
+        response.setContentType("application/json");
 
-class JsonItem {
+        // Artikel aktualisieren
+        item = database.findItem(new Long(request.getParameter("id")));
+        item.setTitle(request.getParameter("title"));
+        item.setPrice(new Double(request.getParameter("price")));
+        database.save(item);
+    }
 
-    public Long id, customerId;
-    public String title, locationPlace, categoryName, dressSizeName, personTypeName, imagePath;
-    public Double price;
-    public Boolean sold, published;
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Sonderzeichen richtig erkennen!
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
+
+        response.setContentType("application/json");
+        String imagePath;
+        File image;
+
+        // Angeforderte Datenbankaktion ausführen
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+
+        switch (action) {
+            case "deleteitem":
+                // Kleidungsstück und Artikelbild löschen
+                item = database.findItem(new Long(request.getParameter("itemid")));
+                imagePath = getServletContext().getRealPath("") + File.separator + item.getImagePath();
+                image = new File(imagePath);
+                image.delete();
+                database.delete(item);
+
+                break;
+
+            case "deletecustomer":
+                // Kunden löschen
+                customer = database.findCustomer(new Long(request.getParameter("customerid")));
+                for (Item item : customer.getItems()) {
+                    imagePath = getServletContext().getRealPath("") + File.separator + item.getImagePath();
+                    image = new File(imagePath);
+                    image.delete();
+                }
+                database.delete(customer);
+
+                break;
+        }
+    }
 }

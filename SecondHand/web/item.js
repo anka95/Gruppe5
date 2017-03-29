@@ -102,13 +102,13 @@ function createFilter() {
                     + "<b>Größen</b><br><br>"
                     + size
                     + "<hr>"
-                    + "<input class='loginButton sellArticlesButton' type='button' name='submit' value='Filtern' onClick='sellArticles()'/>"
+                    + "<input class='loginButton filterButton' type='button' name='submit' value='Filtern' onClick='filter()'/>"
                     + "</form>";
         }
     };
 }
 
-function sellArticles() {
+function filter() {
     var location_radio = document.filter.standort;
     var category_radio = document.filter.kategorie;
     var person_radio = document.filter.abteilung;
@@ -173,6 +173,11 @@ function sellArticles() {
                             document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
                         }
                     }
+                }
+                
+                if (document.getElementsByClassName("col-sm-10")[0].innerHTML === "") {
+                    document.getElementsByClassName("col-sm-10")[0].innerHTML = "<p style='text-align: center'>Leider entsprechen keine Artikel den vorgegebenen Filtern." +
+                                                                                    "<br>Bitte versuchen Sie es mit anderen Filtern neu!</p>"
                 }
             }
         };
@@ -414,7 +419,7 @@ function saveItemsUpdates(id) {
     }
 
     ajax.responseType = "json";
-    ajax.open("POST", "servlet?action=updateitem&id=" + encodeURI(id)
+    ajax.open("PUT", "servlet?action=updateitem&id=" + encodeURI(id)
             + "&title=" + encodeURI(title) + "&price=" + encodeURI(price), true);
     ajax.send();
     ajax.onreadystatechange = function () {
@@ -436,7 +441,7 @@ function deleteItem(id) {
     var ajax = new XMLHttpRequest();
 
     ajax.responseType = "json";
-    ajax.open("GET", "servlet?action=deleteitem&itemid=" + id, true);
+    ajax.open("DELETE", "servlet?action=deleteitem&itemid=" + id, true);
     ajax.send();
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {

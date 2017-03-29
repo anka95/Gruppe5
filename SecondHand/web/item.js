@@ -102,13 +102,13 @@ function createFilter() {
                     + "<b>Größen</b><br><br>"
                     + size
                     + "<hr>"
-                    + "<input class='loginButton filterButton' type='button' name='submit' value='Filtern' onClick='filter()'/>"
+                    + "<input class='loginButton filterButton' type='button' name='submit' value='Filtern' onClick='filterArticles()'/>"
                     + "</form>";
         }
     };
 }
 
-function filter() {
+function filterArticles() {
     var location_radio = document.filter.standort;
     var category_radio = document.filter.kategorie;
     var person_radio = document.filter.abteilung;
@@ -174,10 +174,10 @@ function filter() {
                         }
                     }
                 }
-                
+
                 if (document.getElementsByClassName("col-sm-10")[0].innerHTML === "") {
                     document.getElementsByClassName("col-sm-10")[0].innerHTML = "<p style='text-align: center'>Leider entsprechen keine Artikel den vorgegebenen Filtern." +
-                                                                                    "<br>Bitte versuchen Sie es mit anderen Filtern neu!</p>"
+                            "<br>Bitte versuchen Sie es mit anderen Filtern neu!</p>"
                 }
             }
         };

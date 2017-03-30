@@ -294,8 +294,6 @@ function createNewItem() {
                 size += "<option VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</option>";
             }
 
-            sendMail("addMail");
-
             document.getElementsByClassName("modal-signUp")[1].innerHTML = "<form id='formItems' action='' method='post' enctype='multipart/form-data'>" +
                     "<label>Standort*</label>" +
                     "<select class='loginInput' name='locationId' required>" +
@@ -358,7 +356,7 @@ function actionString() {
             dressSizeId = document.getElementsByName("dressSizeId")[0].options[i].value;
         }
     }
-
+    
     if (locationId === "0" || title === "" || categoryId === "0"
             || personTypeId === "0" || dressSizeId === "0"
             || price === "" || image === "") {
@@ -368,6 +366,7 @@ function actionString() {
                 + "<br><div class='alert alert-danger'>Bitte füllen Sie alle Pflichtfelder aus!</div>";
         return;
     } else {
+//        sendMail("addMail");
         var actionString = "servlet?action=createnewitem&customerid=" + encodeURI(getCookie())
                 + "&locationid=" + encodeURI(locationId) + "&title=" + encodeURI(title)
                 + "&categoryid=" + encodeURI(categoryId) + "&dresssizeid=" + encodeURI(dressSizeId)

@@ -117,21 +117,6 @@ function saveNewCustomer() {
                         "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
                         + "<h4 class='modal-title'>Neu registrieren</h4>"
                         + "<br><div class='alert alert-success'>Ihr Kundenkonto wurde erfolgreich angelegt!</div>";
-                document.getElementsByName("salutation")[0].checked = false;
-                document.getElementsByName("salutation")[1].checked = false;
-                document.getElementsByName("firstName")[0].value = "";
-                document.getElementsByName("lastName")[0].value = "";
-                document.getElementsByName("street")[0].value = "";
-                document.getElementsByName("houseNumber")[0].value = "";
-                document.getElementsByName("plz")[0].value = "";
-                document.getElementsByName("place")[0].value = "";
-                document.getElementsByName("iban")[0].value = "";
-                document.getElementsByName("bic")[0].value = "";
-                document.getElementsByName("bank")[0].value = "";
-                document.getElementsByName("telephone")[0].value = "";
-                document.getElementsByName("signUpEmail")[0].value = "";
-                document.getElementsByName("passworda")[0].value = "";
-                document.getElementsByName("passwordb")[0].value = "";
             }
         }
     };

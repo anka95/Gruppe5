@@ -3,6 +3,7 @@ package de.dhbw.my2hand.servlet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.dhbw.my2hand.database.DatabaseFacade;
+import de.dhbw.my2hand.jsonClasses.JsonLoginResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
@@ -30,26 +31,20 @@ public class CheckLogin extends HttpServlet {
         PrintWriter toBrowser = response.getWriter();       // DASS WIR IHM JSON SCHICKEN!
 
         Gson gson = new GsonBuilder().create();
-        jsonLogin_ant antwort = new jsonLogin_ant();
+        JsonLoginResponse jsonLoginResponse = new JsonLoginResponse();
 
-        antwort.find = false;
+        jsonLoginResponse.find = false;
 
         // Überprüfen, ob Passwort richtig eingegeben wurden und ob E-Mail-Adresse noch nicht registriert ist.
         for (int i = 0; i < database.findAllCustomers().size(); i++) {
             if (database.findAllCustomers().get(i).getPassword().equals(request.getParameter("pw"))
                     && database.findAllCustomers().get(i).getEmail().equals(request.getParameter("email"))) {
-                antwort.kdnr = database.findAllCustomers().get(i).getId();
-                antwort.find = true;
+                jsonLoginResponse.customerId = database.findAllCustomers().get(i).getId();
+                jsonLoginResponse.find = true;
             }
         }
 
-        gson.toJson(antwort, toBrowser);
+        gson.toJson(jsonLoginResponse, toBrowser);
         toBrowser.flush();
     }
-}
-
-class jsonLogin_ant {
-
-    public long kdnr;
-    public boolean find;
 }

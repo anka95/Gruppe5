@@ -12,6 +12,7 @@ import de.dhbw.my2hand.jsonClasses.JsonCategory;
 import de.dhbw.my2hand.jsonClasses.JsonDressSize;
 import de.dhbw.my2hand.jsonClasses.JsonItem;
 import de.dhbw.my2hand.jsonClasses.JsonLocation;
+import de.dhbw.my2hand.jsonClasses.JsonNavigationResponse;
 import de.dhbw.my2hand.jsonClasses.JsonPersonType;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,7 +41,7 @@ public class CreateSelection extends HttpServlet {
 
         Gson gson = new GsonBuilder().create();
 
-        JsonNav_ant antwort = new JsonNav_ant();
+        JsonNavigationResponse jsonNavigationResponse = new JsonNavigationResponse();
 
         // Erstellt die Selektionsliste.
         List<Location> locations = database.findAllLocations();
@@ -76,7 +77,7 @@ public class CreateSelection extends HttpServlet {
             }
             jsonLocations.add(jsonLocation);
         }
-        antwort.loc = jsonLocations;
+        jsonNavigationResponse.location = jsonLocations;
 
         for (Category category : categories) {
             JsonCategory jsonCategory = new JsonCategory();
@@ -101,7 +102,7 @@ public class CreateSelection extends HttpServlet {
             }
             jsonCategories.add(jsonCategory);
         }
-        antwort.cat = jsonCategories;
+        jsonNavigationResponse.category = jsonCategories;
 
         for (PersonType personType : personTypes) {
             JsonPersonType jsonPT = new JsonPersonType();
@@ -126,7 +127,7 @@ public class CreateSelection extends HttpServlet {
             }
             jsonPersonTypes.add(jsonPT);
         }
-        antwort.persontype = jsonPersonTypes;
+        jsonNavigationResponse.personType = jsonPersonTypes;
 
         for (DressSize dressSize : dressSizes) {
             JsonDressSize jsonDressSize = new JsonDressSize();
@@ -151,19 +152,11 @@ public class CreateSelection extends HttpServlet {
             }
             jsonDressSizes.add(jsonDressSize);
         }
-        antwort.size = jsonDressSizes;
+        jsonNavigationResponse.dressSize = jsonDressSizes;
 
         resp.setContentType("application/json");
         PrintWriter toBrowser = resp.getWriter();
-        gson.toJson(antwort, toBrowser);
+        gson.toJson(jsonNavigationResponse, toBrowser);
         toBrowser.flush();
     }
-}
-
-class JsonNav_ant {
-
-    public List<JsonLocation> loc;
-    public List<JsonCategory> cat;
-    public List<JsonPersonType> persontype;
-    public List<JsonDressSize> size;
 }

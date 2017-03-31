@@ -86,22 +86,22 @@ function createFilter() {
         if (this.readyState === 4 && this.status === 200) {
             console.log(ajax.response);
             var location = "";
-            for (var i = 0; i < ajax.response.loc.length; i++) {
-                location += "<input type='radio' name='standort' VALUE = '" + ajax.response.loc[i].place + "'>" + ajax.response.loc[i].place + "</br>";
+            for (var i = 0; i < ajax.response.location.length; i++) {
+                location += "<input type='radio' name='standort' VALUE = '" + ajax.response.location[i].place + "'>" + ajax.response.location[i].place + "</br>";
             }
             var cat = "";
-            for (var i = 0; i < ajax.response.cat.length; i++) {
-                cat += "<input type='radio' name='kategorie' VALUE = '" + ajax.response.cat[i].category + "'>" + ajax.response.cat[i].category + "</br>";
+            for (var i = 0; i < ajax.response.category.length; i++) {
+                cat += "<input type='radio' name='kategorie' VALUE = '" + ajax.response.category[i].category + "'>" + ajax.response.category[i].category + "</br>";
             }
 
             var person = "";
-            for (var i = 0; i < ajax.response.persontype.length; i++) {
-                person += "<input type='radio' name='abteilung' VALUE = '" + ajax.response.persontype[i].personType + "'>" + ajax.response.persontype[i].personType + "</br>";
+            for (var i = 0; i < ajax.response.personType.length; i++) {
+                person += "<input type='radio' name='abteilung' VALUE = '" + ajax.response.personType[i].personType + "'>" + ajax.response.personType[i].personType + "</br>";
             }
 
             var size = "";
-            for (var i = 0; i < ajax.response.size.length; i++) {
-                size += "<input type='radio' name='groessen' VALUE = '" + ajax.response.size[i].dressSize + "'>" + ajax.response.size[i].dressSize + "</br>";
+            for (var i = 0; i < ajax.response.dressSize.length; i++) {
+                size += "<input type='radio' name='groessen' VALUE = '" + ajax.response.dressSize[i].dressSize + "'>" + ajax.response.dressSize[i].dressSize + "</br>";
             }
 
             document.getElementsByClassName("col-sm-2")[1].innerHTML =
@@ -308,23 +308,23 @@ function createNewItem() {
         if (this.readyState === 4 && this.status === 200) {
             console.log(ajax.response);
             var location = "<option VALUE = '0' >-Bitte auswählen-</option>";
-            for (var i = 0; i < ajax.response.loc.length; i++) {
-                location += "<option VALUE = '" + ajax.response.loc[i].id + "'>" + ajax.response.loc[i].place + "</option>";
+            for (var i = 0; i < ajax.response.location.length; i++) {
+                location += "<option VALUE = '" + ajax.response.location[i].id + "'>" + ajax.response.location[i].place + "</option>";
             }
 
             var cat = "<option VALUE = '0' >-Bitte auswählen-</option>";
-            for (var i = 0; i < ajax.response.cat.length; i++) {
-                cat += "<option VALUE = '" + ajax.response.cat[i].id + "'>" + ajax.response.cat[i].category + "</option>";
+            for (var i = 0; i < ajax.response.category.length; i++) {
+                cat += "<option VALUE = '" + ajax.response.category[i].id + "'>" + ajax.response.category[i].category + "</option>";
             }
 
             var person = "<option VALUE = '0' >-Bitte auswählen-</option>";
-            for (var i = 0; i < ajax.response.persontype.length; i++) {
-                person += "<option VALUE = '" + ajax.response.persontype[i].id + "'>" + ajax.response.persontype[i].personType + "</option>";
+            for (var i = 0; i < ajax.response.personType.length; i++) {
+                person += "<option VALUE = '" + ajax.response.personType[i].id + "'>" + ajax.response.personType[i].personType + "</option>";
             }
 
             var size = "<option VALUE = '0' >-Bitte auswählen-</option>";
-            for (var i = 0; i < ajax.response.size.length; i++) {
-                size += "<option VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "</option>";
+            for (var i = 0; i < ajax.response.dressSize.length; i++) {
+                size += "<option VALUE = '" + ajax.response.dressSize[i].id + "'>" + ajax.response.dressSize[i].dressSize + "</option>";
             }
 
             document.getElementsByClassName("modal-signUp")[1].innerHTML = "<form id='formItems' action='' method='post' enctype='multipart/form-data'>" +

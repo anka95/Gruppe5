@@ -118,7 +118,7 @@ function saveNewCustomer() {
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             console.log(ajax.response);
-            if (ajax.response.vorhanden) {
+            if (ajax.response.available) {
                 document.getElementsByClassName("modal-header")[1].innerHTML =
                         "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
                         + "<h4 class='modal-title'>Neu registrieren</h4>"
@@ -291,7 +291,7 @@ function saveUpdates() {
     ajax.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             console.log(ajax.response);
-            if (ajax.response.vorhanden) {
+            if (ajax.response.available) {
                 document.getElementsByClassName("modal-header")[1].innerHTML =
                         "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
                         + "<h4 class='modal-title'>Profil bearbeiten</h4>"

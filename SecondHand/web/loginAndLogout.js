@@ -18,7 +18,7 @@ function login() {
         if (this.readyState === 4 && this.status === 200) {
             console.log(ajax.response);
             if (ajax.response.find) {
-                setCookie(ajax.response.kdnr);
+                setCookie(ajax.response.customerId);
                 myItems();
                 $('#login').modal('hide');
                 isLoggedIn();

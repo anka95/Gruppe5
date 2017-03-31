@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: item.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: item.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file Alle Funktion für die Verarbeitung der Artikel.
+ */
+
+/**
+ * @function itemsCarousel
+ * @description Setzt die ersten fünf Artikel aus der Datenbank in den Artikel-Slider auf der Startseite.
+ */
+function itemsCarousel() {
+    var ajax = new XMLHttpRequest();
+
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=finditemsofallcustomers", true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            console.log(ajax.response);
+            var count = 0;
+            for (i = 0; i &lt; ajax.response.length; i++) {
+                if (!ajax.response[i].sold) {
+                    if (count &lt; 5) {
+                        document.getElementsByClassName("item")[count].innerHTML =
+                                "&lt;img class='carousel-image' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'>"
+                                + "&lt;div class='carousel-text'>"
+                                + "&lt;h2>" + ajax.response[i].title + "&lt;/h2>"
+                                + "&lt;p class='category'>" + ajax.response[i].categoryName + "&lt;/p>"
+                                + "&lt;p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "&lt;/p>"
+                                + "&lt;p>Größe: " + ajax.response[i].dressSizeName + "&lt;/p>"
+                                + "&lt;p>&lt;b>" + ajax.response[i].price + " €&lt;/b>&lt;/p>"
+                                + "&lt;/div>";
+                        count++;
+                    }
+                }
+            }
+        }
+    };
+}
+
+/**
+ * @function findItemsOfAllCustomers
+ * @description Gibt alle Artikel aller Kunden aus der Datenbank zurück.
+ */
+function findItemsOfAllCustomers() {
+    var ajax = new XMLHttpRequest();
+
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=finditemsofallcustomers", true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            document.getElementsByClassName("row")[1].innerHTML = "&lt;div class='col-sm-2'>&lt;/div>&lt;div class='col-sm-10'>&lt;/div>";
+            document.getElementsByClassName("row")[2].innerHTML = "";
+            document.getElementsByClassName("row")[3].innerHTML = "";
+            createFilter();
+            console.log(ajax.response);
+            for (i = 0; i &lt; ajax.response.length; i++) {
+                if (!ajax.response[i].sold) {
+                    var newHTML = "&lt;div class='artikel'>"
+                            + "&lt;div class='artikelbilddiv'>&lt;img class='artikelbild' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'>&lt;/div>"
+                            + "&lt;div class='artikeltext'>"
+                            + "&lt;h3 class='artikelh3'>" + ajax.response[i].title + "&lt;/h2>"
+                            + "&lt;p class='category'>" + ajax.response[i].categoryName + "&lt;/p>"
+                            + "&lt;p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "&lt;/p>"
+                            + "&lt;p>Größe: " + ajax.response[i].dressSizeName + "&lt;/p>"
+                            + "&lt;p>&lt;b>" + ajax.response[i].price + " €&lt;/b>&lt;/p>"
+                            + "&lt;/div>"
+                            + "&lt;/div>";
+                    document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
+                }
+            }
+        }
+    };
+}
+
+/**
+ * @function createFilter
+ * @description Erstellt die Selektionsliste links neben den Artikeln. Die einzelnen Filter werden aus der Datenbank ausgelesen.
+ */
+function createFilter() {
+    var ajax = new XMLHttpRequest();
+
+    ajax.responseType = "json";
+    ajax.open("POST", "CreateSelection");
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            console.log(ajax.response);
+            var location = "";
+            for (var i = 0; i &lt; ajax.response.loc.length; i++) {
+                location += "&lt;input type='radio' name='standort' VALUE = '" + ajax.response.loc[i].place + "'>" + ajax.response.loc[i].place + "&lt;/br>";
+            }
+            var cat = "";
+            for (var i = 0; i &lt; ajax.response.cat.length; i++) {
+                cat += "&lt;input type='radio' name='kategorie' VALUE = '" + ajax.response.cat[i].category + "'>" + ajax.response.cat[i].category + "&lt;/br>";
+            }
+
+            var person = "";
+            for (var i = 0; i &lt; ajax.response.persontype.length; i++) {
+                person += "&lt;input type='radio' name='abteilung' VALUE = '" + ajax.response.persontype[i].personType + "'>" + ajax.response.persontype[i].personType + "&lt;/br>";
+            }
+
+            var size = "";
+            for (var i = 0; i &lt; ajax.response.size.length; i++) {
+                size += "&lt;input type='radio' name='groessen' VALUE = '" + ajax.response.size[i].dressSize + "'>" + ajax.response.size[i].dressSize + "&lt;/br>";
+            }
+
+            document.getElementsByClassName("col-sm-2")[1].innerHTML =
+                    "&lt;form class='filter' name ='filter'>"
+                    + "&lt;b>Standorte&lt;/b>&lt;br>&lt;br>"
+                    + location
+                    + "&lt;hr>"
+                    + "&lt;b>Kategorie&lt;/b>&lt;br>&lt;br>"
+                    + cat
+                    + "&lt;hr>"
+                    + "&lt;b>Abteilung&lt;/b>&lt;br>&lt;br>"
+                    + person
+                    + "&lt;hr>"
+                    + "&lt;b>Größen&lt;/b>&lt;br>&lt;br>"
+                    + size
+                    + "&lt;hr>"
+                    + "&lt;input class='loginButton filterButton' type='button' name='submit' value='Filtern' onClick='filterArticles()'/>"
+                    + "&lt;/form>";
+        }
+    };
+}
+
+/**
+ * @function filterArticles
+ * @description Filtert die Artikel.
+ */
+function filterArticles() {
+    var location_radio = document.filter.standort;
+    var category_radio = document.filter.kategorie;
+    var person_radio = document.filter.abteilung;
+    var size_radio = document.filter.groessen;
+
+    var location = "";
+    var category = "";
+    var person = "";
+    var size = "";
+
+    for (var i = 0; i &lt; location_radio.length; i++) {
+        if (location_radio[i].checked) {
+            location = location_radio[i].value;
+        }
+    }
+
+    for (var i = 0; i &lt; category_radio.length; i++) {
+        if (category_radio[i].checked) {
+            category = category_radio[i].value;
+        }
+    }
+
+    for (var i = 0; i &lt; person_radio.length; i++) {
+        if (person_radio[i].checked) {
+            person = person_radio[i].value;
+        }
+    }
+
+    for (var i = 0; i &lt; size_radio.length; i++) {
+        if (size_radio[i].checked) {
+            size = size_radio[i].value;
+        }
+    }
+
+    if (location === "" || category === "" || person === "" || size === "") {
+        alert("Bitte füllen Sie alle Felder aus!");
+    } else {
+        var ajax = new XMLHttpRequest();
+        ajax.responseType = "json";
+        ajax.open("GET", "servlet?action=finditemsofallcustomers", true);
+        ajax.send();
+        ajax.onreadystatechange = function () {
+            if (this.readyState === 4 &amp;&amp; this.status === 200) {
+                console.log(ajax.response);
+                document.getElementsByClassName("col-sm-10")[0].innerHTML = "";
+                for (i = 0; i &lt; ajax.response.length; i++) {
+                    if (ajax.response[i].locationPlace === location &amp;&amp;
+                            ajax.response[i].categoryName === category &amp;&amp;
+                            ajax.response[i].personTypeName === person &amp;&amp;
+                            ajax.response[i].dressSizeName === size) {
+                        if (!ajax.response[i].sold) {
+                            var newHTML = "&lt;div class='artikel'>"
+                                    + "&lt;div class='artikelbilddiv'>&lt;img class='artikelbild' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'>&lt;/div>"
+                                    + "&lt;div class='artikeltext'>"
+                                    + "&lt;h3 class='artikelh3'>" + ajax.response[i].title + "&lt;/h2>"
+                                    + "&lt;p class='category'>" + ajax.response[i].categoryName + "&lt;/p>"
+                                    + "&lt;p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "&lt;/p>"
+                                    + "&lt;p>Größe: " + ajax.response[i].dressSizeName + "&lt;/p>"
+                                    + "&lt;p>&lt;b>" + ajax.response[i].price + " €&lt;/b>&lt;/p>"
+                                    + "&lt;/div>"
+                                    + "&lt;/div>";
+                            document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
+                        }
+                    }
+                }
+
+                if (document.getElementsByClassName("col-sm-10")[0].innerHTML === "") {
+                    document.getElementsByClassName("col-sm-10")[0].innerHTML = "&lt;p style='text-align: center'>Leider entsprechen keine Artikel den vorgegebenen Filtern." +
+                            "&lt;br>Bitte versuchen Sie es mit anderen Filtern neu!&lt;/p>"
+                }
+            }
+        };
+    }
+}
+
+/**
+ * @function findItemsOfPersonType
+ * @description Gibt die Artikel der verschiedenen Abteilungen zurück.
+ * @param {String} personType - Der Name der Abteilung.
+ */
+function findItemsOfPersonType(personType) {
+    var ajax = new XMLHttpRequest();
+
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=finditemsofallcustomers", true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            document.getElementsByClassName("row")[1].innerHTML = "&lt;div class='col-sm-2'>&lt;/div>&lt;div class='col-sm-10'>&lt;/div>";
+            document.getElementsByClassName("row")[2].innerHTML = "";
+            document.getElementsByClassName("row")[3].innerHTML = "";
+            createFilter();
+            console.log(ajax.response);
+
+            for (i = 0; i &lt; ajax.response.length; i++) {
+                if (ajax.response[i].personTypeName === personType) {
+                    if (!ajax.response[i].sold) {
+                        var newHTML = "&lt;div class='artikel'>"
+                                + "&lt;div class='artikelbilddiv'>&lt;img class='artikelbild' src='" + ajax.response[i].imagePath + "' alt='" + ajax.response[i].title + "'>&lt;/div>"
+                                + "&lt;div class='artikeltext'>"
+                                + "&lt;h3 class='artikelh3'>" + ajax.response[i].title + "&lt;/h2>"
+                                + "&lt;p class='category'>" + ajax.response[i].categoryName + "&lt;/p>"
+                                + "&lt;p>" + ajax.response[i].personTypeName + " • " + ajax.response[i].locationPlace + "&lt;/p>"
+                                + "&lt;p>Größe: " + ajax.response[i].dressSizeName + "&lt;/p>"
+                                + "&lt;p>&lt;b>" + ajax.response[i].price + " €&lt;/b>&lt;/p>"
+                                + "&lt;/div>"
+                                + "&lt;/div>";
+                        document.getElementsByClassName("col-sm-10")[0].innerHTML += newHTML;
+                    }
+                }
+            }
+        }
+    };
+}
+
+/**
+ * @function myItems
+ * @description Gibt alle Artikel eines Kunden zurück.
+ */
+function myItems() {
+    var ajax = new XMLHttpRequest();
+
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=findallitems&amp;customerid=" + getCookie(), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            document.getElementsByClassName("row")[1].innerHTML = "&lt;div class='col-sm-12'>&lt;/div>";
+            document.getElementsByClassName("row")[2].innerHTML = "";
+            document.getElementsByClassName("row")[3].innerHTML = "";
+            console.log(ajax.response);
+            document.getElementsByClassName("col-sm-12")[0].innerHTML = "&lt;div class='artikelplus'>"
+                    + "&lt;div class='overlay glyphicon glyphicon-plus' data-toggle='modal' data-target='#newItem' onclick='createNewItem()' title='Artikel verkaufen'>&lt;/div>&lt;/div>";
+
+            for (i = 0; i &lt; ajax.response.items.length; i++) {
+                if (ajax.response.items[i].sold) {
+                    var sold = "&lt;span class='label label-success'>verkauft&lt;/span>";
+                } else {
+                    var sold = "&lt;span class='label label-warning'>nicht verkauft&lt;/span>";
+                }
+
+                var newHTML = "&lt;div class='artikel' id='" + ajax.response.items[i].id + "'>"
+                        + "&lt;div class='glyphicon glyphicon-edit' data-toggle='modal' data-target='#newItem' onClick='updateItem(" + ajax.response.items[i].id + ")' title='Artikel bearbeiten'>&lt;/div>"
+                        + "&lt;div class='glyphicon glyphicon-trash' onClick='deleteItem(" + ajax.response.items[i].id + ")' title='Artikel löschen'>&lt;/div>"
+                        + "&lt;div class='artikelbilddiv'>&lt;img class='artikelbild' src='" + ajax.response.items[i].imagePath + "' alt='" + ajax.response.items[i].title + "'>&lt;/div>"
+                        + "&lt;div class='artikeltext'>"
+                        + "&lt;h3 class='artikelh3'>" + ajax.response.items[i].title + "&lt;/h2>"
+                        + "&lt;br>"
+                        + sold
+                        + "&lt;br>&lt;br>"
+                        + "&lt;p class='category'>" + ajax.response.items[i].categoryName + "&lt;/p>"
+                        + "&lt;p>" + ajax.response.items[i].personTypeName + " • " + ajax.response.items[i].locationPlace + "&lt;/p>"
+                        + "&lt;p>Größe: " + ajax.response.items[i].dressSizeName + "&lt;/p>"
+                        + "&lt;p>&lt;b>" + ajax.response.items[i].price + " €&lt;/b>&lt;/p>"
+                        + "&lt;/div>"
+                        + "&lt;/div>";
+                document.getElementsByClassName("col-sm-12")[0].innerHTML += newHTML;
+            }
+        }
+    };
+}
+
+/**
+ * @function createNewItem
+ * @description Legt einen neuen Artikel an.
+ */
+function createNewItem() {
+    document.getElementsByClassName("modal-header")[2].innerHTML =
+            "&lt;button type='button' class='close' data-dismiss='modal'>&amp;times;&lt;/button>"
+            + "&lt;h4 class='modal-title'>Artikel verkaufen&lt;/h4>";
+    var ajax = new XMLHttpRequest();
+
+    ajax.responseType = "json";
+    ajax.open("POST", "CreateSelection");
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            console.log(ajax.response);
+            var location = "&lt;option VALUE = '0' >-Bitte auswählen-&lt;/option>";
+            for (var i = 0; i &lt; ajax.response.loc.length; i++) {
+                location += "&lt;option VALUE = '" + ajax.response.loc[i].id + "'>" + ajax.response.loc[i].place + "&lt;/option>";
+            }
+
+            var cat = "&lt;option VALUE = '0' >-Bitte auswählen-&lt;/option>";
+            for (var i = 0; i &lt; ajax.response.cat.length; i++) {
+                cat += "&lt;option VALUE = '" + ajax.response.cat[i].id + "'>" + ajax.response.cat[i].category + "&lt;/option>";
+            }
+
+            var person = "&lt;option VALUE = '0' >-Bitte auswählen-&lt;/option>";
+            for (var i = 0; i &lt; ajax.response.persontype.length; i++) {
+                person += "&lt;option VALUE = '" + ajax.response.persontype[i].id + "'>" + ajax.response.persontype[i].personType + "&lt;/option>";
+            }
+
+            var size = "&lt;option VALUE = '0' >-Bitte auswählen-&lt;/option>";
+            for (var i = 0; i &lt; ajax.response.size.length; i++) {
+                size += "&lt;option VALUE = '" + ajax.response.size[i].id + "'>" + ajax.response.size[i].dressSize + "&lt;/option>";
+            }
+
+            document.getElementsByClassName("modal-signUp")[1].innerHTML = "&lt;form id='formItems' action='' method='post' enctype='multipart/form-data'>" +
+                    "&lt;label>Standort*&lt;/label>" +
+                    "&lt;select class='loginInput' name='locationId' required>" +
+                    location +
+                    "&lt;/select>" +
+                    "&lt;label>Titel*&lt;/label>" +
+                    "&lt;input class='loginInput' type='text' name='title' placeholder='Titel' required>" +
+                    "&lt;label>Kategorie*&lt;/label>" +
+                    "&lt;select class='loginInput' name='categoryId' required>" +
+                    cat +
+                    "&lt;/select>" +
+                    "&lt;label>Abteilung*&lt;/label>" +
+                    "&lt;select class='loginInput' name='personTypeId' required>" +
+                    person +
+                    "&lt;/select>" +
+                    "&lt;label>Größe*&lt;/label>" +
+                    "&lt;select class='loginInput' name='dressSizeId' required>" +
+                    size +
+                    "&lt;/select>" +
+                    "&lt;label>Verkaufspreis*&lt;/label>" +
+                    "&lt;input class='loginInput' type='text' name='price' placeholder='Verkaufspreis' required>" +
+                    "&lt;label>Bild hochladen*&lt;/label>" +
+                    "&lt;input class='imageUpload' type='file' name='imageUpload' accept='image/*'/>" +
+                    "&lt;br>" +
+                    "&lt;button class='loginButton' type='submit' onClick='actionString()'>Artikel verkaufen&lt;/button>" +
+                    "&lt;/form>";
+        }
+    };
+}
+
+/**
+ * @function actionString
+ * @description Hilfmethode zum Erzeugen des Strings für das Action-Attribut des Artikel-anlegen-Formulars.
+ */
+function actionString() {
+    var locationId;
+    var title = document.getElementsByName("title")[0].value;
+    var categoryId;
+    var dressSizeId;
+    var price = document.getElementsByName("price")[0].value;
+    var personTypeId;
+    var image = document.getElementsByName("imageUpload")[0].value;
+
+    for (i = 0; i &lt; document.getElementsByName("locationId")[0].length; i++) {
+        if (document.getElementsByName("locationId")[0].options[i].selected === true) {
+            locationId = document.getElementsByName("locationId")[0].options[i].value;
+        }
+    }
+
+    for (i = 0; i &lt; document.getElementsByName("categoryId")[0].length; i++) {
+        if (document.getElementsByName("categoryId")[0].options[i].selected === true) {
+            categoryId = document.getElementsByName("categoryId")[0].options[i].value;
+        }
+    }
+
+    for (i = 0; i &lt; document.getElementsByName("personTypeId")[0].length; i++) {
+        if (document.getElementsByName("personTypeId")[0].options[i].selected === true) {
+            personTypeId = document.getElementsByName("personTypeId")[0].options[i].value;
+        }
+    }
+
+    for (i = 0; i &lt; document.getElementsByName("dressSizeId")[0].length; i++) {
+        if (document.getElementsByName("dressSizeId")[0].options[i].selected === true) {
+            dressSizeId = document.getElementsByName("dressSizeId")[0].options[i].value;
+        }
+    }
+
+    if (locationId === "0" || title === "" || categoryId === "0"
+            || personTypeId === "0" || dressSizeId === "0"
+            || price === "" || image === "") {
+        document.getElementsByClassName("modal-header")[2].innerHTML =
+                "&lt;button type='button' class='close' data-dismiss='modal'>&amp;times;&lt;/button>"
+                + "&lt;h4 class='modal-title'>Artikel verkaufen&lt;/h4>"
+                + "&lt;br>&lt;div class='alert alert-danger'>Bitte füllen Sie alle Pflichtfelder aus!&lt;/div>";
+        return;
+    } else {
+//        sendMail("addMail");
+        var actionString = "servlet?action=createnewitem&amp;customerid=" + encodeURI(getCookie())
+                + "&amp;locationid=" + encodeURI(locationId) + "&amp;title=" + encodeURI(title)
+                + "&amp;categoryid=" + encodeURI(categoryId) + "&amp;dresssizeid=" + encodeURI(dressSizeId)
+                + "&amp;price=" + encodeURI(price) + "&amp;persontypeid=" + encodeURI(personTypeId);
+        document.getElementById("formItems").setAttribute("action", actionString);
+    }
+}
+
+/**
+ * @function updateItem
+ * @description Holt die Daten des Artikels zum Aktualisieren.
+ * @param {number} id - Die ID des Artikels.
+ */
+function updateItem(id) {
+    var ajax = new XMLHttpRequest();
+
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=finditem&amp;itemid=" + id, true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            document.getElementsByClassName("modal-title")[2].innerHTML = "Artikel bearbeiten";
+            document.getElementsByClassName("modal-signUp")[1].innerHTML = "&lt;div id='formItems'>" +
+                    "&lt;label>Standort:&lt;/label>" +
+                    "&lt;input class='loginInput' type='text' name='locationPlace' value='" + ajax.response.locationPlace + "' disabled>" +
+                    "&lt;label>Titel*&lt;/label>" +
+                    "&lt;input class='loginInput' type='text' name='title' value='" + ajax.response.title + "' required>" +
+                    "&lt;label>Kategorie&lt;/label>" +
+                    "&lt;input class='loginInput' type='text' name='locationPlace' value='" + ajax.response.categoryName + "' disabled>" +
+                    "&lt;label>Abteilung&lt;/label>" +
+                    "&lt;input class='loginInput' type='text' name='locationPlace' value='" + ajax.response.personTypeName + "' disabled>" +
+                    "&lt;label>Größe&lt;/label>" +
+                    "&lt;input class='loginInput' type='text' name='locationPlace' value='" + ajax.response.dressSizeName + "' disabled>" +
+                    "&lt;label>Verkaufspreis*&lt;/label>" +
+                    "&lt;input class='loginInput' type='text' name='price' value='" + ajax.response.price + "' required>" +
+                    "&lt;br>" +
+                    "&lt;button class='loginButton' type='submit' onClick='saveItemsUpdates(" + ajax.response.id + ")'>Artikel aktualisieren&lt;/button>" +
+                    "&lt;/div>";
+        }
+    };
+}
+
+/**
+ * @function saveItemsUpdates
+ * @description Speichert die neuen Daten des Artikels.
+ * @param {number} id - Die ID des Artikels.
+ */
+function saveItemsUpdates(id) {
+    var title = document.getElementsByName("title")[0].value;
+    var price = document.getElementsByName("price")[0].value;
+    var ajax = new XMLHttpRequest();
+
+    if (title === "" || price === "") {
+        document.getElementsByClassName("modal-header")[2].innerHTML =
+                "&lt;button type='button' class='close' data-dismiss='modal'>&amp;times;&lt;/button>"
+                + "&lt;h4 class='modal-title'>Artikel verkaufen&lt;/h4>"
+                + "&lt;br>&lt;div class='alert alert-danger'>Bitte füllen Sie alle Pflichtfelder aus!&lt;/div>";
+        return;
+    }
+
+    ajax.responseType = "json";
+    ajax.open("PUT", "servlet?action=updateitem&amp;id=" + encodeURI(id)
+            + "&amp;title=" + encodeURI(title) + "&amp;price=" + encodeURI(price), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            document.getElementsByClassName("modal-header")[2].innerHTML =
+                    "&lt;button type='button' class='close' data-dismiss='modal'>&amp;times;&lt;/button>"
+                    + "&lt;h4 class='modal-title'>Neu registrieren&lt;/h4>"
+                    + "&lt;br>&lt;div class='alert alert-success'>Ihr Artikel wurde erfolgreich aktualisiert!&lt;/div>";
+            myItems();
+        }
+    };
+}
+
+/**
+ * @function deleteItem
+ * @description Löscht einen Artikel.
+ * @param {number} id - Die ID des Artikels.
+ */
+function deleteItem(id) {
+    var result = confirm("Wollen Sie das Kleidungsstück wirklich löschen?");
+    if (!result)
+        return;
+
+    var ajax = new XMLHttpRequest();
+
+    ajax.responseType = "json";
+    ajax.open("DELETE", "servlet?action=deleteitem&amp;itemid=" + id, true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            var parent = document.getElementsByClassName("col-sm-12")[0];
+            var child = document.getElementById(id);
+            parent.removeChild(child);
+            sendMail("delItemMail");
+        }
+    };
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#actionString">actionString</a></li><li><a href="global.html#addItemMail">addItemMail</a></li><li><a href="global.html#createFilter">createFilter</a></li><li><a href="global.html#createNewCustomer">createNewCustomer</a></li><li><a href="global.html#createNewItem">createNewItem</a></li><li><a href="global.html#deleteCookie">deleteCookie</a></li><li><a href="global.html#deleteCustomer">deleteCustomer</a></li><li><a href="global.html#deleteItem">deleteItem</a></li><li><a href="global.html#delItemMail">delItemMail</a></li><li><a href="global.html#filterArticles">filterArticles</a></li><li><a href="global.html#findItemsOfAllCustomers">findItemsOfAllCustomers</a></li><li><a href="global.html#findItemsOfPersonType">findItemsOfPersonType</a></li><li><a href="global.html#getCookie">getCookie</a></li><li><a href="global.html#isLoggedIn">isLoggedIn</a></li><li><a href="global.html#itemsCarousel">itemsCarousel</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#myItems">myItems</a></li><li><a href="global.html#saveItemsUpdates">saveItemsUpdates</a></li><li><a href="global.html#saveNewCustomer">saveNewCustomer</a></li><li><a href="global.html#saveUpdates">saveUpdates</a></li><li><a href="global.html#sendContactMail">sendContactMail</a></li><li><a href="global.html#sendMail">sendMail</a></li><li><a href="global.html#sendRegisterMail">sendRegisterMail</a></li><li><a href="global.html#setCookie">setCookie</a></li><li><a href="global.html#showImpressum">showImpressum</a></li><li><a href="global.html#showUserProfile">showUserProfile</a></li><li><a href="global.html#updateItem">updateItem</a></li><li><a href="global.html#updateProfile">updateProfile</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri Mar 31 2017 16:23:46 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

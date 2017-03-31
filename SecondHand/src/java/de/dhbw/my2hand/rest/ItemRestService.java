@@ -17,6 +17,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+/**
+ * Klasse für den Artikel-Rest-Service.
+ */
 @Stateless
 @Path("Artikel")
 public class ItemRestService {

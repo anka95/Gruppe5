@@ -8,7 +8,10 @@ import de.dhbw.my2hand.database.DressSize;
 import de.dhbw.my2hand.database.Item;
 import de.dhbw.my2hand.database.Location;
 import de.dhbw.my2hand.database.PersonType;
+import de.dhbw.my2hand.jsonClasses.JsonCategory;
+import de.dhbw.my2hand.jsonClasses.JsonDressSize;
 import de.dhbw.my2hand.jsonClasses.JsonItem;
+import de.dhbw.my2hand.jsonClasses.JsonLocation;
 import de.dhbw.my2hand.jsonClasses.JsonPersonType;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,6 +42,7 @@ public class CreateSelection extends HttpServlet {
 
         JsonNav_ant antwort = new JsonNav_ant();
 
+        // Erstellt die Selektionsliste.
         List<Location> locations = database.findAllLocations();
         List<Category> categories = database.findAllCategories();
         List<PersonType> personTypes = database.findAllPersonTypes();
@@ -154,27 +158,6 @@ public class CreateSelection extends HttpServlet {
         gson.toJson(antwort, toBrowser);
         toBrowser.flush();
     }
-}
-
-class JsonLocation {
-
-    public Long id;
-    public String place;
-    public List<JsonItem> items;
-}
-
-class JsonCategory {
-
-    public Long id;
-    public String category;
-    public List<JsonItem> items;
-}
-
-class JsonDressSize {
-
-    public Long id;
-    public String dressSize;
-    public List<JsonItem> items;
 }
 
 class JsonNav_ant {

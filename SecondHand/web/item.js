@@ -1,3 +1,11 @@
+/**
+ * @file Alle Funktion für die Verarbeitung der Artikel.
+ */
+
+/**
+ * @function itemsCarousel
+ * @description Setzt die ersten fünf Artikel aus der Datenbank in den Artikel-Slider auf der Startseite.
+ */
 function itemsCarousel() {
     var ajax = new XMLHttpRequest();
 
@@ -28,6 +36,10 @@ function itemsCarousel() {
     };
 }
 
+/**
+ * @function findItemsOfAllCustomers
+ * @description Gibt alle Artikel aller Kunden aus der Datenbank zurück.
+ */
 function findItemsOfAllCustomers() {
     var ajax = new XMLHttpRequest();
 
@@ -60,6 +72,10 @@ function findItemsOfAllCustomers() {
     };
 }
 
+/**
+ * @function createFilter
+ * @description Erstellt die Selektionsliste links neben den Artikeln. Die einzelnen Filter werden aus der Datenbank ausgelesen.
+ */
 function createFilter() {
     var ajax = new XMLHttpRequest();
 
@@ -108,6 +124,10 @@ function createFilter() {
     };
 }
 
+/**
+ * @function filterArticles
+ * @description Filtert die Artikel.
+ */
 function filterArticles() {
     var location_radio = document.filter.standort;
     var category_radio = document.filter.kategorie;
@@ -184,6 +204,11 @@ function filterArticles() {
     }
 }
 
+/**
+ * @function findItemsOfPersonType
+ * @description Gibt die Artikel der verschiedenen Abteilungen zurück.
+ * @param {String} personType - Der Name der Abteilung.
+ */
 function findItemsOfPersonType(personType) {
     var ajax = new XMLHttpRequest();
 
@@ -219,6 +244,10 @@ function findItemsOfPersonType(personType) {
     };
 }
 
+/**
+ * @function myItems
+ * @description Gibt alle Artikel eines Kunden zurück.
+ */
 function myItems() {
     var ajax = new XMLHttpRequest();
 
@@ -262,6 +291,10 @@ function myItems() {
     };
 }
 
+/**
+ * @function createNewItem
+ * @description Legt einen neuen Artikel an.
+ */
 function createNewItem() {
     document.getElementsByClassName("modal-header")[2].innerHTML =
             "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
@@ -324,6 +357,10 @@ function createNewItem() {
     };
 }
 
+/**
+ * @function actionString
+ * @description Hilfmethode zum Erzeugen des Strings für das Action-Attribut des Artikel-anlegen-Formulars.
+ */
 function actionString() {
     var locationId;
     var title = document.getElementsByName("title")[0].value;
@@ -356,7 +393,7 @@ function actionString() {
             dressSizeId = document.getElementsByName("dressSizeId")[0].options[i].value;
         }
     }
-    
+
     if (locationId === "0" || title === "" || categoryId === "0"
             || personTypeId === "0" || dressSizeId === "0"
             || price === "" || image === "") {
@@ -375,6 +412,11 @@ function actionString() {
     }
 }
 
+/**
+ * @function updateItem
+ * @description Holt die Daten des Artikels zum Aktualisieren.
+ * @param {number} id - Die ID des Artikels.
+ */
 function updateItem(id) {
     var ajax = new XMLHttpRequest();
 
@@ -404,6 +446,11 @@ function updateItem(id) {
     };
 }
 
+/**
+ * @function saveItemsUpdates
+ * @description Speichert die neuen Daten des Artikels.
+ * @param {number} id - Die ID des Artikels.
+ */
 function saveItemsUpdates(id) {
     var title = document.getElementsByName("title")[0].value;
     var price = document.getElementsByName("price")[0].value;
@@ -432,6 +479,11 @@ function saveItemsUpdates(id) {
     };
 }
 
+/**
+ * @function deleteItem
+ * @description Löscht einen Artikel.
+ * @param {number} id - Die ID des Artikels.
+ */
 function deleteItem(id) {
     var result = confirm("Wollen Sie das Kleidungsstück wirklich löschen?");
     if (!result)

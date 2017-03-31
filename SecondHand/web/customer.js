@@ -1,3 +1,11 @@
+/**
+ * @file Alle Funktion für die Verarbeitung der Kunden.
+ */
+
+/**
+ * @function createNewCustomer
+ * @description Erzeugt das Registrieren-Formular.
+ */
 function createNewCustomer() {
     document.getElementById("content").innerHTML = "<div id='formCustomers'>" +
             "<h1>Neu registrieren</h1>" +
@@ -53,6 +61,10 @@ function createNewCustomer() {
             "</div>";
 }
 
+/**
+ * @function saveNewCustomer
+ * @description Speichert einen neuen Kunden.
+ */
 function saveNewCustomer() {
     var salutation;
     var firstName = document.getElementsByName("firstName")[0].value;
@@ -122,6 +134,10 @@ function saveNewCustomer() {
     };
 }
 
+/**
+ * @function showUserProfile
+ * @description Zeigt das Kundenprofil an.
+ */
 function showUserProfile() {
     var ajax = new XMLHttpRequest();
 
@@ -155,6 +171,10 @@ function showUserProfile() {
     };
 }
 
+/**
+ * @function updateProfile
+ * @description Gibt die Daten zum Aktualisieren zurück.
+ */
 function updateProfile() {
     var ajax = new XMLHttpRequest();
 
@@ -216,6 +236,10 @@ function updateProfile() {
     };
 }
 
+/**
+ * @function saveUpdates
+ * @description Speichert die neuen Daten des Kunden.
+ */
 function saveUpdates() {
     var salutation;
     var firstName = document.getElementsByName("firstName")[0].value;
@@ -284,6 +308,10 @@ function saveUpdates() {
     };
 }
 
+/**
+ * @function deleteCustomer
+ * @description Löscht einen Kunden.
+ */
 function deleteCustomer() {
     var result = confirm("Wollen Sie Ihr Kundenkonto wirklich löschen?");
     if (!result)

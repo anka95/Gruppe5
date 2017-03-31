@@ -1,3 +1,11 @@
+/**
+ * @file Alle Funktion für den E-Mail-Versand.
+ */
+
+/**
+ * @function sendContactMail
+ * @description Sendet eine E-Mail, nach dem Absenden des Kontaktformulars.
+ */
 function sendContactMail() {
     var name = document.getElementsByName("name")[0].value;
     var subject = document.getElementsByName("subject")[0].value;
@@ -40,6 +48,13 @@ function sendContactMail() {
     };
 }
 
+/**
+ * @function sendRegisterMail
+ * @description Sendet eine E-Mail, nach dem Registrieren eines neuen Kunden.
+ * @param {String} mail - Die Art der Mail.
+ * @param {String} name - Der Name des Kunden.
+ * @param {String} subject - Der Betreff der E-Mail.
+ */
 function sendRegisterMail(mail, name, subject) {
     var ajax = new XMLHttpRequest();
     ajax.responseType = "json";
@@ -53,6 +68,13 @@ function sendRegisterMail(mail, name, subject) {
     };
 }
 
+/**
+ * @function addItemMail
+ * @description Sendet eine E-Mail, nach dem Anlegen eines Artikels.
+ * @param {String} mail - Die Art der Mail.
+ * @param {String} name - Der Name des Kunden.
+ * @param {String} subject - Der Betreff der E-Mail.
+ */
 function addItemMail(mail, name, subject) {
     var ajax = new XMLHttpRequest();
     ajax.responseType = "json";
@@ -66,6 +88,13 @@ function addItemMail(mail, name, subject) {
     };
 }
 
+/**
+ * @function delItemMail
+ * @description Sendet eine E-Mail, nach dem Löschen eines Artikels.
+ * @param {String} mail - Die Art der Mail.
+ * @param {String} name - Der Name des Kunden.
+ * @param {String} subject - Der Betreff der E-Mail.
+ */
 function delItemMail(mail, name, subject) {
     var ajax = new XMLHttpRequest();
     ajax.responseType = "json";
@@ -79,6 +108,13 @@ function delItemMail(mail, name, subject) {
     };
 }
 
+/**
+ * @function delItemMail
+ * @description Sendet eine E-Mail, nach dem Löschen eines Kundenkontos.
+ * @param {String} mail - Die Art der Mail.
+ * @param {String} name - Der Name des Kunden.
+ * @param {String} subject - Der Betreff der E-Mail.
+ */
 function delProfileMail(mail, name, subject) {
     var ajax = new XMLHttpRequest();
     ajax.responseType = "json";
@@ -92,6 +128,11 @@ function delProfileMail(mail, name, subject) {
     };
 }
 
+/**
+ * @function sendMail
+ * @description Bereitet den E-Mail-Versand vor und ruft danach die entsprechende E-Mail-Funktion auf.
+ * @param {String} action - Die Art der Mail.
+ */
 function sendMail(action) {
     var ajax = new XMLHttpRequest();
     ajax.responseType = "json";

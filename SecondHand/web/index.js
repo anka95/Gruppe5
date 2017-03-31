@@ -1,3 +1,11 @@
+/**
+ * @file Alle Funktion der Startseite.
+ */
+
+/**
+ * @function showImpressum
+ * @description Erzeugt das Impressum.
+ */
 function showImpressum() {
     document.getElementsByClassName("row")[1].innerHTML = "<div class='col-sm-2'></div><div class='col-sm-8'></div><div class='col-sm-2'></div>";
     document.getElementsByClassName("row")[2].innerHTML = "";

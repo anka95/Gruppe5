@@ -34,6 +34,7 @@ public class CheckLogin extends HttpServlet {
 
         antwort.find = false;
 
+        // Überprüfen, ob Passwort richtig eingegeben wurden und ob E-Mail-Adresse noch nicht registriert ist.
         for (int i = 0; i < database.findAllCustomers().size(); i++) {
             if (database.findAllCustomers().get(i).getPassword().equals(request.getParameter("pw"))
                     && database.findAllCustomers().get(i).getEmail().equals(request.getParameter("email"))) {

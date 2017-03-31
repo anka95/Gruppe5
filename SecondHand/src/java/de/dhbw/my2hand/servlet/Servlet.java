@@ -33,6 +33,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 
+// Hauptservlet
 @WebServlet(name = "servlet", urlPatterns = {"/servlet"})
 public class Servlet extends HttpServlet {
 
@@ -72,7 +73,7 @@ public class Servlet extends HttpServlet {
 
         switch (action) {
             case "createnewitem":
-                // Neues Kleidungsstück anlegen
+                // Neuen Artikel anlegen
                 customerId = request.getParameter("customerid");
                 locationId = request.getParameter("locationid");
                 categoryId = request.getParameter("categoryid");
@@ -89,6 +90,7 @@ public class Servlet extends HttpServlet {
                 database.createNewItem(customer, location, title, category, dressSize,
                         new Double(price), personType, "");
 
+                // Artikelbild-Upload:
                 // checks if the request actually contains upload file
                 if (!ServletFileUpload.isMultipartContent(request)) {
                     PrintWriter writer = response.getWriter();
@@ -169,6 +171,7 @@ public class Servlet extends HttpServlet {
 
         switch (action) {
             case "getEmail":
+                // Gibt die E-Mail-Adresse eines bestimmten Kunden zurück
                 JsonCustomer cust = new JsonCustomer();
                 customer = database.findCustomer(new Long(request.getParameter("customerid")));
 
@@ -182,7 +185,7 @@ public class Servlet extends HttpServlet {
                 break;
 
             case "findallitems":
-                // Alle Kleidungstücke eines Kunden anzeigen
+                // Alle Artikel eines Kunden anzeigen
                 customer = database.findCustomer(new Long(request.getParameter("customerid")));
 
                 JsonCustomer jsonCustomer = new JsonCustomer();
@@ -223,7 +226,7 @@ public class Servlet extends HttpServlet {
                 break;
 
             case "finditemsofallcustomers":
-                // Alle Kleidungstücke aller Kunden anzeigen
+                // Alle Artikel aller Kunden anzeigen
                 List<Item> items = database.findAllItems();
                 List<JsonItem> jsonItems = new ArrayList<JsonItem>();
 
@@ -249,7 +252,7 @@ public class Servlet extends HttpServlet {
                 break;
 
             case "finditem":
-                // Artikel finden
+                // Bestimmten Artikel finden
                 item = database.findItem(new Long(request.getParameter("itemid")));
                 JsonItem jsonItem = new JsonItem();
                 jsonItem.id = item.getId();
@@ -279,7 +282,7 @@ public class Servlet extends HttpServlet {
 
         response.setContentType("application/json");
 
-        // Artikel aktualisieren
+        // Bestimmten Artikel aktualisieren
         item = database.findItem(new Long(request.getParameter("id")));
         item.setTitle(request.getParameter("title"));
         item.setPrice(new Double(request.getParameter("price")));
@@ -305,7 +308,7 @@ public class Servlet extends HttpServlet {
 
         switch (action) {
             case "deleteitem":
-                // Kleidungsstück und Artikelbild löschen
+                // Artikel und Artikelbild löschen
                 item = database.findItem(new Long(request.getParameter("itemid")));
                 imagePath = getServletContext().getRealPath("") + File.separator + item.getImagePath();
                 image = new File(imagePath);
@@ -315,7 +318,7 @@ public class Servlet extends HttpServlet {
                 break;
 
             case "deletecustomer":
-                // Kunden löschen
+                // Kundenkonto löschen
                 customer = database.findCustomer(new Long(request.getParameter("customerid")));
                 for (Item item : customer.getItems()) {
                     imagePath = getServletContext().getRealPath("") + File.separator + item.getImagePath();

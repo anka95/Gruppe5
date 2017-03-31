@@ -34,6 +34,7 @@ public class MailApp extends HttpServlet {
 
         switch (action) {
             case "sendContact":
+                // Sendet Kontaktmail.
                 String to = "team%service.2-hand@gmx.de";
                 String name = request.getParameter("name");
                 String subject = request.getParameter("subject");
@@ -54,6 +55,7 @@ public class MailApp extends HttpServlet {
                 break;
 
             case "sendRegister":
+                // Sendet E-Mail bei Registrierung.
                 to = request.getParameter("mail");
                 name = request.getParameter("name");
                 subject = request.getParameter("subject");
@@ -74,6 +76,7 @@ public class MailApp extends HttpServlet {
                 break;
 
             case "sendItem":
+                // Sendet E-Mail beim Anlegen eine Artikels.
                 to = request.getParameter("mail");
                 name = request.getParameter("name");
                 subject = request.getParameter("subject");
@@ -94,6 +97,7 @@ public class MailApp extends HttpServlet {
                 break;
 
             case "sendDeleteItemMail":
+                // Sendet E-Mail beim Löschen eines Artikels.
                 to = request.getParameter("mail");
                 name = request.getParameter("name");
                 subject = request.getParameter("subject");
@@ -114,6 +118,7 @@ public class MailApp extends HttpServlet {
                 break;
 
             case "sendDeleteProfileMail":
+                // Sendet E-Mail beim Löschen eines Kundenkontos.
                 to = request.getParameter("mail");
                 name = request.getParameter("name");
                 subject = request.getParameter("subject");

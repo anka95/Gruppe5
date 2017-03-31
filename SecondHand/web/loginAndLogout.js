@@ -1,3 +1,11 @@
+/**
+ * @file Alle Funktion für den Login und Logout.
+ */
+
+/**
+ * @function login
+ * @description Meldet den Kunden an.
+ */
 function login() {
     var email = document.getElementsByName("email")[0].value;
     var pw = document.getElementsByName("password")[0].value;
@@ -24,6 +32,10 @@ function login() {
     };
 }
 
+/**
+ * @function isLoggedIn
+ * @description Überprüft, ob der Kunde angemeldet ist.
+ */
 function isLoggedIn() {
     if (document.cookie) {
         var parent = document.getElementsByClassName("navbar-right")[0];
@@ -41,6 +53,10 @@ function isLoggedIn() {
     }
 }
 
+/**
+ * @function logout
+ * @description Meldet den Kunden ab.
+ */
 function logout() {
     deleteCookie();
 }

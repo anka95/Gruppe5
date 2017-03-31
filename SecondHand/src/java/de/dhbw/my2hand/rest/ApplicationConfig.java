@@ -4,6 +4,9 @@ import java.util.*;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.*;
 
+/**
+ * Konfigurationsklasse für den Rest-Service.
+ */
 @ApplicationPath("RestAPI")
 public class ApplicationConfig extends Application {
 

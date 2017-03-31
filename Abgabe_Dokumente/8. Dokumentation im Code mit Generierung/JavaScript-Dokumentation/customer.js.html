@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: customer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: customer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file Alle Funktion für die Verarbeitung der Kunden.
+ */
+
+/**
+ * @function createNewCustomer
+ * @description Erzeugt das Registrieren-Formular.
+ */
+function createNewCustomer() {
+    document.getElementById("content").innerHTML = "&lt;div id='formCustomers'>" +
+            "&lt;h1>Neu registrieren&lt;/h1>" +
+            "&lt;div id='bezeichner'" +
+            "&lt;label>*Anrede&lt;/label>" +
+            "&lt;br>" +
+            "&lt;input type='radio' name='salutation' value='Frau'> Frau" +
+            "&lt;input type='radio' name='salutation' value='Herr'> Herr" +
+            "&lt;br>&lt;br>" +
+            "&lt;label>*Name&lt;/label>" +
+            "&lt;br>" +
+            "&lt;input type='text' name='firstName' placeholder='Vorname'>" +
+            "&lt;input type='text' name='lastName' placeholder='Nachname'>" +
+            "&lt;br>&lt;br>" +
+            "&lt;label>*Adresse&lt;/label>" +
+            "&lt;br>" +
+            "&lt;input type='text' name='street' placeholder='Straße'>" +
+            "&lt;input type='text' name='houseNumber' placeholder='Hausnummer'>" +
+            "&lt;br>" +
+            "&lt;input type='text' name='plz' placeholder='PLZ'>" +
+            "&lt;input type='text'name='place' placeholder='Ort'>" +
+            "&lt;br>&lt;br>" +
+            "&lt;label>*IBAN&lt;/label>" +
+            "&lt;br>" +
+            "&lt;input type='text' name='iban' placeholder='IBAN'>" +
+            "&lt;br>&lt;br>" +
+            "&lt;label>*BIC&lt;/label>" +
+            "&lt;br>" +
+            "&lt;input type='text' name='bic' placeholder='BIC'>" +
+            "&lt;br>&lt;br>" +
+            "&lt;label>*Bank&lt;/label>" +
+            "&lt;br>" +
+            "&lt;input type='text' name='bank' placeholder='Bank'>" +
+            "&lt;br>&lt;br>" +
+            "&lt;label>Telefonnummer&lt;/label>" +
+            "&lt;br>" +
+            "&lt;input type='text' name='telephone' placeholder='Telefonnummer'>" +
+            "&lt;br>&lt;br>" +
+            "&lt;label>*E-Mail-Adresse&lt;/label>" +
+            "&lt;br>" +
+            "&lt;input type='text' name='email' placeholder='E-Mail-Adresse'>" +
+            "&lt;br>&lt;br>" +
+            "&lt;label>*Passwort&lt;/label>" +
+            "&lt;br>" +
+            "&lt;input type='password' name='passworda' placeholder='Passwort'>" +
+            "&lt;br>&lt;br>" +
+            "&lt;label>*Passwort wiederholen&lt;/label>" +
+            "&lt;br>" +
+            "&lt;input type='password' name='passwordb' placeholder='Passwort wiederholen'>" +
+            "&lt;br>&lt;br>" +
+            "&lt;input type='button' name='submit' value='Speichern' onClick='saveNewCustomer()'/>" +
+            "&lt;/div>" +
+            "&lt;/div>";
+}
+
+/**
+ * @function saveNewCustomer
+ * @description Speichert einen neuen Kunden.
+ */
+function saveNewCustomer() {
+    var salutation;
+    var firstName = document.getElementsByName("firstName")[0].value;
+    var lastName = document.getElementsByName("lastName")[0].value;
+    var street = document.getElementsByName("street")[0].value;
+    var houseNumber = document.getElementsByName("houseNumber")[0].value;
+    var plz = document.getElementsByName("plz")[0].value;
+    var place = document.getElementsByName("place")[0].value;
+    var iban = document.getElementsByName("iban")[0].value;
+    var bic = document.getElementsByName("bic")[0].value;
+    var bank = document.getElementsByName("bank")[0].value;
+    var telephone = document.getElementsByName("telephone")[0].value;
+    var email = document.getElementsByName("signUpEmail")[0].value;
+    var passworda = document.getElementsByName("passworda")[0].value;
+    var passwordb = document.getElementsByName("passwordb")[0].value;
+    var subject = "Herzlich Willkommen auf My2Hand";
+    var name = firstName + " " + lastName;
+    var ajax = new XMLHttpRequest();
+
+    if (document.getElementsByName("salutation")[0].checked) {
+        salutation = document.getElementsByName("salutation")[0].value;
+    } else {
+        salutation = document.getElementsByName("salutation")[1].value;
+    }
+
+    if (firstName === "" || lastName === "" || street === "" || houseNumber === ""
+            || plz === "" || place === "" || iban === "" || bic === "" || bank === ""
+            || email === "" || passworda === "" || passwordb === "") {
+        document.getElementsByClassName("modal-header")[1].innerHTML =
+                "&lt;button type='button' class='close' data-dismiss='modal'>&amp;times;&lt;/button>"
+                + "&lt;h4 class='modal-title'>Neu registrieren&lt;/h4>"
+                + "&lt;br>&lt;div class='alert alert-danger'>Bitte füllen Sie alle Pflichtfelder aus!&lt;/div>";
+        return;
+    }
+
+    if (passworda !== passwordb) {
+        document.getElementsByClassName("modal-header")[1].innerHTML =
+                "&lt;button type='button' class='close' data-dismiss='modal'>&amp;times;&lt;/button>"
+                + "&lt;h4 class='modal-title'>Neu registrieren&lt;/h4>"
+                + "&lt;br>&lt;div class='alert alert-danger'>Ihre Passwörter stimmen nicht überein!&lt;/div>";
+        return;
+    }
+
+    ajax.responseType = "json";
+    ajax.open("POST", "CheckEmail?action=createnewcustomer&amp;salutation=" + encodeURI(salutation) + "&amp;firstName="
+            + encodeURI(firstName) + "&amp;lastName=" + encodeURI(lastName) + "&amp;street=" + encodeURI(street) + "&amp;houseNumber="
+            + encodeURI(houseNumber) + "&amp;plz=" + encodeURI(plz) + "&amp;place=" + encodeURI(place) + "&amp;iban="
+            + encodeURI(iban) + "&amp;bic=" + encodeURI(bic) + "&amp;bank=" + encodeURI(bank) + "&amp;telephone="
+            + encodeURI(telephone) + "&amp;email=" + encodeURI(email) + "&amp;password=" + encodeURI(passworda), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            console.log(ajax.response);
+            if (ajax.response.vorhanden) {
+                document.getElementsByClassName("modal-header")[1].innerHTML =
+                        "&lt;button type='button' class='close' data-dismiss='modal'>&amp;times;&lt;/button>"
+                        + "&lt;h4 class='modal-title'>Neu registrieren&lt;/h4>"
+                        + "&lt;br>&lt;div class='alert alert-danger'>Unter dieser E-Mail-Adresse ist bereits ein Nutzer registriert!&lt;/div>";
+            } else {
+                sendRegisterMail(email, name, subject);
+                document.getElementsByClassName("modal-header")[1].innerHTML =
+                        "&lt;button type='button' class='close' data-dismiss='modal'>&amp;times;&lt;/button>"
+                        + "&lt;h4 class='modal-title'>Neu registrieren&lt;/h4>"
+                        + "&lt;br>&lt;div class='alert alert-success'>Ihr Kundenkonto wurde erfolgreich angelegt!&lt;/div>";
+            }
+        }
+    };
+}
+
+/**
+ * @function showUserProfile
+ * @description Zeigt das Kundenprofil an.
+ */
+function showUserProfile() {
+    var ajax = new XMLHttpRequest();
+
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=findallitems&amp;customerid=" + getCookie(), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            document.getElementsByClassName("row")[1].innerHTML = "&lt;div class='col-sm-12 profile'>&lt;/div>";
+            document.getElementsByClassName("row")[2].innerHTML = "&lt;div class='col-sm-4 profile'>&lt;/div>&lt;div class='col-sm-4 profile'>&lt;/div>&lt;div class='col-sm-4 profile'>&lt;/div>";
+            document.getElementsByClassName("row")[3].innerHTML = "";
+            console.log(ajax.response);
+            document.getElementsByClassName("col-sm-12")[0].innerHTML =
+                    "&lt;h2>Mein Profil &lt;span class='editProfile glyphicon glyphicon-edit' onClick='updateProfile()' data-toggle='modal' data-target='#signUp' title='Profil bearbeiten'>&lt;/span>"
+                    + "&lt;span class='editProfile glyphicon glyphicon-trash' onClick='deleteCustomer()' title='Profil löschen'>&lt;/span>&lt;/h2>";
+            document.getElementsByClassName("col-sm-4")[0].innerHTML =
+                    "&lt;h3>Name und Anschrift&lt;/h3>"
+                    + "&lt;p>" + ajax.response.salutation + " " + ajax.response.firstName + " " + ajax.response.lastName + "&lt;/p>"
+                    + "&lt;p>" + ajax.response.street + " " + ajax.response.houseNumber + "&lt;/p>"
+                    + "&lt;p>" + ajax.response.plz + " " + ajax.response.place + "&lt;/p>";
+            document.getElementsByClassName("col-sm-4")[1].innerHTML =
+                    "&lt;h3>Bankverbindung&lt;/h3>"
+                    + "&lt;p>IBAN: " + ajax.response.iban + "&lt;/p>"
+                    + "&lt;p>BIC: " + ajax.response.bic + "&lt;/p>"
+                    + "&lt;p>Bankname: " + ajax.response.bank + "&lt;/p>";
+            document.getElementsByClassName("col-sm-4")[2].innerHTML =
+                    "&lt;h3>Kontaktdaten&lt;/h3>"
+                    + "&lt;p>Telefon: " + ajax.response.telephone + "&lt;/p>"
+                    + "&lt;p>E-Mail: " + ajax.response.email + "&lt;/p>";
+        }
+    };
+}
+
+/**
+ * @function updateProfile
+ * @description Gibt die Daten zum Aktualisieren zurück.
+ */
+function updateProfile() {
+    var ajax = new XMLHttpRequest();
+
+    ajax.responseType = "json";
+    ajax.open("GET", "servlet?action=findallitems&amp;customerid=" + getCookie(), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            var salutation;
+            if (ajax.response.salutation === "Frau") {
+                salutation = "&lt;input type='radio' name='salutation' value='Frau' checked> Frau" +
+                        "&lt;input type='radio' name='salutation' value='Herr'> Herr";
+            } else {
+                salutation = "&lt;input type='radio' name='salutation' value='Frau'> Frau" +
+                        "&lt;input type='radio' name='salutation' value='Herr' checked> Herr";
+            }
+
+            document.getElementsByClassName("modal-title")[1].innerHTML = "Profil bearbeiten";
+            document.getElementsByClassName("modal-signUp")[0].innerHTML =
+                    "&lt;label class='signUpLabel'>&lt;b>Anrede*&lt;/b>&lt;/label>"
+                    + "&lt;div class='signUpRadio'>"
+                    + salutation
+                    + "&lt;/div>"
+                    + "&lt;br>"
+                    + "&lt;label class='signUpLabel'>&lt;b>Vorname*&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='text' value='" + ajax.response.firstName + "' name='firstName' required>"
+                    + "&lt;label class='signUpLabel'>&lt;b>Nachname*&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='text' value='" + ajax.response.lastName + "' name='lastName' required>"
+                    + "&lt;br>"
+                    + "&lt;label class='signUpLabel'>&lt;b>Straße*&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='text' value='" + ajax.response.street + "' name='street' required>"
+                    + "&lt;label class='signUpLabel'>&lt;b>Hausnummer*&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='text' value='" + ajax.response.houseNumber + "' name='houseNumber' required>"
+                    + "&lt;br>"
+                    + "&lt;label class='signUpLabel'>&lt;b>PLZ*&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='text' value='" + ajax.response.plz + "' name='plz' required>"
+                    + "&lt;label class='signUpLabel'>&lt;b>Ort*&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='text' value='" + ajax.response.place + "' name='place' required>"
+                    + "&lt;br>"
+                    + "&lt;label class='signUpLabel'>&lt;b>IBAN*&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='text' value='" + ajax.response.iban + "' name='iban' required>"
+                    + "&lt;label class='signUpLabel'>&lt;b>BIC*&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='text' value='" + ajax.response.bic + "' name='bic' required>"
+                    + "&lt;br>"
+                    + "&lt;label class='signUpLabel'>&lt;b>Bank*&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='text' value='" + ajax.response.bank + "' name='bank' required>"
+                    + "&lt;br>"
+                    + "&lt;label class='signUpLabel'>&lt;b>Telefonnummer&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='text' value='" + ajax.response.telephone + "' name='telephone'>"
+                    + "&lt;label class='signUpLabel'>&lt;b>E-Mail-Adresse*&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='text' value='" + ajax.response.email + "' name='signUpEmail' required>"
+                    + "&lt;br>"
+                    + "&lt;label class='signUpLabel'>&lt;b>Passwort*&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='password' placeholder='Passwort eingeben' name='passworda' required>"
+                    + "&lt;label class='signUpLabel'>&lt;b>Passwort wiederholen*&lt;/b>&lt;/label>"
+                    + "&lt;input class='signUpInput' type='password' placeholder='Passwort wiederholen' name='passwordb' required>"
+                    + "&lt;button class='loginButton' type='submit' onClick='saveUpdates()'>Profil aktualisieren&lt;/button>";
+        }
+    };
+}
+
+/**
+ * @function saveUpdates
+ * @description Speichert die neuen Daten des Kunden.
+ */
+function saveUpdates() {
+    var salutation;
+    var firstName = document.getElementsByName("firstName")[0].value;
+    var lastName = document.getElementsByName("lastName")[0].value;
+    var street = document.getElementsByName("street")[0].value;
+    var houseNumber = document.getElementsByName("houseNumber")[0].value;
+    var plz = document.getElementsByName("plz")[0].value;
+    var place = document.getElementsByName("place")[0].value;
+    var iban = document.getElementsByName("iban")[0].value;
+    var bic = document.getElementsByName("bic")[0].value;
+    var bank = document.getElementsByName("bank")[0].value;
+    var telephone = document.getElementsByName("telephone")[0].value;
+    var email = document.getElementsByName("signUpEmail")[0].value;
+    var passworda = document.getElementsByName("passworda")[0].value;
+    var passwordb = document.getElementsByName("passwordb")[0].value;
+    var ajax = new XMLHttpRequest();
+
+    if (document.getElementsByName("salutation")[0].checked) {
+        salutation = document.getElementsByName("salutation")[0].value;
+    } else {
+        salutation = document.getElementsByName("salutation")[1].value;
+    }
+
+    if (firstName === "" || lastName === "" || street === "" || houseNumber === ""
+            || plz === "" || place === "" || iban === "" || bic === "" || bank === ""
+            || email === "" || passworda === "" || passwordb === "") {
+        document.getElementsByClassName("modal-header")[1].innerHTML =
+                "&lt;button type='button' class='close' data-dismiss='modal'>&amp;times;&lt;/button>"
+                + "&lt;h4 class='modal-title'>Profil bearbeiten&lt;/h4>"
+                + "&lt;br>&lt;div class='alert alert-danger'>Bitte füllen Sie alle Pflichtfelder aus!&lt;/div>";
+        return;
+    }
+
+    if (passworda !== passwordb) {
+        document.getElementsByClassName("modal-header")[1].innerHTML =
+                "&lt;button type='button' class='close' data-dismiss='modal'>&amp;times;&lt;/button>"
+                + "&lt;h4 class='modal-title'>Profil bearbeiten&lt;/h4>"
+                + "&lt;br>&lt;div class='alert alert-danger'>Ihre Passwörter stimmen nicht überein!&lt;/div>";
+        return;
+    }
+
+    ajax.responseType = "json";
+    ajax.open("PUT", "CheckEmail?customerid=" + getCookie() + "&amp;salutation=" + encodeURI(salutation) + "&amp;firstName="
+            + encodeURI(firstName) + "&amp;lastName=" + encodeURI(lastName) + "&amp;street=" + encodeURI(street) + "&amp;houseNumber="
+            + encodeURI(houseNumber) + "&amp;plz=" + encodeURI(plz) + "&amp;place=" + encodeURI(place) + "&amp;iban=" + encodeURI(iban) + "&amp;bic="
+            + encodeURI(bic) + "&amp;bank=" + encodeURI(bank) + "&amp;telephone=" + encodeURI(telephone) + "&amp;email=" + encodeURI(email) + "&amp;password="
+            + encodeURI(passworda), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            console.log(ajax.response);
+            if (ajax.response.vorhanden) {
+                document.getElementsByClassName("modal-header")[1].innerHTML =
+                        "&lt;button type='button' class='close' data-dismiss='modal'>&amp;times;&lt;/button>"
+                        + "&lt;h4 class='modal-title'>Profil bearbeiten&lt;/h4>"
+                        + "&lt;br>&lt;div class='alert alert-danger'>Unter dieser E-Mail-Adresse ist bereits ein Nutzer registriert!&lt;/div>";
+                return;
+            } else {
+                document.getElementsByClassName("modal-header")[1].innerHTML =
+                        "&lt;button type='button' class='close' data-dismiss='modal'>&amp;times;&lt;/button>"
+                        + "&lt;h4 class='modal-title'>Profil bearbeiten&lt;/h4>"
+                        + "&lt;br>&lt;div class='alert alert-success'>Ihr Profil wurde erfolgreich aktualisiert!&lt;/div>";
+                showUserProfile();
+            }
+        }
+    };
+}
+
+/**
+ * @function deleteCustomer
+ * @description Löscht einen Kunden.
+ */
+function deleteCustomer() {
+    var result = confirm("Wollen Sie Ihr Kundenkonto wirklich löschen?");
+    if (!result)
+        return;
+
+    sendMail("delProfileMail");
+    var ajax = new XMLHttpRequest();
+
+    ajax.responseType = "json";
+    ajax.open("DELETE", "servlet?action=deletecustomer&amp;customerid=" + getCookie(), true);
+    ajax.send();
+    ajax.onreadystatechange = function () {
+        if (this.readyState === 4 &amp;&amp; this.status === 200) {
+            deleteCookie();
+            findItemsOfAllCustomers();
+        }
+    };
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#actionString">actionString</a></li><li><a href="global.html#addItemMail">addItemMail</a></li><li><a href="global.html#createFilter">createFilter</a></li><li><a href="global.html#createNewCustomer">createNewCustomer</a></li><li><a href="global.html#createNewItem">createNewItem</a></li><li><a href="global.html#deleteCookie">deleteCookie</a></li><li><a href="global.html#deleteCustomer">deleteCustomer</a></li><li><a href="global.html#deleteItem">deleteItem</a></li><li><a href="global.html#delItemMail">delItemMail</a></li><li><a href="global.html#filterArticles">filterArticles</a></li><li><a href="global.html#findItemsOfAllCustomers">findItemsOfAllCustomers</a></li><li><a href="global.html#findItemsOfPersonType">findItemsOfPersonType</a></li><li><a href="global.html#getCookie">getCookie</a></li><li><a href="global.html#isLoggedIn">isLoggedIn</a></li><li><a href="global.html#itemsCarousel">itemsCarousel</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#logout">logout</a></li><li><a href="global.html#myItems">myItems</a></li><li><a href="global.html#saveItemsUpdates">saveItemsUpdates</a></li><li><a href="global.html#saveNewCustomer">saveNewCustomer</a></li><li><a href="global.html#saveUpdates">saveUpdates</a></li><li><a href="global.html#sendContactMail">sendContactMail</a></li><li><a href="global.html#sendMail">sendMail</a></li><li><a href="global.html#sendRegisterMail">sendRegisterMail</a></li><li><a href="global.html#setCookie">setCookie</a></li><li><a href="global.html#showImpressum">showImpressum</a></li><li><a href="global.html#showUserProfile">showUserProfile</a></li><li><a href="global.html#updateItem">updateItem</a></li><li><a href="global.html#updateProfile">updateProfile</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri Mar 31 2017 16:23:46 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

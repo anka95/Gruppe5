@@ -8,9 +8,9 @@
  * @param {number} customerId - Die Kundennummer
  */
 function setCookie(customerId) {
-    var a = new Date();
-    a = new Date(a.getTime() + 1000 * 60 * 60 * 24);
-    document.cookie = 'customerId=' + customerId + '; expires=' + a.toGMTString() + ';';
+    var date = new Date();
+    date = new Date(date.getTime() + 1000 * 60 * 60 * 24);
+    document.cookie = 'customerId=' + customerId + '; expires=' + date.toGMTString() + ';';
 }
 
 /**
@@ -19,13 +19,13 @@ function setCookie(customerId) {
  * @returns {number} Die Kundennummer
  */
 function getCookie() {
-    var cookieWert = "";
+    var cookieValue = "";
     if (document.cookie) {
-        a = document.cookie;
-        if (a.indexOf(';') !== -1) {
-            cookieWert = a.substring(a.indexOf('=') + 1, a.indexOf(';'));
+        date = document.cookie;
+        if (date.indexOf(';') !== -1) {
+            cookieWert = date.substring(date.indexOf('=') + 1, date.indexOf(';'));
         } else {
-            cookieWert = a.substr(a.indexOf('=') + 1, a.length);
+            cookieWert = date.substr(date.indexOf('=') + 1, date.length);
         }
     }
     return cookieWert;

@@ -9,13 +9,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import de.dhbw.my2hand.jsonClasses.*;
 
 @WebServlet(name = "MailApp", urlPatterns = {"/MailApp"})
 
 public class MailApp extends HttpServlet {
 
     private Gson gson = new GsonBuilder().create();
-    JsonStatus antwort = new JsonStatus();
+    JsonStatus resp = new JsonStatus();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -44,12 +45,12 @@ public class MailApp extends HttpServlet {
 
                 try {
                     SendMail.send(to, subject, message, user, pass);
-                    antwort.status = true;
+                    resp.status = true;
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    antwort.status = false;
+                    resp.status = false;
                 } finally {
-                    gson.toJson(antwort, toBrowser);
+                    gson.toJson(resp, toBrowser);
                     toBrowser.flush();
                 }
                 break;
@@ -65,12 +66,12 @@ public class MailApp extends HttpServlet {
 
                 try {
                     SendMail.send(to, subject, message, user, pass);
-                    antwort.status = true;
+                    resp.status = true;
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    antwort.status = false;
+                    resp.status = false;
                 } finally {
-                    gson.toJson(antwort, toBrowser);
+                    gson.toJson(resp, toBrowser);
                     toBrowser.flush();
                 }
                 break;
@@ -86,12 +87,12 @@ public class MailApp extends HttpServlet {
 
                 try {
                     SendMail.send(to, subject, message, user, pass);
-                    antwort.status = true;
+                    resp.status = true;
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    antwort.status = false;
+                    resp.status = false;
                 } finally {
-                    gson.toJson(antwort, toBrowser);
+                    gson.toJson(resp, toBrowser);
                     toBrowser.flush();
                 }
                 break;
@@ -107,12 +108,12 @@ public class MailApp extends HttpServlet {
 
                 try {
                     SendMail.send(to, subject, message, user, pass);
-                    antwort.status = true;
+                    resp.status = true;
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    antwort.status = false;
+                    resp.status = false;
                 } finally {
-                    gson.toJson(antwort, toBrowser);
+                    gson.toJson(resp, toBrowser);
                     toBrowser.flush();
                 }
                 break;
@@ -128,19 +129,16 @@ public class MailApp extends HttpServlet {
 
                 try {
                     SendMail.send(to, subject, message, user, pass);
-                    antwort.status = true;
+                    resp.status = true;
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    antwort.status = false;
+                    resp.status = false;
                 } finally {
-                    gson.toJson(antwort, toBrowser);
+                    gson.toJson(resp, toBrowser);
                     toBrowser.flush();
                 }
         }
     }
 }
 
-class JsonStatus {
 
-    public boolean status;
-}

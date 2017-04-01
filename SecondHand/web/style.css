@@ -3,17 +3,17 @@ body {
     background-color: #FFFAF0;
 }
 
-#willkommen {
+#welcome {
     font-family: 'Oranienbaum', serif;
     font-size: 45px;
 }
 
-.kontakt {
+.contact {
     float: right;
     margin: 10px 15px 0 0;
 }
 
-.kon_imp:hover {
+.con_imp:hover {
     color: #d11860;
 }
 

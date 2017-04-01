@@ -28,7 +28,7 @@ function sendContactMail() {
         if (this.readyState === 4 && this.status === 200) {
             console.log(ajax.response);
             if (ajax.response.status) {
-                $('#contact').modal('hide');
+                $('#contactModal').modal('hide');
 
                 var x = document.getElementById("snackbar");
                 x.className = "show";

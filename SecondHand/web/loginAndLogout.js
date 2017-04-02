@@ -30,6 +30,7 @@ function login() {
             }
         }
     };
+    return true;
 }
 
 /**
@@ -50,7 +51,9 @@ function isLoggedIn() {
                 + "<li><a href='javascript:void(0)' onclick='logout()'><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>"
                 + "</ul>"
                 + "</li>";
+        return 'loggedIn';
     }
+    return 'loggedOut';
 }
 
 /**

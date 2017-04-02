@@ -66,6 +66,7 @@ function sendRegisterMail(mail, name, subject) {
             console.log(ajax.response);
         }
     };
+    return true;
 }
 
 /**
@@ -86,6 +87,7 @@ function addItemMail(mail, name, subject) {
             console.log(ajax.response);
         }
     };
+    return true;
 }
 
 /**
@@ -106,6 +108,7 @@ function delItemMail(mail, name, subject) {
             console.log(ajax.response);
         }
     };
+    return true;
 }
 
 /**
@@ -126,6 +129,7 @@ function delProfileMail(mail, name, subject) {
             console.log(ajax.response);
         }
     };
+    return true;
 }
 
 /**

@@ -247,7 +247,7 @@ function findItemsOfPersonType(personType) {
         }
     };
     //needed for QUnit test
-    if(personType === 'Frauen' || personType === 'Männer' || personType === 'Jungen' || personType === 'Mädchen' || personType === 'Babys'){
+    if (personType === 'Frauen' || personType === 'Männer' || personType === 'Jungen' || personType === 'Mädchen' || personType === 'Babys') {
         return true;
     }
 }
